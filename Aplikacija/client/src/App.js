@@ -1,11 +1,15 @@
-import React from 'react';
+import React from 'react'
 
-const App= () => {
-    return(
-        <div>
-            <h1>App hello! :D </h1>
-        </div>
-    );
+import { CreateEvent } from './CreateEvent'
+
+const App = () => {
+  return (
+    <>
+      <div>
+        <CreateEvent />
+      </div>
+    </>
+  )
 }
 
-export default App;
+export default App
