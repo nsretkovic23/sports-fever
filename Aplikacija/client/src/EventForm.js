@@ -1,6 +1,14 @@
 import React, { useState } from 'react'
 import { Map } from './GoogleMap'
 
+const options = [
+  { value: 'fudbal', label: 'Fudbal' },
+  { value: 'kosarka', label: 'Kosarka' },
+  { value: 'odbojka', label: 'Odbojka' },
+  { value: 'rukomet', label: 'Rukomet' },
+  { value: 'tenis', label: 'Tenis' },
+]
+
 export const EventForm = (props) => {
   const { event, setEvent, eventArray, setEventArray } = props
 
@@ -40,7 +48,6 @@ export const EventForm = (props) => {
       setLatitude('')
     }
   }
-
   return (
     <>
       <article className='form'>
@@ -89,6 +96,19 @@ export const EventForm = (props) => {
               onChange={handleChange}
             />
           </div>
+          <div>
+            <label htmlFor='type'>Choose a sport:</label>
+            <select
+              name='type'
+              id='type'
+              onChange={handleChange}
+              value={event.type}
+            >
+              {options.map((el) => {
+                return <option value={el.value}>{el.label}</option>
+              })}
+            </select>
+          </div>
           <div className='form-element'>
             <label htmlFor='lat'>Latitude: {latitude}</label>
           </div>
@@ -99,17 +119,6 @@ export const EventForm = (props) => {
             Create
           </button>
         </form>
-      </article>
-      <article>
-        {eventArray.map((event) => {
-          return (
-            <>
-              <h1>{event.title}</h1>
-              <h1>{event.lat}</h1>
-              <h1>{event.lng}</h1>
-            </>
-          )
-        })}
       </article>
       <Map
         eventArray={eventArray}
