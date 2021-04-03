@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { EventForm } from './EventForm'
 
+export const CreateEventContext = React.createContext()
+
 export const CreateEvent = () => {
   const [event, setEvent] = useState({
     title: '',
@@ -12,15 +14,10 @@ export const CreateEvent = () => {
   const [eventArray, setEventArray] = useState([])
 
   return (
-    <>
-      <div>
-        <EventForm
-          event={event}
-          setEvent={setEvent.bind(this)}
-          eventArray={eventArray}
-          setEventArray={setEventArray.bind(this)}
-        ></EventForm>
-      </div>
-    </>
+    <CreateEventContext.Provider
+      value={{ event, setEvent, eventArray, setEventArray }}
+    >
+      <EventForm />
+    </CreateEventContext.Provider>
   )
 }

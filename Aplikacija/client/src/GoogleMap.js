@@ -44,47 +44,42 @@ export const Map = (props) => {
   }, [])
 
   const mapRef = useRef()
-  const onMapLoad = useEffect((map) => {
+  const onMapLoad = useCallback((map) => {
     mapRef.current = map
   }, [])
 
   const panTo = useCallback(({ lat, lng }) => {
     mapRef.current.panTo({ lat, lng })
     mapRef.current.setZoom(15)
-  })
+  }, [])
 
-  if (loadError) return 'Error loading maps'
-  if (!isLoaded) return 'Loading Maps'
+  if (loadError) return 'Error loading map'
+  if (!isLoaded) return 'Loading Map'
 
   return (
     <div>
       <Search panTo={panTo} />
       <Locate panTo={panTo} />
       <GoogleMap
+        id='map'
         mapContainerStyle={mapContainerStyle}
         zoom={14}
         center={center}
         onClick={onMapClick}
         onLoad={onMapLoad}
       >
-        {eventArray.map(
-          (marker) => (
-            console.log('hey'),
-            console.log(marker),
-            (
-              <Marker
-                key={`${marker.lat}-${marker.lng}`}
-                position={{
-                  lat: marker.lat,
-                  lng: marker.lng,
-                }}
-                onClick={() => {
-                  setSelectedMarker(marker)
-                }}
-              />
-            )
-          )
-        )}
+        {eventArray.map((marker) => (
+          <Marker
+            key={`${marker.lat}-${marker.lng}`}
+            position={{
+              lat: marker.lat,
+              lng: marker.lng,
+            }}
+            onClick={() => {
+              setSelectedMarker(marker)
+            }}
+          />
+        ))}
         {selectedMarker ? (
           <InfoWindow
             position={{
@@ -109,7 +104,7 @@ export const Map = (props) => {
   )
 }
 
-function Search(panTo) {
+function Search({ panTo }) {
   const {
     ready,
     value,
@@ -147,7 +142,7 @@ function Search(panTo) {
           value={value}
           onChange={handleInput}
           disabled={!ready}
-          placeholder='Enter an address'
+          placeholder='Enter a location'
         ></ComboboxInput>
         <ComboboxPopover>
           <ComboboxList>
@@ -177,7 +172,7 @@ function Locate({ panTo }) {
         )
       }}
     >
-      <img src='compass.svg' alt='Get my location' />
+      Geolocation
     </button>
   )
 }

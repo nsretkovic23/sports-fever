@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Map } from './GoogleMap'
+import { CreateEventContext } from './CreateEvent'
 
 const options = [
   { value: 'fudbal', label: 'Fudbal' },
@@ -9,8 +10,10 @@ const options = [
   { value: 'tenis', label: 'Tenis' },
 ]
 
-export const EventForm = (props) => {
-  const { event, setEvent, eventArray, setEventArray } = props
+export const EventForm = () => {
+  const { event, setEvent, eventArray, setEventArray } = useContext(
+    CreateEventContext
+  )
 
   const [longitude, setLongitude] = useState('')
   const [latitude, setLatitude] = useState('')
