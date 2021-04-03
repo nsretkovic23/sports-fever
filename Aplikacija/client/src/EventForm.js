@@ -6,8 +6,7 @@ const options = [
   { value: 'fudbal', label: 'Fudbal' },
   { value: 'kosarka', label: 'Kosarka' },
   { value: 'odbojka', label: 'Odbojka' },
-  { value: 'rukomet', label: 'Rukomet' },
-  { value: 'tenis', label: 'Tenis' },
+  { value: 'hokej', label: 'Hokej' },
 ]
 
 export const EventForm = () => {

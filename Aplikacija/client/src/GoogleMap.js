@@ -55,7 +55,7 @@ export const Map = (props) => {
 
   if (loadError) return 'Error loading map'
   if (!isLoaded) return 'Loading Map'
-
+  console.log(selectedMarker)
   return (
     <div>
       <Search panTo={panTo} />
@@ -77,6 +77,12 @@ export const Map = (props) => {
             }}
             onClick={() => {
               setSelectedMarker(marker)
+            }}
+            icon={{
+              url: `/${marker.type}.png`,
+              origin: new window.google.maps.Point(0, 0),
+
+              scaledSize: new window.google.maps.Size(80, 80),
             }}
           />
         ))}
