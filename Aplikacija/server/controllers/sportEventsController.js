@@ -33,4 +33,29 @@ export const createSportEvent = async (req, res) => {
 
 }
 
+export const updateSportEvent = async (req, res) => {
+    const {id} = req.params; 
+    const {title, description, date, free_spots, sport, lat, lng} = req.body;
+
+    
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
+    
+    const updatedSEvent = {title, description, date, free_spots, sport, lat, lng, _id:id};
+
+    await SportEvent.findByIdAndUpdate(id, updatedSEvent, {new:true});
+
+    res.json(updatedSEvent);
+}
+
+export const getSportEventById = async (req, res) =>{
+    const {id} = req.params;
+
+    try{
+        const SportEv= await SportEvent.findById(id);
+        res.status(200).json(SportEv);
+    }catch(err){
+        res.status(404).json({message:error.message});
+    }
+}
+
 export default router;
