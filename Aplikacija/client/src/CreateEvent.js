@@ -8,8 +8,8 @@ export const CreateEvent = () => {
     title: '',
     description: '',
     date: '',
-    availableSpots: '',
-    type: '',
+    free_spots: '',
+    sport: '',
   })
   const [eventArray, setEventArray] = useState([])
 
