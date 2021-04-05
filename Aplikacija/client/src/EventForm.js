@@ -1,6 +1,8 @@
 import React, { useState, useContext } from 'react'
 import { Map } from './GoogleMap'
 import { CreateEventContext } from './CreateEvent'
+import { useDispatch, useSelector } from 'react-redux'
+import { createEvent } from './actions/event'
 
 const options = [
   { value: 'fudbal', label: 'Fudbal' },
@@ -16,6 +18,7 @@ export const EventForm = () => {
 
   const [longitude, setLongitude] = useState('')
   const [latitude, setLatitude] = useState('')
+  const dispatch = useDispatch()
 
   const handleChange = (e) => {
     const name = e.target.name
@@ -23,15 +26,24 @@ export const EventForm = () => {
     setEvent({ ...event, [name]: value })
   }
 
+  const clear = () => {
+    setEvent({
+      title: '',
+      description: '',
+      date: '',
+      availableSpots: '',
+    })
+    setLongitude('')
+    setLatitude('')
+  }
   const handleSubmit = (e) => {
     e.preventDefault()
     if (
       event.title &&
       event.description &&
-      event.date &&
-      event.availableSpots &&
-      longitude !== '' &&
-      latitude !== ''
+      event.free_spots > 0 &&
+      latitude &&
+      longitude
     ) {
       const newEvent = {
         ...event,
@@ -39,15 +51,10 @@ export const EventForm = () => {
         lng: longitude,
         lat: latitude,
       }
-      setEventArray([...eventArray, newEvent])
-      setEvent({
-        title: '',
-        description: '',
-        date: '',
-        availableSpots: '',
-      })
-      setLongitude('')
-      setLatitude('')
+      dispatch(createEvent(newEvent))
+      clear()
+    } else {
+      alert('Wrong inputs')
     }
   }
   return (
@@ -89,22 +96,22 @@ export const EventForm = () => {
             />
           </div>
           <div className='form-element'>
-            <label htmlFor='availableSpots'>Available spots:</label>
+            <label htmlFor='free_spots'>Available spots:</label>
             <input
               type='number'
-              id='availableSpots'
-              name='availableSpots'
-              value={event.availableSpots}
+              id='free_spots'
+              name='free_spots'
+              value={event.free_spots}
               onChange={handleChange}
             />
           </div>
           <div>
-            <label htmlFor='type'>Choose a sport:</label>
+            <label htmlFor='sport'>Choose a sport:</label>
             <select
-              name='type'
-              id='type'
+              name='sport'
+              id='sport'
               onChange={handleChange}
-              value={event.type}
+              value={event.sport}
             >
               {options.map((el) => {
                 return <option value={el.value}>{el.label}</option>
