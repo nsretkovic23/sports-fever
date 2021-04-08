@@ -1,0 +1,14 @@
+.editDiv {
+  border: 2px solid black;
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 200px;
+  justify-self: center;
+}
+
+.divFindEventPage {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+}
