@@ -1,5 +1,6 @@
 import axios from 'axios'
 
-const addURL = 'http://localhost:5000/event/add'
+const url = 'http://localhost:5000/event'
 
-export const createEvent = (newEvent) => axios.post(addURL, newEvent)
+export const fetchEvents = () => axios.get(url)
+export const createEvent = (newEvent) => axios.post(`${url}/add`, newEvent)
