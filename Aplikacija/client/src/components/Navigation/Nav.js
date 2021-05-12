@@ -24,7 +24,7 @@ export const Nav = () => {
     <div>
       {user ? (
         <div>
-          <p>{user.result.name}</p>
+          <p>{user?.result.name}</p>
           <button onClick={handleLogout}>Logout</button>
         </div>
       ) : (
