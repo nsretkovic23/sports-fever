@@ -37,7 +37,7 @@ export const Authentification = () => {
 
   const googleSuccess = async (res) => {
     const result = res?.profileObj
-    const token = res?.tokenID
+    const token = res?.tokenId
     try {
       dispatch({ type: AUTH, data: { result, token } })
       history.push('/')
@@ -58,27 +58,52 @@ export const Authentification = () => {
           <>
             <div>
               <label>First Name</label>
-              <input type='text' onChange={handleChange} />
+              <input
+                type='text'
+                name='firstName'
+                value={data.firstName}
+                onChange={handleChange}
+              />
             </div>
             <div>
               <label>Last name</label>
-              <input type='text' onChange={handleChange} />
+              <input
+                type='text'
+                name='lastName'
+                value={data.lastName}
+                onChange={handleChange}
+              />
             </div>
           </>
         ) : null}
         <div>
           <label>Email</label>
-          <input type='text' onChange={handleChange} />
+          <input
+            type='text'
+            name='email'
+            value={data.email}
+            onChange={handleChange}
+          />
         </div>
         <div>
           <label>Password</label>
-          <input type='text' onChange={handleChange} />
+          <input
+            type='text'
+            name='password'
+            value={data.password}
+            onChange={handleChange}
+          />
         </div>
         {isSignup ? (
           <>
             <div>
               <label>Confirme password</label>
-              <input type='text' onChange={handleChange} />
+              <input
+                type='text'
+                name='confirmPassword'
+                value={data.confirmPassword}
+                onChange={handleChange}
+              />
             </div>
           </>
         ) : null}
