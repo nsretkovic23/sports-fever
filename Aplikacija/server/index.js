@@ -8,7 +8,7 @@ const app = express();
 
 
 
-app.use(express.json({ limit: '30mb', extended: true }));
+app.use(express.json({ limit: '30mb', extended: true })); //ovaj .use i donji .use poziv su umesto body parsera da bi nam radili post requesti
 app.use(express.urlencoded({ limit: '30mb', extended: true }));
 app.use(cors());
 

@@ -5,6 +5,32 @@ import SportEvent from '../models/sportEvent.model.js';
 
 const router = express.Router();
 
+export const getNearbySportEvents = async (req, res) =>{
+
+    let {long, lat} = req.params;
+    const radiusConst = 0.5; //+- radius long i lat za iscrtavanje dogadjaja samo iz okoline 
+    let pozlong = parseFloat(long) + radiusConst;
+    let neglong = parseFloat(long) - radiusConst;
+    let pozlat =  parseFloat(lat) + radiusConst;
+    let neglat =  parseFloat(lat) - radiusConst;
+    
+    try {
+
+        let allEvents = await SportEvent.find(); //nadji sve evente
+        const filteredEvents=allEvents.filter((el) =>
+                             parseFloat(el.lng) <= pozlong && 
+                             parseFloat(el.lng) >= neglong && 
+                             parseFloat(el.lat) <= pozlat && 
+                             parseFloat(el.lat) >=neglat)
+        res.status(200).json(filteredEvents);
+        
+    } catch (error) {
+        res.status(404).json({message:error.message});
+    }
+
+    
+}
+
 export const getSportEvents = async (req, res) => {
     try{
         const allSportEvents = await SportEvent.find();
@@ -22,7 +48,7 @@ export const createSportEvent = async (req, res) => {
     const newSportEvent=new SportEvent({title, description, date, free_spots, sport, lat, lng});
 
     try{
-        await newSportEvent.save();
+        await newSportEvent.save(); //mongoose funkcija za cuvanje, u ovom pozivu se cuva novi ev u bazu
 
         res.status(201).json(newSportEvent); //201 uspesno kreiranje
     }
@@ -53,7 +79,7 @@ export const getSportEventById = async (req, res) =>{
     try{
         const SportEv= await SportEvent.findById(id);
         res.status(200).json(SportEv);
-    }catch(err){
+    }catch(error){
         res.status(404).json({message:error.message});
     }
 }
