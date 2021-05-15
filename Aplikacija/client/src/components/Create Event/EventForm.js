@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react'
 import { Map } from '../Maps/GoogleMap'
 import { CreateEventContext } from './CreateEvent'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { createEvent } from '../../actions/event'
 
 export const options = [
@@ -12,15 +12,14 @@ export const options = [
 ]
 
 export const EventForm = () => {
-  const { event, setEvent, eventArray, setEventArray } = useContext(
-    CreateEventContext
-  )
-
+  const { event, setEvent } = useContext(CreateEventContext)
+  const user = JSON.parse(localStorage.getItem('profile'))
   const [longitude, setLongitude] = useState('')
   const [latitude, setLatitude] = useState('')
   const dispatch = useDispatch()
 
   const handleChange = (e) => {
+    e.preventDefault()
     const name = e.target.name
     const value = e.target.value
     setEvent({ ...event, [name]: value })
@@ -45,18 +44,27 @@ export const EventForm = () => {
       latitude &&
       longitude
     ) {
+      let creator = ''
+      if (user?.result?._id) creator = user?.result?._id
+      else creator = user?.result?.googleId
       const newEvent = {
         ...event,
         id: new Date().getTime().toString(),
         lng: longitude,
         lat: latitude,
+        creator: creator,
       }
+      console.log(newEvent)
       dispatch(createEvent(newEvent))
       clear()
     } else {
       alert('Wrong inputs')
     }
   }
+  if (!user?.result?.name) {
+    return <h1>Sign in if you want to create event.</h1>
+  }
+
   return (
     <>
       <article className='form'>
@@ -114,7 +122,11 @@ export const EventForm = () => {
               value={event.sport}
             >
               {options.map((el) => {
-                return <option value={el.value}>{el.label}</option>
+                return (
+                  <option key={el.value} value={el.value}>
+                    {el.label}
+                  </option>
+                )
               })}
             </select>
           </div>
