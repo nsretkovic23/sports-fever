@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { Search, Locate } from './MapFunctions'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { getNearByEvents } from '../../actions/event'
 import {
   GoogleMap,
   useLoadScript,
@@ -9,16 +10,23 @@ import {
 } from '@react-google-maps/api'
 import { libraries, mapContainerStyle, center } from './MapConst'
 import '@reach/combobox/styles.css'
+import { Link } from 'react-router-dom'
 
-export const MapWithEvents = ({ eventArray, find, radius, setRadius }) => {
-  //const eventArray = useSelector((state) => state.events)
+export const MapWithEvents = ({ find, radius, setRadius }) => {
+  const eventArray = useSelector((state) => state.events)
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: 'AIzaSyCEbMl51eshDuU7zH8SFgkkuTbd4AjGeys',
     libraries,
   })
   const [selectedMarker, setSelectedMarker] = useState(null)
 
+  const dispatch = useDispatch()
   const mapRef = useRef()
+
+  useEffect(() => {
+    dispatch(getNearByEvents(radius.lng, radius.lat))
+  }, [radius])
+
   const onMapLoad = useCallback((map) => {
     mapRef.current = map
   }, [])
@@ -43,26 +51,9 @@ export const MapWithEvents = ({ eventArray, find, radius, setRadius }) => {
         center={center}
         onLoad={onMapLoad}
       >
-        {find.findEvent
-          ? eventArray
-              .filter((ev) => ev.sport === find.sport)
-              .filter(
-                (m) =>
-                  parseFloat(m.lat) <= parseFloat(radius.lat) + 0.21 &&
-                  parseFloat(m.lat) >= parseFloat(radius.lat) - 0.21 &&
-                  parseFloat(m.lng) <= parseFloat(radius.lng) + 0.21 &&
-                  parseFloat(m.lng) >= parseFloat(radius.lng) - 0.21
-              )
-              .map((marker) => drawMarker(marker, setSelectedMarker))
-          : eventArray
-              .filter(
-                (m) =>
-                  parseFloat(m.lat) <= parseFloat(radius.lat) + 0.21 &&
-                  parseFloat(m.lat) >= parseFloat(radius.lat) - 0.21 &&
-                  parseFloat(m.lng) <= parseFloat(radius.lng) + 0.21 &&
-                  parseFloat(m.lng) >= parseFloat(radius.lng) - 0.21
-              )
-              .map((marker) => drawMarker(marker, setSelectedMarker))}
+        {Array.isArray(eventArray) && eventArray.length
+          ? eventArray.map((marker) => drawMarker(marker, setSelectedMarker))
+          : null}
         {selectedMarker ? (
           <InfoWindow
             position={{
@@ -78,7 +69,18 @@ export const MapWithEvents = ({ eventArray, find, radius, setRadius }) => {
               <p>Desc: {selectedMarker.description}</p>
               <p>Date: {selectedMarker.date}</p>
               <p>Available Spots: {selectedMarker.free_spots}</p>
-              <button>+Join</button>
+              <button>
+                <Link
+                  to={{
+                    pathname: '/singleEvent',
+                    state: {
+                      _id: selectedMarker._id,
+                    },
+                  }}
+                >
+                  +Details
+                </Link>
+              </button>
             </div>
           </InfoWindow>
         ) : null}
