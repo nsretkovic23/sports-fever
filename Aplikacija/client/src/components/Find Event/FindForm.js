@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { MapWithEvents } from '../Maps/MapWithEvents'
 import { options } from '../Create Event/EventForm'
-import { useSelector } from 'react-redux'
+//import { useSelector } from 'react-redux'
 import { center } from '../Maps/MapConst'
 
 export const FindForm = () => {
-  const eventArray = useSelector((state) => state.events)
+  //const eventArray = useSelector((state) => state.events)
   const [find, setFind] = useState({
     date: '',
     free_spots: '',
@@ -24,6 +24,7 @@ export const FindForm = () => {
   })
 
   const handleChange = (e) => {
+    e.preventDefault()
     const name = e.target.name
     const value = e.target.value
     setEvent({ ...event, findEvent: '' })
@@ -74,7 +75,11 @@ export const FindForm = () => {
             value={event.sport}
           >
             {options.map((el) => {
-              return <option value={el.value}>{el.label}</option>
+              return (
+                <option key={el.value} value={el.value}>
+                  {el.label}
+                </option>
+              )
             })}
           </select>
         </div>
@@ -87,7 +92,7 @@ export const FindForm = () => {
       </form>
       <div>
         <MapWithEvents
-          eventArray={eventArray}
+          //eventArray={eventArray}
           find={find}
           radius={radius}
           setRadius={setRadius}

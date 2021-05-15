@@ -5,6 +5,7 @@ export const CreateEventContext = React.createContext()
 
 export const CreateEvent = () => {
   const [event, setEvent] = useState({
+    name: '',
     title: '',
     description: '',
     date: '',
@@ -15,7 +16,12 @@ export const CreateEvent = () => {
 
   return (
     <CreateEventContext.Provider
-      value={{ event, setEvent, eventArray, setEventArray }}
+      value={{
+        event,
+        setEvent,
+        eventArray,
+        setEventArray,
+      }}
     >
       <EventForm />
     </CreateEventContext.Provider>

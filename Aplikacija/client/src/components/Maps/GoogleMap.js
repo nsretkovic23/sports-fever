@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react'
+import React, { useState, useRef, useCallback } from 'react'
 import { Search, Locate } from './MapFunctions'
 
 import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api'
@@ -25,6 +25,7 @@ export const Map = (props) => {
   const mapRef = useRef()
   const onMapLoad = useCallback((map) => {
     mapRef.current = map
+    console.log('Ucitavanje mape')
   }, [])
 
   const panTo = useCallback(({ lat, lng }) => {
@@ -49,7 +50,7 @@ export const Map = (props) => {
       >
         {marker ? (
           <Marker
-            key={`${marker.lat}-${marker.lng}`}
+            key={`${marker.lat - marker.lng}`}
             position={{
               lat: marker.lat,
               lng: marker.lng,

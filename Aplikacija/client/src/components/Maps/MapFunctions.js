@@ -56,7 +56,7 @@ export function Search({ panTo }) {
           <ComboboxList>
             {status === 'OK' &&
               data.map(({ id, description }) => (
-                <ComboboxOption key={id} value={description} />
+                <ComboboxOption key={description} value={description} />
               ))}
           </ComboboxList>
         </ComboboxPopover>
