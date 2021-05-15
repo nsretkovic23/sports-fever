@@ -1,4 +1,6 @@
 export const CREATE = 'CREATE'
 export const FETCH_ALL = 'FETCH_ALL'
+export const FETCH_SINGLE = 'FETCH_SINGLE'
 export const AUTH = 'AUTH'
 export const LOGOUT = 'LOGOUT'
+export const FETCH_NEARBY = 'FETCH_NEARBY'

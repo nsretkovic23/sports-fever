@@ -12,6 +12,8 @@ API.interceptors.request.use((req) => {
   return req
 })
 export const fetchEvents = () => API.get('/event')
-export const createEvent = (newEvent) => API.post(`/add`, newEvent)
+export const fetchNearByEvents = (long, lat) => API.get(`/event/${long}-${lat}`)
+export const createEvent = (newEvent) => API.post(`/event/add`, newEvent)
 export const signIn = (data) => API.post('/user/signin', data)
 export const signUp = (data) => API.post('/user/signup', data)
+export const fetchEvent = (id) => API.get(`/event/${id}`)
