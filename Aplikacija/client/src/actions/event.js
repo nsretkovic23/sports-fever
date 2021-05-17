@@ -3,6 +3,8 @@ import {
   FETCH_NEARBY,
   FETCH_ALL,
   CREATE,
+  DELETE,
+  UPDATE,
 } from '../constants/actionTypes'
 import * as api from '../api/index.js'
 
@@ -43,5 +45,26 @@ export const getEvent = (id) => async (dispatch) => {
     dispatch({ type: FETCH_SINGLE, payload: data })
   } catch (error) {
     console.log(error.message)
+  }
+}
+
+export const updateEvent = (id, event) => async (dispatch) => {
+  try {
+    const { data } = await api.updateEvent(id, event)
+    console.log('ACTION')
+    console.log(data)
+    dispatch({ type: UPDATE, payload: data })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const deleteEvent = (id) => async (dispatch) => {
+  try {
+    await await api.deleteEvent(id)
+
+    dispatch({ type: DELETE, payload: id })
+  } catch (error) {
+    console.log(error)
   }
 }

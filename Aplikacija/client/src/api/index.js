@@ -17,3 +17,6 @@ export const createEvent = (newEvent) => API.post(`/event/add`, newEvent)
 export const signIn = (data) => API.post('/user/signin', data)
 export const signUp = (data) => API.post('/user/signup', data)
 export const fetchEvent = (id) => API.get(`/event/${id}`)
+export const updateEvent = (id, updatedEvent) =>
+  API.patch(`/event/${id}`, updatedEvent)
+export const deleteEvent = (id) => API.delete(`/event/${id}`)
