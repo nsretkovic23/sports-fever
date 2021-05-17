@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { FindEventPage } from './components/Find Event/FindEventPage'
+import { Event } from './components/Find Event/Event'
 //import { CreateEvent } from './components/Create Event/CreateEvent'
 import { Nav } from './components/Navigation/Nav'
 import { Authentification } from './components/Authentification/Authentification'
@@ -18,6 +19,7 @@ const App = () => {
             exact
             component={Authentification}
           ></Route>
+          <Route exact path='/singleEvent' component={Event}></Route>
         </Switch>
       </Router>
     </>
