@@ -3,6 +3,7 @@ import { Map } from '../Maps/GoogleMap'
 import { CreateEventContext } from './CreateEvent'
 import { useDispatch } from 'react-redux'
 import { createEvent } from '../../actions/event'
+import { Form } from './Form'
 
 export const options = [
   { value: 'fudbal', label: 'Fudbal' },
@@ -30,7 +31,8 @@ export const EventForm = () => {
       title: '',
       description: '',
       date: '',
-      availableSpots: '',
+      free_spots: '',
+      sport: '',
     })
     setLongitude('')
     setLatitude('')
@@ -69,77 +71,13 @@ export const EventForm = () => {
     <>
       <article className='form'>
         <h2>Create your own event</h2>
-        <form>
-          <div className='form-element'>
-            <label htmlFor='title'>Title:</label>
-            <input
-              type='text'
-              id='title'
-              name='title'
-              value={event.title}
-              onChange={handleChange}
-            />
-          </div>
-          <div className='form-element'>
-            <label htmlFor='description'>Description:</label>
-            <textarea
-              id='description'
-              name='description'
-              value={event.description}
-              onChange={handleChange}
-              rows='6'
-              cols='50'
-            >
-              Enter description...
-            </textarea>
-          </div>
-          <div className='form-element'>
-            <label htmlFor='date'>Date:</label>
-            <input
-              type='date'
-              id='date'
-              name='date'
-              value={event.date}
-              onChange={handleChange}
-            />
-          </div>
-          <div className='form-element'>
-            <label htmlFor='free_spots'>Available spots:</label>
-            <input
-              type='number'
-              id='free_spots'
-              name='free_spots'
-              value={event.free_spots}
-              onChange={handleChange}
-            />
-          </div>
-          <div>
-            <label htmlFor='sport'>Choose a sport:</label>
-            <select
-              name='sport'
-              id='sport'
-              onChange={handleChange}
-              value={event.sport}
-            >
-              {options.map((el) => {
-                return (
-                  <option key={el.value} value={el.value}>
-                    {el.label}
-                  </option>
-                )
-              })}
-            </select>
-          </div>
-          <div className='form-element'>
-            <label htmlFor='lat'>Latitude: {latitude}</label>
-          </div>
-          <div className='form-element'>
-            <label htmlFor='lng'>Longitude: {longitude}</label>
-          </div>
-          <button type='submit' className='submitBtn' onClick={handleSubmit}>
-            Create
-          </button>
-        </form>
+        <Form
+          event={event}
+          handleChange={handleChange}
+          handleSubmit={handleSubmit}
+          longitude={longitude}
+          latitude={latitude}
+        />
       </article>
       <Map setLongitude={setLongitude} setLatitude={setLatitude} />
     </>
