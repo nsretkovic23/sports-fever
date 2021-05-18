@@ -5,28 +5,61 @@ import SportEvent from '../models/sportEvent.model.js'
 
 const router = express.Router()
 
-export const getNearbySportEvents = async (req, res) => {
-  let { long, lat } = req.params
-  const radiusConst = 0.5 //+- radius long i lat za iscrtavanje dogadjaja samo iz okoline
-  let pozlong = parseFloat(long) + radiusConst
-  let neglong = parseFloat(long) - radiusConst
-  let pozlat = parseFloat(lat) + radiusConst
-  let neglat = parseFloat(lat) - radiusConst
+export const filterEvents = async (req, res) => {
 
+  let {long, lat, sport, date, spots, price} = req.params;
+  const dateStr = new Date(date).toDateString();
+  let priceInt;
   try {
-    let allEvents = await SportEvent.find() //nadji sve evente
-    const filteredEvents = allEvents.filter(
+    let allEvents = await SportEvent.find();
+    let filteredEvents;
+
+    const radiusConst = 0.5 //+- radius long i lat za iscrtavanje dogadjaja samo iz okoline
+    let poslong = parseFloat(long) + radiusConst
+    let neglong = parseFloat(long) - radiusConst
+    let poslat = parseFloat(lat) + radiusConst
+    let neglat = parseFloat(lat) - radiusConst
+
+    filteredEvents = allEvents.filter(
       (el) =>
-        parseFloat(el.lng) <= pozlong &&
+        parseFloat(el.lng) <= poslong &&
         parseFloat(el.lng) >= neglong &&
-        parseFloat(el.lat) <= pozlat &&
-        parseFloat(el.lat) >= neglat
-    )
-    res.status(200).json(filteredEvents)
+        parseFloat(el.lat) <= poslat &&
+        parseFloat(el.lat) >= neglat &&
+        el.date.toDateString() === dateStr
+    ) //prvi, default filter
+    //datum se uvek salje - default je: danasnji dan
+    //ako nije izabran sport - trazi sve, default "all"
+    //spots trazi od spots broj i vise (ako treba 1 free spot, nalazi one sa  1+) - default 0
+    //cena prijave od prosledjene cene <= dogadjaji, default - 0, trazi samo besplatne
+
+    //pomoc za testiranje fetch linka: console.log(`long: ${long}, lat: ${lat}, sport: ${sport}, datum ${date}, mesta ${spots}, cena: ${price}`);
+    //primer test linka: http://localhost:5000/event/filter/22(lng)-43.1(lat)-fudbal(sport).2021-05-21(date).0(free spots).all(price)
+    if(sport!=="all")
+      filteredEvents = filteredEvents.filter((el) => el.sport === sport);
+
+    if(parseInt(spots) > 0) 
+      filteredEvents = filteredEvents.filter((el) => parseInt(el.free_spots) >= parseInt(spots));
+      
+    if(price !== "all"){
+      if(price === "free")
+        filteredEvents = filteredEvents.filter((el) => parseInt(el.price) === 0 );
+      else
+        priceInt = parseInt(price);
+      if(priceInt <= 200)
+        filteredEvents = filteredEvents.filter((el) => parseInt(el.price) > 0 && parseInt(el.price) <= 200);
+      if(priceInt > 200 && priceInt <= 500 )
+        filteredEvents = filteredEvents.filter((el) => parseInt(el.price) > 200 && parseInt(el.price) <= 500);
+      if(priceInt > 500)
+        filteredEvents = filteredEvents.filter((el) => parseInt(el.price) > 500);
+    }
+      
+    res.status(200).json(filteredEvents);
   } catch (error) {
-    res.status(404).json({ message: error.message })
+    res.status(404).json({msg:error.message})
   }
 }
+
 
 export const getSportEvents = async (req, res) => {
   try {
