@@ -50,3 +50,14 @@ export const signup = async (req,res) =>{
     }
 
 }
+
+export const getUserById = async (req,res)=>{
+    const {id} = req.params;
+    try{
+        console.log(id);
+        const userInfo = await User.findById(id);
+        res.status(200).json(userInfo);
+    } catch(error){
+        res.status(404).json({message:"nije pronadjen po id-u"});
+    }
+}
