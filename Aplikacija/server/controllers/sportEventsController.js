@@ -2,6 +2,7 @@ import mongoose from 'mongoose'
 import express from 'express'
 
 import SportEvent from '../models/sportEvent.model.js'
+import User from '../models/user.model.js'
 
 const router = express.Router()
 
@@ -155,11 +156,22 @@ export const joinEvent = async (req, res) => {
 
   try{
     const sportEv = await SportEvent.findById(eventId);
+    const userParticipant = await User.findById(userId);
 
-    sportEv?.participants.push({id:userId});
+    if(sportEv.price > userParticipant.credits)
+    {
+      res.status(404).json({message:"nedovoljno kredita"})
+    }else{
+      userParticipant.credits -= sportEv.price;
+      sportEv?.participants.push({id:userId});
+
+      await User.findByIdAndUpdate(userId, userParticipant, {new:true});
+      await SportEvent.findByIdAndUpdate(eventId, sportEv, {new:true})
+      res.status(200).json(sportEv);
+    }
+
     
-    await SportEvent.findByIdAndUpdate(eventId, sportEv, { new: true })
-    res.status(200).json(sportEv);
+    
   }catch(error){
     res.status(404).json({message:"join event error"});
   }
