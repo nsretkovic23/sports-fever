@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { Search, Locate } from './MapFunctions'
 import { useSelector, useDispatch } from 'react-redux'
-import { getNearByEvents } from '../../actions/event'
+import { getEvents } from '../../actions/event'
 import {
   GoogleMap,
   useLoadScript,
@@ -24,8 +24,24 @@ export const MapWithEvents = ({ find, radius, setRadius }) => {
   const mapRef = useRef()
 
   useEffect(() => {
-    dispatch(getNearByEvents(radius.lng, radius.lat))
-  }, [radius])
+    if (find.findEvent === false) {
+      const time = new Date()
+      const date = time.toISOString().split('T')
+      dispatch(getEvents(radius.lng, radius.lat, 'all', date[0], 0, 'all'))
+    } else {
+      const date = find.date.split('T')
+      dispatch(
+        getEvents(
+          radius.lng,
+          radius.lat,
+          find.sport,
+          date[0],
+          find.free_spots,
+          find.price
+        )
+      )
+    }
+  }, [radius, find.findEvent])
 
   const onMapLoad = useCallback((map) => {
     mapRef.current = map
@@ -69,10 +85,11 @@ export const MapWithEvents = ({ find, radius, setRadius }) => {
               <p>Desc: {selectedMarker.description}</p>
               <p>Date: {selectedMarker.date}</p>
               <p>Available Spots: {selectedMarker.free_spots}</p>
+              <p>Price: {selectedMarker.price}</p>
               <button>
                 <Link
                   to={{
-                    pathname: '/singleEvent',
+                    pathname: `/singleEvent`,
                     state: {
                       _id: selectedMarker._id,
                     },

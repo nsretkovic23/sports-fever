@@ -5,18 +5,11 @@ import { useDispatch } from 'react-redux'
 import { createEvent } from '../../actions/event'
 import { Form } from './Form'
 
-export const options = [
-  { value: 'fudbal', label: 'Fudbal' },
-  { value: 'kosarka', label: 'Kosarka' },
-  { value: 'odbojka', label: 'Odbojka' },
-  { value: 'hokej', label: 'Hokej' },
-]
-
 export const EventForm = () => {
   const { event, setEvent } = useContext(CreateEventContext)
-  const user = JSON.parse(localStorage.getItem('profile'))
   const [longitude, setLongitude] = useState('')
   const [latitude, setLatitude] = useState('')
+  const user = JSON.parse(localStorage.getItem('profile'))
   const dispatch = useDispatch()
 
   const handleChange = (e) => {
@@ -26,17 +19,6 @@ export const EventForm = () => {
     setEvent({ ...event, [name]: value })
   }
 
-  const clear = () => {
-    setEvent({
-      title: '',
-      description: '',
-      date: '',
-      free_spots: '',
-      sport: '',
-    })
-    setLongitude('')
-    setLatitude('')
-  }
   const handleSubmit = (e) => {
     e.preventDefault()
     if (
@@ -63,6 +45,20 @@ export const EventForm = () => {
       alert('Wrong inputs')
     }
   }
+
+  const clear = () => {
+    setEvent({
+      title: '',
+      description: '',
+      date: '',
+      free_spots: '',
+      sport: '',
+      price: '',
+    })
+    setLongitude('')
+    setLatitude('')
+  }
+
   if (!user?.result?.name) {
     return <h1>Sign in if you want to create event.</h1>
   }

@@ -77,6 +77,16 @@ export const Form = ({
           </select>
         </div>
         <div className='form-element'>
+          <label htmlFor='price'>Price:</label>
+          <input
+            type='number'
+            id='price'
+            name='price'
+            value={event.price}
+            onChange={handleChange}
+          />
+        </div>
+        <div className='form-element'>
           <label htmlFor='lat'>Latitude: {latitude}</label>
         </div>
         <div className='form-element'>

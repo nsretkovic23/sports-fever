@@ -13,6 +13,7 @@ const sportEventSchema = mongoose.Schema(
     sport: String,
     lat: Number,
     lng: Number,
+    price: Number,
     creator: String,
   },
   {

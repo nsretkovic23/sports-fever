@@ -6,13 +6,12 @@ import SportEvent from '../models/sportEvent.model.js'
 const router = express.Router()
 
 export const filterEvents = async (req, res) => {
-
-  let {long, lat, sport, date, spots, price} = req.params;
-  const dateStr = new Date(date).toDateString();
-  let priceInt;
+  let { long, lat, sport, date, spots, price } = req.params
+  const dateStr = new Date(date).toDateString()
+  let priceInt
   try {
-    let allEvents = await SportEvent.find();
-    let filteredEvents;
+    let allEvents = await SportEvent.find()
+    let filteredEvents
 
     const radiusConst = 0.5 //+- radius long i lat za iscrtavanje dogadjaja samo iz okoline
     let poslong = parseFloat(long) + radiusConst
@@ -33,33 +32,41 @@ export const filterEvents = async (req, res) => {
     //spots trazi od spots broj i vise (ako treba 1 free spot, nalazi one sa  1+) - default 0
     //cena prijave od prosledjene cene <= dogadjaji, default - 0, trazi samo besplatne
 
-    //pomoc za testiranje fetch linka: console.log(`long: ${long}, lat: ${lat}, sport: ${sport}, datum ${date}, mesta ${spots}, cena: ${price}`);
+    //pomoc za testiranje fetch linka:
+    console.log(
+      `long: ${long}, lat: ${lat}, sport: ${sport}, datum ${date}, mesta ${spots}, cena: ${price}`
+    )
     //primer test linka: http://localhost:5000/event/filter/22(lng)-43.1(lat)-fudbal(sport).2021-05-21(date).0(free spots).all(price)
-    if(sport!=="all")
-      filteredEvents = filteredEvents.filter((el) => el.sport === sport);
+    if (sport !== 'all')
+      filteredEvents = filteredEvents.filter((el) => el.sport === sport)
 
-    if(parseInt(spots) > 0) 
-      filteredEvents = filteredEvents.filter((el) => parseInt(el.free_spots) >= parseInt(spots));
-      
-    if(price !== "all"){
-      if(price === "free")
-        filteredEvents = filteredEvents.filter((el) => parseInt(el.price) === 0 );
-      else
-        priceInt = parseInt(price);
-      if(priceInt <= 200)
-        filteredEvents = filteredEvents.filter((el) => parseInt(el.price) > 0 && parseInt(el.price) <= 200);
-      if(priceInt > 200 && priceInt <= 500 )
-        filteredEvents = filteredEvents.filter((el) => parseInt(el.price) > 200 && parseInt(el.price) <= 500);
-      if(priceInt > 500)
-        filteredEvents = filteredEvents.filter((el) => parseInt(el.price) > 500);
+    if (parseInt(spots) > 0)
+      filteredEvents = filteredEvents.filter(
+        (el) => parseInt(el.free_spots) >= parseInt(spots)
+      )
+
+    if (price !== 'all') {
+      if (price === 'free')
+        filteredEvents = filteredEvents.filter((el) => parseInt(el.price) === 0)
+      else priceInt = parseInt(price)
+      if (priceInt <= 200)
+        filteredEvents = filteredEvents.filter(
+          (el) => parseInt(el.price) > 0 && parseInt(el.price) <= 200
+        )
+      if (priceInt > 200 && priceInt <= 500)
+        filteredEvents = filteredEvents.filter(
+          (el) => parseInt(el.price) > 200 && parseInt(el.price) <= 500
+        )
+      if (priceInt > 500)
+        filteredEvents = filteredEvents.filter((el) => parseInt(el.price) > 500)
     }
-      
-    res.status(200).json(filteredEvents);
+
+    console.log(filteredEvents)
+    res.status(200).json(filteredEvents)
   } catch (error) {
-    res.status(404).json({msg:error.message})
+    res.status(404).json({ msg: error.message })
   }
 }
-
 
 export const getSportEvents = async (req, res) => {
   try {
@@ -72,8 +79,17 @@ export const getSportEvents = async (req, res) => {
 }
 
 export const createSportEvent = async (req, res) => {
-  const { title, description, date, free_spots, sport, lat, lng, creator } =
-    req.body
+  const {
+    title,
+    description,
+    date,
+    free_spots,
+    sport,
+    lat,
+    lng,
+    price,
+    creator,
+  } = req.body
   const newSportEvent = new SportEvent({
     title,
     description,
@@ -82,12 +98,14 @@ export const createSportEvent = async (req, res) => {
     sport,
     lat,
     lng,
+    price,
     creator,
   })
 
   try {
     await newSportEvent.save() //mongoose funkcija za cuvanje, u ovom pozivu se cuva novi ev u bazu
 
+    console.log(` SERVER : ${newSportEvent}`)
     res.status(201).json(newSportEvent) //201 uspesno kreiranje
   } catch (err) {
     res.status(409).json({ message: err.message }) //conflict

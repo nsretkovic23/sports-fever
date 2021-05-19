@@ -1,21 +1,21 @@
 import React, { useState } from 'react'
 import { MapWithEvents } from '../Maps/MapWithEvents'
 import { options } from '../Create Event/EventForm'
-//import { useSelector } from 'react-redux'
 import { center } from '../Maps/MapConst'
 
 export const FindForm = () => {
-  //const eventArray = useSelector((state) => state.events)
   const [find, setFind] = useState({
     date: '',
     free_spots: '',
     sport: '',
-    findEvent: '',
+    price: '',
+    findEvent: false,
   })
   const [event, setEvent] = useState({
     date: '',
     free_spots: '',
     sport: '',
+    price: '',
   })
 
   const [radius, setRadius] = useState({
@@ -40,7 +40,13 @@ export const FindForm = () => {
 
   const resetEvent = (ev) => {
     ev.preventDefault()
-    setFind({ date: '', free_spots: '', sport: '', findEvent: '' })
+    setFind({
+      date: '',
+      free_spots: '',
+      sport: '',
+      price: '',
+      findEvent: false,
+    })
   }
 
   return (
@@ -63,6 +69,16 @@ export const FindForm = () => {
             id='free_spots'
             name='free_spots'
             value={event.free_spots}
+            onChange={handleChange}
+          />
+        </div>
+        <div className='form-element'>
+          <label htmlFor='price'>Price:</label>
+          <input
+            type='number'
+            id='price'
+            name='price'
+            value={event.price}
             onChange={handleChange}
           />
         </div>
@@ -91,12 +107,7 @@ export const FindForm = () => {
         </button>
       </form>
       <div>
-        <MapWithEvents
-          //eventArray={eventArray}
-          find={find}
-          radius={radius}
-          setRadius={setRadius}
-        />
+        <MapWithEvents find={find} radius={radius} setRadius={setRadius} />
       </div>
     </>
   )

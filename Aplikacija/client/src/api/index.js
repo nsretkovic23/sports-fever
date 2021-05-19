@@ -11,12 +11,21 @@ API.interceptors.request.use((req) => {
 
   return req
 })
-export const fetchEvents = () => API.get('/event')
-export const fetchNearByEvents = (long, lat) => API.get(`/event/${long}-${lat}`)
+
+//export const fetchEvents = () => API.get('/event')
+
+export const fetchEvents = (long, lat, sport, date, spots, price) =>
+  API.get(`/event/filter/${long}-${lat}-${sport}.${date}.${spots}.${price}`)
+
 export const createEvent = (newEvent) => API.post(`/event/add`, newEvent)
+
 export const signIn = (data) => API.post('/user/signin', data)
+
 export const signUp = (data) => API.post('/user/signup', data)
+
 export const fetchEvent = (id) => API.get(`/event/${id}`)
+
 export const updateEvent = (id, updatedEvent) =>
   API.patch(`/event/${id}`, updatedEvent)
+
 export const deleteEvent = (id) => API.delete(`/event/${id}`)
