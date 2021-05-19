@@ -39,7 +39,7 @@ export const signup = async (req,res) =>{
 
         const hashedPasswrod = await bcrypt.hash(password, 12); //drugi arg je nivo "tezine" za hesiranje passworda
 
-        const result = await User.create({email, password:hashedPasswrod, name: `${firstName} ${lastName}`});
+        const result = await User.create({email, password:hashedPasswrod, name: `${firstName} ${lastName}`, credits:1000});
 
         const token = jwt.sign({email:result.email, id: result._id}, 'test', {expiresIn: "1h"})
 
