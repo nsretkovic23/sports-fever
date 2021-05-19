@@ -15,6 +15,7 @@ const sportEventSchema = mongoose.Schema(
     lng: Number,
     price: Number,
     creator: String,
+    participants: [{id:String}],
   },
   {
     timestamps: true,

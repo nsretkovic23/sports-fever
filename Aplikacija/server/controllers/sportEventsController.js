@@ -90,6 +90,8 @@ export const createSportEvent = async (req, res) => {
     price,
     creator,
   } = req.body
+  let participants=[{id:creator}];
+
   const newSportEvent = new SportEvent({
     title,
     description,
@@ -100,6 +102,7 @@ export const createSportEvent = async (req, res) => {
     lng,
     price,
     creator,
+    participants
   })
 
   try {
@@ -146,4 +149,19 @@ export const getSportEventById = async (req, res) => {
   }
 }
 
+export const joinEvent = async (req, res) => {
+  const {userId, eventId} = req.body;
+
+  try{
+    const sportEv = await SportEvent.findById(eventId);
+
+    sportEv?.participants.push({id:userId});
+
+
+    res.status(200).json(sportEv);
+  }catch(error){
+    res.status(404).json({message:"join event error"});
+  }
+
+}
 export default router

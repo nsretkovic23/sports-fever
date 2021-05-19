@@ -18,7 +18,7 @@ npr za get()Events rute ne treba jer Evente moze videti svako */
 router.get('/filter/:long-:lat-:sport.:date.:spots.:price', filterEvents) //.:price dodati za cenu
 router.get('/', getSportEvents)
 router.get('/:id', getSportEventById)
-router.post('/add', auth, createSportEvent)
+router.post('/add', createSportEvent)
 router.patch('/:id', auth, updateSportEvent)
 
 export default router
