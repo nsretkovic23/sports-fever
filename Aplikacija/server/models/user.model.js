@@ -5,7 +5,8 @@ const userSchema = mongoose.Schema({
     email: {type:String, required:true},
     password: {type:String, required:true},
     id: {type:String},
-    credits:Number
+    credits:Number,
+    createdEvents: [{eventId:String}]
 })
 
 let User = mongoose.model("User", userSchema);

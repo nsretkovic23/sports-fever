@@ -108,7 +108,11 @@ export const createSportEvent = async (req, res) => {
 
   try {
     await newSportEvent.save() //mongoose funkcija za cuvanje, u ovom pozivu se cuva novi ev u bazu
+    const creatorUser = await User.findById(creator);
 
+    creatorUser.createdEvents.push({eventId:newSportEvent.id});
+
+    await User.findByIdAndUpdate(creator, creatorUser, {new:true});
     console.log(` SERVER : ${newSportEvent}`)
     res.status(201).json(newSportEvent) //201 uspesno kreiranje
   } catch (err) {

@@ -27,7 +27,7 @@ export const signin = async (req,res) =>{
 
 export const signup = async (req,res) =>{
     const { email, password, confirmPassword, firstName, lastName }=req.body;
-
+    const createdEvs = [];
     try {
         const existingUser = await User.findOne({email}); //trazimo po email-u da li korisnicki nalog vec postoji
 
@@ -39,7 +39,7 @@ export const signup = async (req,res) =>{
 
         const hashedPasswrod = await bcrypt.hash(password, 12); //drugi arg je nivo "tezine" za hesiranje passworda
 
-        const result = await User.create({email, password:hashedPasswrod, name: `${firstName} ${lastName}`, credits:1000});
+        const result = await User.create({email, password:hashedPasswrod, name: `${firstName} ${lastName}`, credits:1000, createdEvs});
 
         const token = jwt.sign({email:result.email, id: result._id}, 'test', {expiresIn: "1h"})
 
