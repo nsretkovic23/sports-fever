@@ -158,23 +158,28 @@ export const joinEvent = async (req, res) => {
     const sportEv = await SportEvent.findById(eventId);
     const userParticipant = await User.findById(userId);
 
-    if(sportEv.price > userParticipant.credits)
+    if(sportEv.participants.some(item => item.id === userId)){
+      res.status(404).json({message:"user already joined this event"})
+    }
+    else if(sportEv.price > userParticipant.credits)
     {
-      res.status(404).json({message:"nedovoljno kredita"})
-    }else{
+      res.status(404).json({message:"not enough credits"})
+    }
+    else if(sportEv.free_spots > 0){
       userParticipant.credits -= sportEv.price;
       sportEv?.participants.push({id:userId});
+      sportEv.free_spots-=1;
 
       await User.findByIdAndUpdate(userId, userParticipant, {new:true});
       await SportEvent.findByIdAndUpdate(eventId, sportEv, {new:true})
       res.status(200).json(sportEv);
     }
-
-    
-    
-  }catch(error){
-    res.status(404).json({message:"join event error"});
-  }
+    else
+      res.status(404).json({message:"no more free spots"});
+ 
+    }catch(error){
+      res.status(404).json({message:"join event error"});
+    }
 
 }
 export default router
