@@ -5,6 +5,7 @@ import {
   FETCH_NEARBY,
   UPDATE,
   DELETE,
+  JOIN,
 } from '../constants/actionTypes'
 
 export default (events = [], action) => {
@@ -14,6 +15,8 @@ export default (events = [], action) => {
     case FETCH_SINGLE:
       return action.payload
     case FETCH_NEARBY:
+      return action.payload
+    case JOIN:
       return action.payload
     case CREATE:
       return [...events, action.payload]

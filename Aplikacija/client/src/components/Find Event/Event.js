@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useHistory } from 'react-router-dom'
-import { getEvent, deleteEvent, updateEvent } from '../../actions/event'
+import {
+  getEvent,
+  deleteEvent,
+  updateEvent,
+  joinEvent,
+} from '../../actions/event'
 import { Form } from '../Create Event/Form'
 
 export const Event = () => {
@@ -11,6 +16,7 @@ export const Event = () => {
   const event = useSelector((state) => state.events)
   const [update, setUpdate] = useState(null)
   const [refresh, setRefresh] = useState(null)
+  const [participant, setParticipant] = useState(false)
   const [newEvent, setNewEvent] = useState({
     title: '',
     description: '',
@@ -30,6 +36,16 @@ export const Event = () => {
     console.log('fetching')
   }, [_id, dispatch, refresh])
 
+  /*event.participants.forEach((d) => {
+      console.log('HEY')
+      console.log(d)
+
+      if (user?.result?.googleId === d.id || user?.result?._id === d.id) {
+        setParticipant(true)
+      }
+    })
+    */
+
   const handleChange = (e) => {
     e.preventDefault()
     const name = e.target.name
@@ -40,13 +56,24 @@ export const Event = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     if (newEvent.title && newEvent.description && newEvent.free_spots > 0) {
-      console.log(newEvent)
       dispatch(updateEvent(event._id, newEvent))
       setUpdate(null)
       setRefresh((prev) => !prev)
     } else {
       alert('Wrong inputs')
     }
+  }
+
+  const joinThisEvent = (e) => {
+    e.preventDefault()
+    let uID = ''
+    if (user?.result?._id) uID = user?.result?._id
+    else uID = user?.result?.googleId
+    const data = {
+      userId: uID,
+      eventId: event._id,
+    }
+    dispatch(joinEvent(data))
   }
 
   console.log(newEvent)
@@ -58,8 +85,7 @@ export const Event = () => {
           <div>
             <button
               onClick={(ev) => {
-                ev.preventDefault()
-                setUpdate(true)
+                joinThisEvent(ev)
               }}
             >
               Update
@@ -82,6 +108,19 @@ export const Event = () => {
         <p>{event?.date}</p>
         <p>{event?.sport}</p>
         <p>{event?.free_spots}</p>
+      </div>
+      <div>
+        {!participant ? (
+          <button
+            onClick={(ev) => {
+              joinThisEvent(ev)
+            }}
+          >
+            +Join
+          </button>
+        ) : (
+          <button>Chat</button>
+        )}
       </div>
       {update ? (
         <div>

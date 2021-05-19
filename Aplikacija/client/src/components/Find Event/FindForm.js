@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { MapWithEvents } from '../Maps/MapWithEvents'
-import { options } from '../Create Event/EventForm'
+import { options } from '../Create Event/Form'
 import { center } from '../Maps/MapConst'
 
 export const FindForm = () => {

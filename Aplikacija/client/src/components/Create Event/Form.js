@@ -1,4 +1,5 @@
 import React from 'react'
+
 export const options = [
   { value: 'fudbal', label: 'Fudbal' },
   { value: 'kosarka', label: 'Kosarka' },

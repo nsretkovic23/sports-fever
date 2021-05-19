@@ -5,6 +5,7 @@ import {
   CREATE,
   DELETE,
   UPDATE,
+  JOIN,
 } from '../constants/actionTypes'
 import * as api from '../api/index.js'
 
@@ -13,6 +14,16 @@ export const createEvent = (event) => async (dispatch) => {
     const { data } = await api.createEvent(event)
 
     dispatch({ type: CREATE, payload: data })
+  } catch (error) {
+    console.log(error.message)
+  }
+}
+
+export const joinEvent = (dataa) => async (dispatch) => {
+  try {
+    const { data } = await api.joinEvent(dataa)
+
+    dispatch({ type: JOIN, payload: data })
   } catch (error) {
     console.log(error.message)
   }
