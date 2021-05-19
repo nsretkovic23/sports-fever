@@ -117,7 +117,7 @@ export const createSportEvent = async (req, res) => {
 
 export const updateSportEvent = async (req, res) => {
   const { id } = req.params
-  const { title, description, date, free_spots, sport, lat, lng } = req.body
+  const { title, description, date, free_spots, sport, lat, lng, price } = req.body
 
   if (!mongoose.Types.ObjectId.isValid(id))
     return res.status(404).send(`No post with id: ${id}`)
@@ -130,6 +130,7 @@ export const updateSportEvent = async (req, res) => {
     sport,
     lat,
     lng,
+    price,
     _id: id,
   }
 
@@ -156,8 +157,8 @@ export const joinEvent = async (req, res) => {
     const sportEv = await SportEvent.findById(eventId);
 
     sportEv?.participants.push({id:userId});
-
-
+    
+    await SportEvent.findByIdAndUpdate(eventId, sportEv, { new: true })
     res.status(200).json(sportEv);
   }catch(error){
     res.status(404).json({message:"join event error"});

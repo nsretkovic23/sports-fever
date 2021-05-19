@@ -5,6 +5,7 @@ import {
   updateSportEvent,
   getSportEventById,
   filterEvents,
+  joinEvent,
 } from '../controllers/sportEventsController.js'
 
 import auth from '../middleware/auth.js'
@@ -20,5 +21,6 @@ router.get('/', getSportEvents)
 router.get('/:id', getSportEventById)
 router.post('/add', createSportEvent)
 router.patch('/:id', auth, updateSportEvent)
+router.post('/join', joinEvent);
 
 export default router
