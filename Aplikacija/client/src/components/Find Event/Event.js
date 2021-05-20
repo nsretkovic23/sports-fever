@@ -36,16 +36,6 @@ export const Event = () => {
     console.log('fetching')
   }, [_id, dispatch, refresh])
 
-  /*event.participants.forEach((d) => {
-      console.log('HEY')
-      console.log(d)
-
-      if (user?.result?.googleId === d.id || user?.result?._id === d.id) {
-        setParticipant(true)
-      }
-    })
-    */
-
   const handleChange = (e) => {
     e.preventDefault()
     const name = e.target.name
@@ -76,7 +66,6 @@ export const Event = () => {
     dispatch(joinEvent(data))
   }
 
-  console.log(newEvent)
   return (
     <>
       <div>
@@ -110,7 +99,10 @@ export const Event = () => {
         <p>{event?.free_spots}</p>
       </div>
       <div>
-        {!participant ? (
+        {!event?.participants?.some(
+          (item) =>
+            item.id === user?.result?.googleId || item.id === user?.result?._id
+        ) ? (
           <button
             onClick={(ev) => {
               joinThisEvent(ev)
