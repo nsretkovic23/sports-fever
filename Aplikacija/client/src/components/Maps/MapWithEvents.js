@@ -29,19 +29,36 @@ export const MapWithEvents = ({ find, radius, setRadius }) => {
       const date = time.toISOString().split('T')
       dispatch(getEvents(radius.lng, radius.lat, 'all', date[0], 0, 'all'))
     } else {
-      const date = find.date.split('T')
+      let price
+      let date
+      let free_spots
+      let sport
+      if (find.price === '') {
+        price = 'all'
+      } else {
+        price = find.price
+      }
+      if (find.date === '') {
+        const time = new Date()
+        date = time.toISOString().split('T')
+      } else {
+        date = find.date.split('T')
+      }
+      if (find.free_spots === '') {
+        free_spots = 0
+      } else {
+        free_spots = find.free_spots
+      }
+      if (find.sport === '') {
+        sport = 'all'
+      } else {
+        sport = find.sport
+      }
       dispatch(
-        getEvents(
-          radius.lng,
-          radius.lat,
-          find.sport,
-          date[0],
-          find.free_spots,
-          find.price
-        )
+        getEvents(radius.lng, radius.lat, sport, date[0], free_spots, price)
       )
     }
-  }, [radius, find.findEvent])
+  }, [radius, find])
 
   const onMapLoad = useCallback((map) => {
     mapRef.current = map
@@ -68,7 +85,9 @@ export const MapWithEvents = ({ find, radius, setRadius }) => {
         onLoad={onMapLoad}
       >
         {Array.isArray(eventArray) && eventArray.length
-          ? eventArray.map((marker) => drawMarker(marker, setSelectedMarker))
+          ? eventArray
+              .filter((el) => el.free_spots > 0)
+              .map((marker) => drawMarker(marker, setSelectedMarker))
           : null}
         {selectedMarker ? (
           <InfoWindow

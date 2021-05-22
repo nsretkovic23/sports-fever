@@ -14,13 +14,18 @@ const App = () => {
       <Router>
         <Nav />
         <Switch>
-          <Route exact path='/' component={FindEventPage}></Route>
+          <Route path='/' exact>
+            <FindEventPage></FindEventPage>
+            <CreateEvent></CreateEvent>
+          </Route>
           <Route
             path='/authentification'
             exact
             component={Authentification}
           ></Route>
-          <Route exact path='/singleEvent' component={Event}></Route>
+          <Route path='/singleEvent' exact>
+            <Event></Event>
+          </Route>
         </Switch>
       </Router>
     </>

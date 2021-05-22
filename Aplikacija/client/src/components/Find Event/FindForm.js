@@ -33,9 +33,7 @@ export const FindForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (event.date && event.free_spots > 0 && event.sport) {
-      setFind({ ...event, findEvent: 'true' })
-    }
+    setFind({ ...event, findEvent: 'true' })
   }
 
   const resetEvent = (ev) => {
