@@ -31,3 +31,5 @@ export const updateEvent = (id, updatedEvent) =>
 export const deleteEvent = (id) => API.delete(`/event/${id}`)
 
 export const joinEvent = (data) => API.post(`/event/join/`, data)
+
+export const fetchUserById = (id) => API.get(`/user/${id}`)

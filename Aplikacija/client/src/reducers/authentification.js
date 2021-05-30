@@ -10,6 +10,8 @@ const authReducer = (state = { authData: null }, action) => {
       localStorage.clear()
 
       return { ...state, authData: null }
+    case actionType.USER:
+      return { ...state, authData: action?.data }
     default:
       return state
   }
