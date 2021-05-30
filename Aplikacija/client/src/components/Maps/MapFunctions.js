@@ -9,8 +9,38 @@ import {
   ComboboxList,
   ComboboxOption,
 } from '@reach/combobox'
-
+import { makeStyles } from '@material-ui/core/styles'
 import '@reach/combobox/styles.css'
+import { IconButton } from '@material-ui/core'
+import MyLocationIcon from '@material-ui/icons/MyLocation'
+
+const useStyles = makeStyles((theme) => ({
+  geolocation: {
+    color: '#000000',
+    backgroundColor: '#FFFFFF',
+    position: 'absolute',
+    zIndex: '10',
+    right: '70px',
+    top: '107px',
+    width: '35px',
+    height: '35px',
+    boxShadow: '0 0 0 3px #a1a19f',
+  },
+  searchLocation: {
+    position: 'absolute',
+    zIndex: '10',
+    left: '57%',
+    marginTop: '5px',
+  },
+  searchLocationInput: {
+    border: '4px solid #04ECF0',
+    width: '200px',
+    height: '25px',
+    boxShadow: '0 8px 12px 0 rgba(0,0,0,0.24)',
+    fontSize: '16px',
+    padding: '2px',
+  },
+}))
 
 export function Search({ panTo }) {
   const {
@@ -25,7 +55,7 @@ export function Search({ panTo }) {
       radius: 200000,
     },
   })
-
+  const classes = useStyles()
   const handleInput = (e) => {
     setValue(e.target.value)
   }
@@ -45,12 +75,13 @@ export function Search({ panTo }) {
 
   return (
     <div>
-      <Combobox onSelect={handleSelect}>
+      <Combobox onSelect={handleSelect} className={classes.searchLocation}>
         <ComboboxInput
           value={value}
           onChange={handleInput}
           disabled={!ready}
           placeholder='Enter a location'
+          className={classes.searchLocationInput}
         ></ComboboxInput>
         <ComboboxPopover>
           <ComboboxList>
@@ -66,8 +97,10 @@ export function Search({ panTo }) {
 }
 
 export function Locate({ panTo }) {
+  const classes = useStyles()
   return (
-    <button
+    <IconButton
+      className={classes.geolocation}
       onClick={() => {
         navigator.geolocation.getCurrentPosition(
           (position) => {
@@ -80,7 +113,7 @@ export function Locate({ panTo }) {
         )
       }}
     >
-      Geolocation
-    </button>
+      <MyLocationIcon></MyLocationIcon>
+    </IconButton>
   )
 }

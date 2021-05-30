@@ -1,11 +1,22 @@
 import React, { useState, useRef, useCallback } from 'react'
 import { Search, Locate } from './MapFunctions'
 
+import { makeStyles } from '@material-ui/core/styles'
+
 import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api'
 
 import '@reach/combobox/styles.css'
 
 import { libraries, mapContainerStyle, center } from './MapConst'
+
+const useStyles = makeStyles((theme) => ({
+  map: {
+    marginTop: '30px',
+    marginRight: '10px',
+    marginBottom: '15px',
+    boxShadow: '0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19)',
+  },
+}))
 
 export const Map = (props) => {
   const { setLongitude, setLatitude } = props
@@ -14,6 +25,7 @@ export const Map = (props) => {
     googleMapsApiKey: 'AIzaSyCEbMl51eshDuU7zH8SFgkkuTbd4AjGeys',
     libraries,
   })
+  const classes = useStyles()
 
   const onMapClick = useCallback((ev) => {
     setLongitude(ev.latLng.lng())
@@ -37,13 +49,13 @@ export const Map = (props) => {
   if (!isLoaded) return 'Loading Map'
 
   return (
-    <div>
+    <div className={classes.map}>
       <Search panTo={panTo} />
       <Locate panTo={panTo} />
       <GoogleMap
         id='map'
         mapContainerStyle={mapContainerStyle}
-        zoom={15}
+        zoom={14}
         center={center}
         onClick={onMapClick}
         onLoad={onMapLoad}

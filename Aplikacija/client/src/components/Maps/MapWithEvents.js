@@ -2,18 +2,60 @@ import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { Search, Locate } from './MapFunctions'
 import { useSelector, useDispatch } from 'react-redux'
 import { getEvents } from '../../actions/event'
+import { makeStyles } from '@material-ui/core/styles'
 import {
   GoogleMap,
   useLoadScript,
   Marker,
   InfoWindow,
 } from '@react-google-maps/api'
+import { Typography, Paper, Button } from '@material-ui/core'
 import { libraries, mapContainerStyle, center } from './MapConst'
 import '@reach/combobox/styles.css'
 import { Link } from 'react-router-dom'
 
+const useStyles = makeStyles((theme) => ({
+  map: {
+    marginTop: '30px',
+    marginRight: '10px',
+    marginBottom: '15px',
+    boxShadow: '0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19)',
+  },
+  link: {
+    textDecoration: 'none',
+    color: 'black',
+  },
+  buttons: {
+    backgroundColor: '#04ECF0',
+    marginTop: '20px',
+    marginBottom: '5px',
+    alignSelf: 'center',
+    textAlign: 'center',
+    '&:hover': {
+      backgroundColor: '#04ECF0',
+      boxShadow:
+        '0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19)',
+    },
+  },
+  paper: {
+    padding: theme.spacing(3),
+    alignSelf: 'center',
+  },
+  title: {
+    alignSelf: 'center',
+    textAlign: 'center',
+    fontWeight: 'bold',
+    marginBottom: '10px',
+  },
+  typography: {
+    fontSize: '20px',
+    padding: theme.spacing(1),
+  },
+}))
+
 export const MapWithEvents = ({ find, radius, setRadius }) => {
   const eventArray = useSelector((state) => state.events)
+  const classes = useStyles()
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: 'AIzaSyCEbMl51eshDuU7zH8SFgkkuTbd4AjGeys',
     libraries,
@@ -74,7 +116,7 @@ export const MapWithEvents = ({ find, radius, setRadius }) => {
   if (!isLoaded) return 'Loading Map'
 
   return (
-    <div>
+    <div className={classes.map}>
       <Search panTo={panTo} />
       <Locate panTo={panTo} />
       <GoogleMap
@@ -99,25 +141,30 @@ export const MapWithEvents = ({ find, radius, setRadius }) => {
               setSelectedMarker(null)
             }}
           >
-            <div>
-              <h2>{selectedMarker.title}</h2>
-              <p>Desc: {selectedMarker.description}</p>
-              <p>Date: {selectedMarker.date}</p>
-              <p>Available Spots: {selectedMarker.free_spots}</p>
-              <p>Price: {selectedMarker.price}</p>
-              <button>
+            <>
+              <Typography variant='h4' className={classes.title}>
+                {selectedMarker.title}
+              </Typography>
+              <Typography className={classes.typography}>
+                Date: {selectedMarker.date.split('T')[0]}
+              </Typography>
+              <Typography className={classes.typography}>
+                Available Spots: {selectedMarker.free_spots}
+              </Typography>
+              <Typography className={classes.typography}>
+                Price: {selectedMarker.price}
+              </Typography>
+              <Button className={classes.buttons} fullWidth>
                 <Link
                   to={{
-                    pathname: `/singleEvent`,
-                    state: {
-                      _id: selectedMarker._id,
-                    },
+                    pathname: `/singleEvent/.${selectedMarker._id}`,
                   }}
+                  className={classes.link}
                 >
                   +Details
                 </Link>
-              </button>
-            </div>
+              </Button>
+            </>
           </InfoWindow>
         ) : null}
       </GoogleMap>

@@ -1,22 +1,102 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useHistory } from 'react-router-dom'
+import { withStyles } from '@material-ui/core/styles'
+import Button from '@material-ui/core/Button'
+import Dialog from '@material-ui/core/Dialog'
+import MuiDialogTitle from '@material-ui/core/DialogTitle'
+import MuiDialogContent from '@material-ui/core/DialogContent'
+import MuiDialogActions from '@material-ui/core/DialogActions'
+import IconButton from '@material-ui/core/IconButton'
+import CloseIcon from '@material-ui/icons/Close'
+import Typography from '@material-ui/core/Typography'
+import { Paper, ButtonGroup } from '@material-ui/core'
 import {
   getEvent,
   deleteEvent,
   updateEvent,
   joinEvent,
 } from '../../actions/event'
+import { makeStyles } from '@material-ui/core/styles'
 import { Form } from '../Create Event/Form'
+
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignSelf: 'center',
+    width: '25%',
+    textAlign: 'center',
+    padding: '20px 20px',
+    margin: '20px 20px',
+  },
+  buttons: {
+    backgroundColor: '#04ECF0',
+    alignSelf: 'center',
+    '&:hover': {
+      backgroundColor: '#04ECF0',
+      boxShadow:
+        '0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19)',
+    },
+    alignSelf: 'flex-end',
+  },
+  buttonGroup: {
+    alignSelf: 'flex-end',
+    marginBottom: '30px',
+  },
+}))
+
+const styles = (theme) => ({
+  root: {
+    margin: 0,
+    padding: theme.spacing(1),
+  },
+  closeButton: {
+    position: 'absolute',
+    right: theme.spacing(1),
+    top: theme.spacing(1),
+    color: theme.palette.grey[500],
+  },
+})
+
+const DialogTitle = withStyles(styles)((props) => {
+  const { children, classes, onClose, ...other } = props
+  return (
+    <MuiDialogTitle disableTypography className={classes.root} {...other}>
+      <Typography variant='h6'>{children}</Typography>
+      {onClose ? (
+        <IconButton
+          aria-label='close'
+          className={classes.closeButton}
+          onClick={onClose}
+        >
+          <CloseIcon />
+        </IconButton>
+      ) : null}
+    </MuiDialogTitle>
+  )
+})
+
+const DialogContent = withStyles((theme) => ({
+  root: {
+    padding: theme.spacing(2),
+  },
+}))(MuiDialogContent)
+
+const DialogActions = withStyles((theme) => ({
+  root: {
+    margin: 0,
+    padding: theme.spacing(1),
+  },
+}))(MuiDialogActions)
 
 export const Event = () => {
   const user = JSON.parse(localStorage.getItem('profile'))
   const location = useLocation()
-  const { _id } = location.state
   const event = useSelector((state) => state.events)
-  const [update, setUpdate] = useState(null)
   const [refresh, setRefresh] = useState(null)
-  const [participant, setParticipant] = useState(false)
+  const _id = location.pathname.split('.')
+  const classes = useStyles()
   const [newEvent, setNewEvent] = useState({
     title: '',
     description: '',
@@ -27,14 +107,25 @@ export const Event = () => {
   const dispatch = useDispatch()
   const history = useHistory()
 
-  useEffect(() => {
-    if (event) setNewEvent(event)
-  }, [event])
+  const [open, setOpen] = React.useState(false)
+
+  const handleClickOpen = () => {
+    setOpen(true)
+  }
+  const handleClose = () => {
+    setOpen(false)
+  }
 
   useEffect(() => {
-    dispatch(getEvent(_id))
+    dispatch(getEvent(_id[1]))
     console.log('fetching')
-  }, [_id, dispatch, refresh])
+  }, [dispatch, refresh])
+
+  useEffect(() => {
+    if (event) {
+      setNewEvent(event)
+    }
+  }, [event])
 
   const handleChange = (e) => {
     e.preventDefault()
@@ -47,7 +138,7 @@ export const Event = () => {
     e.preventDefault()
     if (newEvent.title && newEvent.description && newEvent.free_spots > 0) {
       dispatch(updateEvent(event._id, newEvent))
-      setUpdate(null)
+      handleClose()
       setRefresh((prev) => !prev)
     } else {
       alert('Wrong inputs')
@@ -68,63 +159,91 @@ export const Event = () => {
 
   return (
     <>
-      <div>
+      <Paper className={classes.paper} elevation={10}>
         {user?.result?.googleId === event.creator ||
         user?.result?._id === event.creator ? (
-          <div>
-            <button
-              onClick={(ev) => {
-                joinThisEvent(ev)
-              }}
+          <ButtonGroup variant='contained' className={classes.buttonGroup}>
+            <Button
+              className={classes.buttons}
+              variant='contained'
+              onClick={handleClickOpen}
             >
               Update
-            </button>
-            <button
+            </Button>
+            <Button
+              className={classes.buttons}
+              variant='contained'
               onClick={(ev) => {
                 ev.preventDefault()
-                dispatch(deleteEvent(_id))
+                dispatch(deleteEvent(_id[1]))
                 history.push('/')
               }}
             >
               Delete
-            </button>
-          </div>
+            </Button>
+          </ButtonGroup>
         ) : null}
-      </div>
-      <div>
-        <h1>{event?.title}</h1>
-        <p>{event?.description}</p>
-        <p>{event?.date}</p>
-        <p>{event?.sport}</p>
-        <p>{event?.free_spots}</p>
-      </div>
-      <div>
+
+        <Typography align='center' variant='h3'>
+          {event?.title}
+        </Typography>
+
+        <Typography align='center' variant='subtitle1'>
+          {event?.description}
+        </Typography>
+
+        <Typography align='center' variant='subtitle2'>
+          Date: {event?.date?.split('T')[0]}
+        </Typography>
+
+        <Typography align='center' variant='subtitle2'>
+          Sport: {event?.sport}
+        </Typography>
+        <Typography align='center' variant='subtitle2'>
+          Available spots: {event?.free_spots}
+        </Typography>
+        <Typography align='center' variant='subtitle2'>
+          Price: {event?.price}
+        </Typography>
+
         {!event?.participants?.some(
           (item) =>
             item.id === user?.result?.googleId || item.id === user?.result?._id
         ) ? (
-          <button
+          <Button
+            className={classes.buttons}
+            variant='contained'
             onClick={(ev) => {
               joinThisEvent(ev)
             }}
           >
             +Join
-          </button>
+          </Button>
         ) : (
-          <button>Chat</button>
+          <Button className={classes.buttons} variant='contained'>
+            Chat
+          </Button>
         )}
-      </div>
-      {update ? (
-        <div>
+      </Paper>
+      <Dialog
+        onClose={handleClose}
+        aria-labelledby='customized-dialog-title'
+        open={open}
+      >
+        <DialogTitle id='customized-dialog-title' onClose={handleClose}>
+          Update your event
+        </DialogTitle>
+        <DialogContent dividers>
           <Form
             event={newEvent}
             handleChange={handleChange}
             handleSubmit={handleSubmit}
-            longitude={newEvent.longitude}
-            latitude={newEvent.latitude}
+            longitude={newEvent.lng}
+            latitude={newEvent.lat}
+            buttonTitle={'Update'}
           />
-        </div>
-      ) : null}
+        </DialogContent>
+      </Dialog>
     </>
   )
 }

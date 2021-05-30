@@ -4,6 +4,7 @@ import { CreateEventContext } from './CreateEvent'
 import { useDispatch } from 'react-redux'
 import { createEvent } from '../../actions/event'
 import { Form } from './Form'
+import { Grid } from '@material-ui/core'
 
 export const EventForm = () => {
   const { event, setEvent } = useContext(CreateEventContext)
@@ -65,17 +66,21 @@ export const EventForm = () => {
 
   return (
     <>
-      <article className='form'>
-        <h2>Create your own event</h2>
-        <Form
-          event={event}
-          handleChange={handleChange}
-          handleSubmit={handleSubmit}
-          longitude={longitude}
-          latitude={latitude}
-        />
-      </article>
-      <Map setLongitude={setLongitude} setLatitude={setLatitude} />
+      <Grid container direction='row'>
+        <Grid item xs={3}>
+          <Form
+            event={event}
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+            longitude={longitude}
+            latitude={latitude}
+            buttonTitle={'Create'}
+          />
+        </Grid>
+        <Grid item xs={9}>
+          <Map setLongitude={setLongitude} setLatitude={setLatitude} />
+        </Grid>
+      </Grid>
     </>
   )
 }

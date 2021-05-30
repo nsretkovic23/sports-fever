@@ -1,11 +1,81 @@
-import React from 'react'
+import React, { useState } from 'react'
+
+import {
+  Typography,
+  Paper,
+  TextField,
+  Button,
+  InputLabel,
+  Select,
+  MenuItem,
+} from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
+import classNames from 'classnames'
 
 export const options = [
+  { value: 'all', label: 'All' },
   { value: 'fudbal', label: 'Fudbal' },
   { value: 'kosarka', label: 'Kosarka' },
   { value: 'odbojka', label: 'Odbojka' },
   { value: 'hokej', label: 'Hokej' },
 ]
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& .MuiTextField-root': {
+      margin: theme.spacing(1),
+    },
+  },
+  paperForCreate: {
+    marginTop: theme.spacing(6),
+    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(2),
+    padding: theme.spacing(3),
+    backgroundColor: '#04D4F0',
+  },
+  paperForUpdate: {
+    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(2),
+    padding: theme.spacing(3),
+    backgroundColor: '#04D4F0',
+  },
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+    flexWrap: 'wrap',
+  },
+  fileInput: {
+    width: '97%',
+    margin: '10px 0',
+  },
+  buttonSubmit: {
+    marginBottom: 10,
+  },
+  tField: {
+    alignSelf: 'center',
+    backgroundColor: '#04ECF0',
+    color: 'black',
+  },
+  buttonCreate: {
+    backgroundColor: '#04ECF0',
+    alignSelf: 'center',
+    marginTop: '10px',
+    width: '20%',
+    '&:hover': {
+      backgroundColor: '#04ECF0',
+      boxShadow:
+        '0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19)',
+    },
+  },
+  typography: {
+    marginTop: '10px',
+  },
+  title: {
+    marginBottom: '20px',
+    alignSelf: 'center',
+    fontWeight: 'bold',
+  },
+}))
 
 export const Form = ({
   event,
@@ -13,90 +83,127 @@ export const Form = ({
   handleSubmit,
   longitude,
   latitude,
+  buttonTitle,
 }) => {
+  const classes = useStyles()
+  const [open, setOpen] = useState(false)
+  const chooseStyle = buttonTitle === 'Create' ? true : false
+
+  const handleClose = () => {
+    setOpen(false)
+  }
+
+  const handleOpen = () => {
+    setOpen(true)
+  }
   return (
     <>
-      <form>
-        <div className='form-element'>
-          <label htmlFor='title'>Title:</label>
-          <input
-            type='text'
-            id='title'
+      <Paper
+        className={
+          chooseStyle == true ? classes.paperForCreate : classes.paperForUpdate
+        }
+        elevation={10}
+      >
+        <form className={classNames(classes.root, classes.form)}>
+          {chooseStyle ? (
+            <Typography variant='h5' className={classes.title}>
+              Create your own event
+            </Typography>
+          ) : null}
+          <TextField
             name='title'
+            id='title'
+            variant='outlined'
+            label='Title'
+            fullWidth
             value={event.title}
             onChange={handleChange}
+            className={classes.tField}
           />
-        </div>
-        <div className='form-element'>
-          <label htmlFor='description'>Description:</label>
-          <textarea
+          <TextField
             id='description'
+            label='Description:'
             name='description'
+            variant='outlined'
+            multiline
+            rowsMax={5}
+            fullWidth
             value={event.description}
             onChange={handleChange}
-            rows='6'
-            cols='50'
-          >
-            Enter description...
-          </textarea>
-        </div>
-        <div className='form-element'>
-          <label htmlFor='date'>Date:</label>
-          <input
-            type='date'
-            id='date'
-            name='date'
-            value={event.date}
-            onChange={handleChange}
+            className={classes.tField}
           />
-        </div>
-        <div className='form-element'>
-          <label htmlFor='free_spots'>Available spots:</label>
-          <input
-            type='number'
-            id='free_spots'
+          <TextField
             name='free_spots'
+            id='free_spots'
+            type='number'
+            variant='outlined'
+            label='Available spots'
+            fullWidth
             value={event.free_spots}
             onChange={handleChange}
+            className={classes.tField}
           />
-        </div>
-        <div>
-          <label htmlFor='sport'>Choose a sport:</label>
-          <select
+          <TextField
+            name='price'
+            id='price'
+            type='number'
+            variant='outlined'
+            label='Price'
+            fullWidth
+            value={event.price}
+            onChange={handleChange}
+            className={classes.tField}
+          />
+          <InputLabel id='sport'>Choose a sport</InputLabel>
+          <Select
+            labelId='sport'
             name='sport'
             id='sport'
-            onChange={handleChange}
+            open={open}
+            onClose={handleClose}
+            onOpen={handleOpen}
             value={event.sport}
+            onChange={handleChange}
+            className={classes.tField}
+            fullWidth
           >
             {options.map((el) => {
               return (
-                <option key={el.value} value={el.value}>
+                <MenuItem key={el.value} value={el.value}>
                   {el.label}
-                </option>
+                </MenuItem>
               )
             })}
-          </select>
-        </div>
-        <div className='form-element'>
-          <label htmlFor='price'>Price:</label>
-          <input
-            type='number'
-            id='price'
-            name='price'
-            value={event.price}
+          </Select>
+          <TextField
+            id='date'
+            label='Date'
+            type='date'
+            name='date'
+            value={event.date.split('T')[0]}
+            fullWidth
             onChange={handleChange}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            className={classes.tField}
           />
-        </div>
-        <div className='form-element'>
-          <label htmlFor='lat'>Latitude: {latitude}</label>
-        </div>
-        <div className='form-element'>
-          <label htmlFor='lng'>Longitude: {longitude}</label>
-        </div>
-        <button type='submit' className='submitBtn' onClick={handleSubmit}>
-          Create
-        </button>
-      </form>
+          <Typography variant='h6' className={classes.typography}>
+            Latitude: {latitude}
+          </Typography>
+          <Typography variant='h6' className={classes.typography}>
+            Longitude: {longitude}
+          </Typography>
+          <Button
+            varient='contained'
+            type='submit'
+            onClick={handleSubmit}
+            className={classes.buttonCreate}
+          >
+            {buttonTitle}
+          </Button>
+        </form>
+      </Paper>
     </>
   )
 }
