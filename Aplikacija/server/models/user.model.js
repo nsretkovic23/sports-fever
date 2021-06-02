@@ -6,7 +6,9 @@ const userSchema = mongoose.Schema({
     password: {type:String, required:true},
     id: {type:String},
     credits:Number,
-    createdEvents: [{eventId:String}]
+    createdEvents: [{eventId:String, eventTitle:String}],
+    joinedEvents: [{eventId:String, eventTitle:String}],
+    notifications: [{description:String, isSeen:Number}]
 })
 
 let User = mongoose.model("User", userSchema);
