@@ -62,7 +62,7 @@ export const filterEvents = async (req, res) => {
         filteredEvents = filteredEvents.filter((el) => parseInt(el.price) > 500)
     }
 
-    console.log(filteredEvents)
+    //console.log(filteredEvents)
     res.status(200).json(filteredEvents)
   } catch (error) {
     res.status(404).json({ msg: error.message })
@@ -110,7 +110,7 @@ export const createSportEvent = async (req, res) => {
     await newSportEvent.save() //mongoose funkcija za cuvanje, u ovom pozivu se cuva novi ev u bazu
     const creatorUser = await User.findById(creator);
 
-    creatorUser.createdEvents.push({eventId:newSportEvent.id});
+    creatorUser.createdEvents.push({eventId:newSportEvent.id, eventTitle:newSportEvent.title});
 
     await User.findByIdAndUpdate(creator, creatorUser, {new:true});
     console.log(` SERVER : ${newSportEvent}`)
@@ -144,6 +144,48 @@ export const updateSportEvent = async (req, res) => {
   res.json(updatedSEvent)
 }
 
+export const deleteSportEvent = async (req,res) => {
+  const {id} = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id))
+    return res.status(404).send(`No post with id: ${id}`)
+    //ako je date.now manji od date eventa, znaci da ev jos nije odrzan, vratiti kredite
+    //preko participants fetchuj usera preko id i izbaci mu event iz kreator/joined liste
+  try {
+    const sportEv = await SportEvent.findById(id);
+    const evDate = new Date(sportEv.date);
+
+    if(Date.now() < evDate){
+      let creator = await User.findById(sportEv.creator) //kreator je nulti tj prvi participant u eventu
+      const newCreatedEvents = creator?.createdEvents.filter(ev => ev["eventId"]!==id); //uklanjamo kreatoru event iz createdEvents
+      creator.createdEvents= newCreatedEvents;
+
+      await User.findByIdAndUpdate(sportEv.creator, creator, {new:true}); 
+      
+      for(let i=1; i<sportEv.participants?.length; ++i)
+      {
+        let participant = await User.findById(sportEv.participants[i]["id"]);
+        let newJoinedEvs = participant.joinedEvents.filter(ev => ev["eventId"]!==id);
+
+        participant.credits += sportEv.price;
+        participant.joinedEvents = newJoinedEvs;
+        participant.notifications.push({description:`Event "${sportEv.title}" you joined has been canceled or deleted, you got your ${sportEv.price} credits back!`, isSeen:0});
+        
+        await User.findByIdAndUpdate(sportEv.participants[i]["id"], participant, {new:true});
+      }
+      
+      await SportEvent.findByIdAndDelete(id);
+      return res.status(200).json({message:"deleted succesfully"});
+    }
+    else
+    {
+      return res.status(200).json({message:"the event has already taken place and can not be deleted"});
+    }
+  } catch (error) {
+    res.status(404).json({message:"error while deleting event"});
+  }
+}
+
 export const getSportEventById = async (req, res) => {
   const { id } = req.params
 
@@ -173,6 +215,7 @@ export const joinEvent = async (req, res) => {
       userParticipant.credits -= sportEv.price;
       sportEv?.participants.push({id:userId});
       sportEv.free_spots-=1;
+      userParticipant?.joinedEvents.push({eventId:sportEv.id, eventTitle:sportEv.title});
 
       await User.findByIdAndUpdate(userId, userParticipant, {new:true});
       await SportEvent.findByIdAndUpdate(eventId, sportEv, {new:true})
