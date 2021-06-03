@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 import SportsIcon from '@material-ui/icons/Sports'
 import classNames from 'classnames'
+import decode from 'jwt-decode'
 import {
   AppBar,
   Toolbar,
@@ -87,11 +88,17 @@ export const Nav = () => {
 
   useEffect(() => {
     const token = user?.token
+    if (token) {
+      const decodedToken = decode(token)
+      if (decodedToken.exp * 1000 < new Date().getTime()) {
+        handleLogout()
+      }
+    }
     setUser(JSON.parse(localStorage.getItem('profile')))
   }, [location])
 
   const handleLogout = (ev) => {
-    ev.preventDefault()
+    ev?.preventDefault()
     dispatch({ type: 'LOGOUT' })
     handleClose()
     history.push('/')
@@ -105,7 +112,9 @@ export const Nav = () => {
           <Toolbar>
             <SportsIcon fontSize='large'></SportsIcon>
             <Typography variant='h4' className={classes.title}>
-              SportsFever
+              <Link to='/' className={classes.link}>
+                SportsFever
+              </Link>
             </Typography>
             <div>
               <div className={classes.headerButtons}>
@@ -151,7 +160,7 @@ export const Nav = () => {
                       <MenuItem onClick={handleClose}>
                         <Link
                           to={{
-                            pathname: `/userProfile/.${user.result._id}`,
+                            pathname: `/userProfile/${user.result._id}`,
                           }}
                           className={classes.link}
                         >
