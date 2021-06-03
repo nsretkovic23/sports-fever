@@ -157,7 +157,7 @@ export const MapWithEvents = ({ find, radius, setRadius }) => {
               <Button className={classes.buttons} fullWidth>
                 <Link
                   to={{
-                    pathname: `/singleEvent/.${selectedMarker._id}`,
+                    pathname: `/singleEvent/${selectedMarker._id}`,
                   }}
                   className={classes.link}
                 >

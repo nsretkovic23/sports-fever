@@ -74,14 +74,14 @@ export const UserProfile = () => {
   const [display, setDisplay] = useState('info')
   const location = useLocation()
   const classes = useStyles()
-  const _id = location.pathname.split('.')
+  const _id = location.pathname.split('userProfile/')
   const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(getUserById(_id[1]))
   }, [_id[1], location])
 
-  console.log(userr)
+  console.log(location.pathname.split('userProfile/'))
   return (
     <>
       <Grid container direction='row' className={classes.container}>
@@ -103,7 +103,12 @@ export const UserProfile = () => {
               {userr?.name}
             </Typography>
           </Grid>
-          <Grid item direction='column' className={classes.sideBarButtons}>
+          <Grid
+            container
+            item
+            direction='column'
+            className={classes.sideBarButtons}
+          >
             <Button
               color='inherit'
               startIcon={<AccountBoxIcon></AccountBoxIcon>}
@@ -139,7 +144,13 @@ export const UserProfile = () => {
             </Button>
           </Grid>
         </Grid>
-        <Grid item xs={8} direction='column' className={classes.content}>
+        <Grid
+          container
+          item
+          xs={8}
+          direction='column'
+          className={classes.content}
+        >
           <Paper className={classes.paper} elevation={10}>
             {display === 'info' ? (
               <>
@@ -156,7 +167,7 @@ export const UserProfile = () => {
                   >
                     <Link
                       to={{
-                        pathname: `/singleEvent/.${ev.eventId}`,
+                        pathname: `/singleEvent/${ev.eventId}`,
                       }}
                       className={classes.link}
                     >
