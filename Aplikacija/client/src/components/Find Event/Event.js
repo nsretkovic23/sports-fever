@@ -95,8 +95,9 @@ export const Event = () => {
   const location = useLocation()
   const event = useSelector((state) => state.events)
   const [refresh, setRefresh] = useState(null)
-  const _id = location.pathname.split('.')
+  const _id = location.pathname.split('singleEvent/')
   const classes = useStyles()
+  const [selectedDate, handleDateChange] = useState('')
   const [newEvent, setNewEvent] = useState({
     title: '',
     description: '',
@@ -118,14 +119,20 @@ export const Event = () => {
 
   useEffect(() => {
     dispatch(getEvent(_id[1]))
-    console.log('fetching')
-  }, [dispatch, refresh])
+    //console.log('fetching')
+    //console.log(event)
+    //console.log(_id[1])
+  }, [_id[1], refresh, dispatch])
 
   useEffect(() => {
     if (event) {
+      //console.log('nov')
+      //console.log(newEvent)
       setNewEvent(event)
+      handleDateChange(event.date)
+      //console.log(selectedDate)
     }
-  }, [event])
+  }, [event, refresh])
 
   const handleChange = (e) => {
     e.preventDefault()
@@ -137,7 +144,9 @@ export const Event = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     if (newEvent.title && newEvent.description && newEvent.free_spots > 0) {
-      dispatch(updateEvent(event._id, newEvent))
+      const newDate = new Date(selectedDate).toISOString()
+      const newInfo = { ...newEvent, date: newDate }
+      dispatch(updateEvent(event._id, newInfo))
       handleClose()
       setRefresh((prev) => !prev)
     } else {
@@ -157,6 +166,11 @@ export const Event = () => {
     dispatch(joinEvent(data))
   }
 
+  // console.log(selectedDate)
+  // console.log(_id[1])
+  // console.log(newEvent)
+  // console.log(event)
+  // console.log('------------------------')
   return (
     <>
       <Paper className={classes.paper} elevation={10}>
@@ -241,6 +255,8 @@ export const Event = () => {
             longitude={newEvent.lng}
             latitude={newEvent.lat}
             buttonTitle={'Update'}
+            selectedDate={selectedDate}
+            handleDateChange={handleDateChange}
           />
         </DialogContent>
       </Dialog>

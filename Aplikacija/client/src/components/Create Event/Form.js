@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
+import DateFnsUtils from '@date-io/date-fns' // choose your lib
 
 import {
   Typography,
@@ -84,6 +86,8 @@ export const Form = ({
   longitude,
   latitude,
   buttonTitle,
+  selectedDate,
+  handleDateChange,
 }) => {
   const classes = useStyles()
   const [open, setOpen] = useState(false)
@@ -175,19 +179,13 @@ export const Form = ({
               )
             })}
           </Select>
-          <TextField
-            id='date'
-            label='Date'
-            type='date'
-            name='date'
-            value={event.date.split('T')[0]}
-            fullWidth
-            onChange={handleChange}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            className={classes.tField}
-          />
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <DatePicker
+              value={selectedDate}
+              onChange={handleDateChange}
+              disablePast={true}
+            />
+          </MuiPickersUtilsProvider>
           <Typography variant='h6' className={classes.typography}>
             Latitude: {latitude}
           </Typography>

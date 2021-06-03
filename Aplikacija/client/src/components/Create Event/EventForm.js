@@ -11,6 +11,7 @@ export const EventForm = () => {
   const [longitude, setLongitude] = useState('')
   const [latitude, setLatitude] = useState('')
   const user = JSON.parse(localStorage.getItem('profile'))
+  const [selectedDate, handleDateChange] = useState(new Date())
   const dispatch = useDispatch()
 
   const handleChange = (e) => {
@@ -32,8 +33,11 @@ export const EventForm = () => {
       let creator = ''
       if (user?.result?._id) creator = user?.result?._id
       else creator = user?.result?.googleId
+      const newDate = selectedDate.toISOString().split('T')
+
       const newEvent = {
         ...event,
+        date: newDate[0],
         id: new Date().getTime().toString(),
         lng: longitude,
         lat: latitude,
@@ -64,6 +68,10 @@ export const EventForm = () => {
     return <h1>Sign in if you want to create event.</h1>
   }
 
+  /*console.log(selectedDate.toISOString())
+  console.log('-')
+  console.log(event.date)
+  */
   return (
     <>
       <Grid container direction='row'>
@@ -75,6 +83,8 @@ export const EventForm = () => {
             longitude={longitude}
             latitude={latitude}
             buttonTitle={'Create'}
+            selectedDate={selectedDate}
+            handleDateChange={handleDateChange}
           />
         </Grid>
         <Grid item xs={9}>

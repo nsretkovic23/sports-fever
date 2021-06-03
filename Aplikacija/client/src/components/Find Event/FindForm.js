@@ -4,6 +4,8 @@ import { options } from '../Create Event/Form'
 import { center } from '../Maps/MapConst'
 import { Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
+import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
+import DateFnsUtils from '@date-io/date-fns' // choose your lib
 import {
   Typography,
   Paper,
@@ -71,6 +73,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export const FindForm = () => {
+  const [selectedDate, handleDateChange] = useState(new Date())
   const [find, setFind] = useState({
     date: '',
     free_spots: '',
@@ -112,7 +115,8 @@ export const FindForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    setFind({ ...event, findEvent: 'true' })
+    const newDate = selectedDate.toISOString().split('T')
+    setFind({ ...event, date: newDate[0], findEvent: 'true' })
   }
 
   const resetEvent = (ev) => {
@@ -177,19 +181,13 @@ export const FindForm = () => {
                 )
               })}
             </Select>
-            <TextField
-              id='date'
-              label='Date'
-              type='date'
-              name='date'
-              value={event.date}
-              fullWidth
-              onChange={handleChange}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              className={classes.tField}
-            />
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <DatePicker
+                value={selectedDate}
+                onChange={handleDateChange}
+                disablePast={true}
+              />
+            </MuiPickersUtilsProvider>
             <ButtonGroup variant='contained' className={classes.buttonGroup}>
               <Button
                 varient='contained'
