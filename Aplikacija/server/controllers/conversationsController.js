@@ -2,6 +2,7 @@ import mongoose from 'mongoose'
 import express from 'express'
 import Conversation from '../models/conversation.model.js';
 import User from '../models/user.model.js'
+import { getMessages } from './messagesController.js';
 
 export const makeNewConversation = async (creatorid, eventid) =>{
     const newConversation = new Conversation({
@@ -36,9 +37,12 @@ export const joinConversation = async (userid, eventid) =>{
 export const getConversation = async (eventId_param) => {
     try {
         const specificConversation = await Conversation.findOne({eventId : eventId_param})
-        //console.log(specificConversation);
-        return specificConversation;
+        const allMessages = await getMessages(specificConversation.id);
+        
+        return {specificConversation, allMessages};
     } catch (error) {
-        console.log("greska getconvo");
+        throw new Error("error loading conversation for this event!");
     }
 }
+
+

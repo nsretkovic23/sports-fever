@@ -6,8 +6,11 @@ const messageSchema = mongoose.Schema(
     conversationId: {
         type: String,
       },
-      sender: {
+      senderId: {
         type: String,
+      },
+      senderName: {
+        type:String,
       },
       text: {
         type: String,

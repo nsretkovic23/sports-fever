@@ -3,11 +3,14 @@ import express from 'express'
 
 import SportEvent from '../models/sportEvent.model.js'
 import User from '../models/user.model.js'
+import Message from '../models/message.model.js'
+import Conversation from '../models/conversation.model.js'
 import {
   getConversation,
   joinConversation,
   makeNewConversation,
 } from './conversationsController.js'
+import { getMessages, deleteMessage } from './messagesController.js'
 
 const router = express.Router()
 
@@ -166,6 +169,16 @@ export const deleteSportEvent = async (req, res) => {
     const evDate = new Date(sportEv.date)
 
     if (Date.now() < evDate) {
+
+      const conversationForDeletion = await getConversation(sportEv.id);
+
+     for(let i=0; i<conversationForDeletion.allMessages.length; ++i)
+     {
+       await Message.findByIdAndDelete(conversationForDeletion.allMessages[i].id);
+     }
+      
+      await Conversation.findByIdAndDelete(conversationForDeletion.specificConversation.id);
+
       let creator = await User.findById(sportEv.creator) //kreator je nulti tj prvi participant u eventu
       const newCreatedEvents = creator?.createdEvents.filter(
         (ev) => ev['eventId'] !== id
@@ -212,7 +225,7 @@ export const getSportEventById = async (req, res) => {
   try {
     const SportEv = await SportEvent.findById(id)
     const eventConversation = await getConversation(id)
-    console.log(eventConversation)
+    //console.log(eventConversation)
     res.status(200).json({ SportEv, eventConversation })
   } catch (error) {
     res.status(404).json({ message: error.message })

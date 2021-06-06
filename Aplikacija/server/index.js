@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import sportEventRoutes from './routes/sportEvents.js';
 import userRoutes from './routes/users.js';
+import messageRoutes from './routes/message.js'
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.use(cors());
 
 app.use('/event', sportEventRoutes);
 app.use('/user', userRoutes);
+app.use('/message', messageRoutes);
 
 
 const CONNECTION_URL='mongodb+srv://sfadmin:softversko123@cluster0.qruqt.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';

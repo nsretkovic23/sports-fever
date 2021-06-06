@@ -94,7 +94,8 @@ export const Event = () => {
   const user = JSON.parse(localStorage.getItem('profile'))
   const location = useLocation()
   const event = useSelector((state) => state.events.SportEv)
-  const conversation = useSelector((state) => state.events.eventConversation)
+  const conversation = useSelector((state) => state.events.eventConversation?.specificConversation)
+  const message = useSelector((state) => state.events.eventConversation?.allMessages)
   const [refresh, setRefresh] = useState(null)
   const _id = location.pathname.split('singleEvent/')
   const classes = useStyles()
@@ -168,6 +169,7 @@ export const Event = () => {
   }
 
   console.log(conversation)
+  console.log(message);
   return (
     <>
       <Paper className={classes.paper} elevation={10}>
