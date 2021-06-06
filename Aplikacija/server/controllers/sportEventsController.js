@@ -3,6 +3,7 @@ import express from 'express'
 
 import SportEvent from '../models/sportEvent.model.js'
 import User from '../models/user.model.js'
+import { getConversation, joinConversation, makeNewConversation } from './conversationsController.js'
 
 const router = express.Router()
 
@@ -109,7 +110,8 @@ export const createSportEvent = async (req, res) => {
   try {
     await newSportEvent.save() //mongoose funkcija za cuvanje, u ovom pozivu se cuva novi ev u bazu
     const creatorUser = await User.findById(creator);
-
+    
+    await makeNewConversation(creator, newSportEvent.id);
     creatorUser.createdEvents.push({eventId:newSportEvent.id, eventTitle:newSportEvent.title});
 
     await User.findByIdAndUpdate(creator, creatorUser, {new:true});
@@ -191,7 +193,8 @@ export const getSportEventById = async (req, res) => {
 
   try {
     const SportEv = await SportEvent.findById(id)
-    res.status(200).json(SportEv)
+    const eventConversation = getConversation(id);
+    res.status(200).json({SportEv, eventConversation})
   } catch (error) {
     res.status(404).json({ message: error.message })
   }
@@ -216,9 +219,10 @@ export const joinEvent = async (req, res) => {
       sportEv?.participants.push({id:userId});
       sportEv.free_spots-=1;
       userParticipant?.joinedEvents.push({eventId:sportEv.id, eventTitle:sportEv.title});
-
+      
       await User.findByIdAndUpdate(userId, userParticipant, {new:true});
       await SportEvent.findByIdAndUpdate(eventId, sportEv, {new:true})
+      await joinConversation(userId, sportEv.id);
       res.status(200).json(sportEv);
     }
     else
@@ -227,6 +231,6 @@ export const joinEvent = async (req, res) => {
     }catch(error){
       res.status(404).json({message:"join event error"});
     }
-
+ 
 }
 export default router
