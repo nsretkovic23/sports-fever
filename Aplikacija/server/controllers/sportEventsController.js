@@ -3,7 +3,11 @@ import express from 'express'
 
 import SportEvent from '../models/sportEvent.model.js'
 import User from '../models/user.model.js'
-import { getConversation, joinConversation, makeNewConversation } from './conversationsController.js'
+import {
+  getConversation,
+  joinConversation,
+  makeNewConversation,
+} from './conversationsController.js'
 
 const router = express.Router()
 
@@ -92,7 +96,7 @@ export const createSportEvent = async (req, res) => {
     price,
     creator,
   } = req.body
-  let participants=[{id:creator}];
+  let participants = [{ id: creator }]
 
   const newSportEvent = new SportEvent({
     title,
@@ -104,17 +108,20 @@ export const createSportEvent = async (req, res) => {
     lng,
     price,
     creator,
-    participants
+    participants,
   })
 
   try {
     await newSportEvent.save() //mongoose funkcija za cuvanje, u ovom pozivu se cuva novi ev u bazu
-    const creatorUser = await User.findById(creator);
-    
-    await makeNewConversation(creator, newSportEvent.id);
-    creatorUser.createdEvents.push({eventId:newSportEvent.id, eventTitle:newSportEvent.title});
+    const creatorUser = await User.findById(creator)
 
-    await User.findByIdAndUpdate(creator, creatorUser, {new:true});
+    await makeNewConversation(creator, newSportEvent.id)
+    creatorUser.createdEvents.push({
+      eventId: newSportEvent.id,
+      eventTitle: newSportEvent.title,
+    })
+
+    await User.findByIdAndUpdate(creator, creatorUser, { new: true })
     console.log(` SERVER : ${newSportEvent}`)
     res.status(201).json(newSportEvent) //201 uspesno kreiranje
   } catch (err) {
@@ -124,7 +131,8 @@ export const createSportEvent = async (req, res) => {
 
 export const updateSportEvent = async (req, res) => {
   const { id } = req.params
-  const { title, description, date, free_spots, sport, lat, lng, price } = req.body
+  const { title, description, date, free_spots, sport, lat, lng, price } =
+    req.body
 
   if (!mongoose.Types.ObjectId.isValid(id))
     return res.status(404).send(`No post with id: ${id}`)
@@ -146,45 +154,55 @@ export const updateSportEvent = async (req, res) => {
   res.json(updatedSEvent)
 }
 
-export const deleteSportEvent = async (req,res) => {
-  const {id} = req.params;
+export const deleteSportEvent = async (req, res) => {
+  const { id } = req.params
 
   if (!mongoose.Types.ObjectId.isValid(id))
     return res.status(404).send(`No post with id: ${id}`)
-    //ako je date.now manji od date eventa, znaci da ev jos nije odrzan, vratiti kredite
-    //preko participants fetchuj usera preko id i izbaci mu event iz kreator/joined liste
+  //ako je date.now manji od date eventa, znaci da ev jos nije odrzan, vratiti kredite
+  //preko participants fetchuj usera preko id i izbaci mu event iz kreator/joined liste
   try {
-    const sportEv = await SportEvent.findById(id);
-    const evDate = new Date(sportEv.date);
+    const sportEv = await SportEvent.findById(id)
+    const evDate = new Date(sportEv.date)
 
-    if(Date.now() < evDate){
+    if (Date.now() < evDate) {
       let creator = await User.findById(sportEv.creator) //kreator je nulti tj prvi participant u eventu
-      const newCreatedEvents = creator?.createdEvents.filter(ev => ev["eventId"]!==id); //uklanjamo kreatoru event iz createdEvents
-      creator.createdEvents= newCreatedEvents;
+      const newCreatedEvents = creator?.createdEvents.filter(
+        (ev) => ev['eventId'] !== id
+      ) //uklanjamo kreatoru event iz createdEvents
+      creator.createdEvents = newCreatedEvents
 
-      await User.findByIdAndUpdate(sportEv.creator, creator, {new:true}); 
-      
-      for(let i=1; i<sportEv.participants?.length; ++i)
-      {
-        let participant = await User.findById(sportEv.participants[i]["id"]);
-        let newJoinedEvs = participant.joinedEvents.filter(ev => ev["eventId"]!==id);
+      await User.findByIdAndUpdate(sportEv.creator, creator, { new: true })
 
-        participant.credits += sportEv.price;
-        participant.joinedEvents = newJoinedEvs;
-        participant.notifications.push({description:`Event "${sportEv.title}" you joined has been canceled or deleted, you got your ${sportEv.price} credits back!`, isSeen:0});
-        
-        await User.findByIdAndUpdate(sportEv.participants[i]["id"], participant, {new:true});
+      for (let i = 1; i < sportEv.participants?.length; ++i) {
+        let participant = await User.findById(sportEv.participants[i]['id'])
+        let newJoinedEvs = participant.joinedEvents.filter(
+          (ev) => ev['eventId'] !== id
+        )
+
+        participant.credits += sportEv.price
+        participant.joinedEvents = newJoinedEvs
+        participant.notifications.push({
+          description: `Event "${sportEv.title}" you joined has been canceled or deleted, you got your ${sportEv.price} credits back!`,
+          isSeen: 0,
+        })
+
+        await User.findByIdAndUpdate(
+          sportEv.participants[i]['id'],
+          participant,
+          { new: true }
+        )
       }
-      
-      await SportEvent.findByIdAndDelete(id);
-      return res.status(200).json({message:"deleted succesfully"});
-    }
-    else
-    {
-      return res.status(200).json({message:"the event has already taken place and can not be deleted"});
+
+      await SportEvent.findByIdAndDelete(id)
+      return res.status(200).json({ message: 'deleted succesfully' })
+    } else {
+      return res.status(200).json({
+        message: 'the event has already taken place and can not be deleted',
+      })
     }
   } catch (error) {
-    res.status(404).json({message:"error while deleting event"});
+    res.status(404).json({ message: 'error while deleting event' })
   }
 }
 
@@ -193,44 +211,41 @@ export const getSportEventById = async (req, res) => {
 
   try {
     const SportEv = await SportEvent.findById(id)
-    const eventConversation = getConversation(id);
-    res.status(200).json({SportEv, eventConversation})
+    const eventConversation = await getConversation(id)
+    console.log(eventConversation)
+    res.status(200).json({ SportEv, eventConversation })
   } catch (error) {
     res.status(404).json({ message: error.message })
   }
 }
 
 export const joinEvent = async (req, res) => {
-  const {userId, eventId} = req.body;
+  const { userId, eventId } = req.body
 
-  try{
-    const sportEv = await SportEvent.findById(eventId);
-    const userParticipant = await User.findById(userId);
+  try {
+    const sportEv = await SportEvent.findById(eventId)
+    const userParticipant = await User.findById(userId)
 
-    if(sportEv.participants.some(item => item.id === userId)){
-      res.status(404).json({message:"user already joined this event"})
-    }
-    else if(sportEv.price > userParticipant.credits)
-    {
-      res.status(404).json({message:"not enough credits"})
-    }
-    else if(sportEv.free_spots > 0){
-      userParticipant.credits -= sportEv.price;
-      sportEv?.participants.push({id:userId});
-      sportEv.free_spots-=1;
-      userParticipant?.joinedEvents.push({eventId:sportEv.id, eventTitle:sportEv.title});
-      
-      await User.findByIdAndUpdate(userId, userParticipant, {new:true});
-      await SportEvent.findByIdAndUpdate(eventId, sportEv, {new:true})
-      await joinConversation(userId, sportEv.id);
-      res.status(200).json(sportEv);
-    }
-    else
-      res.status(404).json({message:"no more free spots"});
- 
-    }catch(error){
-      res.status(404).json({message:"join event error"});
-    }
- 
+    if (sportEv.participants.some((item) => item.id === userId)) {
+      res.status(404).json({ message: 'user already joined this event' })
+    } else if (sportEv.price > userParticipant.credits) {
+      res.status(404).json({ message: 'not enough credits' })
+    } else if (sportEv.free_spots > 0) {
+      userParticipant.credits -= sportEv.price
+      sportEv?.participants.push({ id: userId })
+      sportEv.free_spots -= 1
+      userParticipant?.joinedEvents.push({
+        eventId: sportEv.id,
+        eventTitle: sportEv.title,
+      })
+
+      await User.findByIdAndUpdate(userId, userParticipant, { new: true })
+      await SportEvent.findByIdAndUpdate(eventId, sportEv, { new: true })
+      await joinConversation(userId, sportEv.id)
+      res.status(200).json(sportEv)
+    } else res.status(404).json({ message: 'no more free spots' })
+  } catch (error) {
+    res.status(404).json({ message: 'join event error' })
+  }
 }
 export default router

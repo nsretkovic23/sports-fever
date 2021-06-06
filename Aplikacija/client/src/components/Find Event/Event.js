@@ -93,7 +93,8 @@ const DialogActions = withStyles((theme) => ({
 export const Event = () => {
   const user = JSON.parse(localStorage.getItem('profile'))
   const location = useLocation()
-  const event = useSelector((state) => state.events)
+  const event = useSelector((state) => state.events.SportEv)
+  const conversation = useSelector((state) => state.events.eventConversation)
   const [refresh, setRefresh] = useState(null)
   const _id = location.pathname.split('singleEvent/')
   const classes = useStyles()
@@ -166,16 +167,12 @@ export const Event = () => {
     dispatch(joinEvent(data))
   }
 
-  // console.log(selectedDate)
-  // console.log(_id[1])
-  // console.log(newEvent)
-  // console.log(event)
-  // console.log('------------------------')
+  console.log(conversation)
   return (
     <>
       <Paper className={classes.paper} elevation={10}>
-        {user?.result?.googleId === event.creator ||
-        user?.result?._id === event.creator ? (
+        {user?.result?.googleId === event?.creator ||
+        user?.result?._id === event?.creator ? (
           <ButtonGroup variant='contained' className={classes.buttonGroup}>
             <Button
               className={classes.buttons}
