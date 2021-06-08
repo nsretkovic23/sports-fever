@@ -169,15 +169,17 @@ export const deleteSportEvent = async (req, res) => {
     const evDate = new Date(sportEv.date)
 
     if (Date.now() < evDate) {
+      const conversationForDeletion = await getConversation(sportEv.id)
 
-      const conversationForDeletion = await getConversation(sportEv.id);
+      for (let i = 0; i < conversationForDeletion.allMessages.length; ++i) {
+        await Message.findByIdAndDelete(
+          conversationForDeletion.allMessages[i].id
+        )
+      }
 
-     for(let i=0; i<conversationForDeletion.allMessages.length; ++i)
-     {
-       await Message.findByIdAndDelete(conversationForDeletion.allMessages[i].id);
-     }
-      
-      await Conversation.findByIdAndDelete(conversationForDeletion.specificConversation.id);
+      await Conversation.findByIdAndDelete(
+        conversationForDeletion.specificConversation.id
+      )
 
       let creator = await User.findById(sportEv.creator) //kreator je nulti tj prvi participant u eventu
       const newCreatedEvents = creator?.createdEvents.filter(

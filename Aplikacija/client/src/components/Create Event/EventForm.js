@@ -68,10 +68,6 @@ export const EventForm = () => {
     return <h1>Sign in if you want to create event.</h1>
   }
 
-  /*console.log(selectedDate.toISOString())
-  console.log('-')
-  console.log(event.date)
-  */
   return (
     <>
       <Grid container direction='row'>
