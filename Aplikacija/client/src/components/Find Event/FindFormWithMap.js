@@ -17,62 +17,9 @@ import {
   ButtonGroup,
 } from '@material-ui/core'
 import classNames from 'classnames'
+import useStyles from './style'
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    '& .MuiTextField-root': {
-      margin: theme.spacing(1),
-    },
-  },
-  paper: {
-    marginTop: theme.spacing(6),
-    marginLeft: theme.spacing(2),
-    marginRight: theme.spacing(2),
-    padding: theme.spacing(3),
-    backgroundColor: '#04D4F0',
-  },
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-    flexWrap: 'wrap',
-  },
-  fileInput: {
-    width: '97%',
-    margin: '10px 0',
-    alignSelf: 'center',
-  },
-  buttonSubmit: {
-    marginBottom: 10,
-  },
-  tField: {
-    alignSelf: 'center',
-    backgroundColor: '#04ECF0',
-    color: 'black',
-  },
-  buttons: {
-    backgroundColor: '#04ECF0',
-    alignSelf: 'center',
-    '&:hover': {
-      backgroundColor: '#04ECF0',
-      boxShadow:
-        '0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19)',
-    },
-  },
-  typography: {
-    marginTop: '10px',
-  },
-  title: {
-    marginBottom: '20px',
-    alignSelf: 'center',
-    fontWeight: 'bold',
-  },
-  buttonGroup: {
-    marginTop: '20px',
-    alignSelf: 'center',
-  },
-}))
-
-export const FindForm = () => {
+export const FindFormWithMap = () => {
   const [selectedDate, handleDateChange] = useState(new Date())
   const [find, setFind] = useState({
     date: '',
@@ -87,14 +34,11 @@ export const FindForm = () => {
     sport: '',
     price: '',
   })
-
   const [radius, setRadius] = useState({
     lat: center.lat,
     lng: center.lng,
   })
-
   const classes = useStyles()
-
   const [open, setOpen] = useState(false)
 
   const handleClose = () => {
@@ -133,8 +77,8 @@ export const FindForm = () => {
   return (
     <Grid container direction='row'>
       <Grid item xs={3}>
-        <Paper className={classes.paper} elevation={10}>
-          <form className={classNames(classes.root, classes.form)}>
+        <Paper className={classes.paperForm} elevation={10}>
+          <findFrom className={classNames(classes.root, classes.findFrom)}>
             <Typography variant='h5' className={classes.title}>
               Find any event
             </Typography>
@@ -188,12 +132,15 @@ export const FindForm = () => {
                 disablePast={true}
               />
             </MuiPickersUtilsProvider>
-            <ButtonGroup variant='contained' className={classes.buttonGroup}>
+            <ButtonGroup
+              variant='contained'
+              className={classes.buttonGroupForm}
+            >
               <Button
                 varient='contained'
                 type='submit'
                 onClick={handleSubmit}
-                className={classes.buttons}
+                className={classes.buttonsForm}
                 fullWidth
               >
                 Find
@@ -203,12 +150,12 @@ export const FindForm = () => {
                 type='submit'
                 onClick={resetEvent}
                 fullWidth
-                className={classes.buttons}
+                className={classes.buttonsForm}
               >
                 Show all
               </Button>
             </ButtonGroup>
-          </form>
+          </findFrom>
         </Paper>
       </Grid>
       <Grid item xs={9}>

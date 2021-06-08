@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { Search, Locate } from './MapFunctions'
 import { useSelector, useDispatch } from 'react-redux'
 import { getEvents } from '../../actions/event'
-import { makeStyles } from '@material-ui/core/styles'
 import {
   GoogleMap,
   useLoadScript,
@@ -13,45 +12,7 @@ import { Typography, Paper, Button } from '@material-ui/core'
 import { libraries, mapContainerStyle, center } from './MapConst'
 import '@reach/combobox/styles.css'
 import { Link } from 'react-router-dom'
-
-const useStyles = makeStyles((theme) => ({
-  map: {
-    marginTop: '30px',
-    marginRight: '10px',
-    marginBottom: '15px',
-    boxShadow: '0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19)',
-  },
-  link: {
-    textDecoration: 'none',
-    color: 'black',
-  },
-  buttons: {
-    backgroundColor: '#04ECF0',
-    marginTop: '20px',
-    marginBottom: '5px',
-    alignSelf: 'center',
-    textAlign: 'center',
-    '&:hover': {
-      backgroundColor: '#04ECF0',
-      boxShadow:
-        '0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19)',
-    },
-  },
-  paper: {
-    padding: theme.spacing(3),
-    alignSelf: 'center',
-  },
-  title: {
-    alignSelf: 'center',
-    textAlign: 'center',
-    fontWeight: 'bold',
-    marginBottom: '10px',
-  },
-  typography: {
-    fontSize: '20px',
-    padding: theme.spacing(1),
-  },
-}))
+import useStyles from './styles'
 
 export const MapWithEvents = ({ find, radius, setRadius }) => {
   const eventArray = useSelector((state) => state.events)
@@ -61,7 +22,6 @@ export const MapWithEvents = ({ find, radius, setRadius }) => {
     libraries,
   })
   const [selectedMarker, setSelectedMarker] = useState(null)
-
   const dispatch = useDispatch()
   const mapRef = useRef()
 

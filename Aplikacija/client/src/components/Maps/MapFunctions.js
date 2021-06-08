@@ -9,38 +9,10 @@ import {
   ComboboxList,
   ComboboxOption,
 } from '@reach/combobox'
-import { makeStyles } from '@material-ui/core/styles'
 import '@reach/combobox/styles.css'
 import { IconButton } from '@material-ui/core'
 import MyLocationIcon from '@material-ui/icons/MyLocation'
-
-const useStyles = makeStyles((theme) => ({
-  geolocation: {
-    color: '#000000',
-    backgroundColor: '#FFFFFF',
-    position: 'absolute',
-    zIndex: '10',
-    right: '70px',
-    top: '107px',
-    width: '35px',
-    height: '35px',
-    boxShadow: '0 0 0 3px #a1a19f',
-  },
-  searchLocation: {
-    position: 'absolute',
-    zIndex: '10',
-    left: '57%',
-    marginTop: '5px',
-  },
-  searchLocationInput: {
-    border: '4px solid #04ECF0',
-    width: '200px',
-    height: '25px',
-    boxShadow: '0 8px 12px 0 rgba(0,0,0,0.24)',
-    fontSize: '16px',
-    padding: '2px',
-  },
-}))
+import useStyles from './styles'
 
 export function Search({ panTo }) {
   const {

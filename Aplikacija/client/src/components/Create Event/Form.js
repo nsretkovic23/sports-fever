@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
 import DateFnsUtils from '@date-io/date-fns' // choose your lib
-
 import {
   Typography,
   Paper,
@@ -11,8 +10,8 @@ import {
   Select,
   MenuItem,
 } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
 import classNames from 'classnames'
+import useStyles from './style'
 
 export const options = [
   { value: 'all', label: 'All' },
@@ -21,63 +20,6 @@ export const options = [
   { value: 'odbojka', label: 'Odbojka' },
   { value: 'hokej', label: 'Hokej' },
 ]
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    '& .MuiTextField-root': {
-      margin: theme.spacing(1),
-    },
-  },
-  paperForCreate: {
-    marginTop: theme.spacing(6),
-    marginLeft: theme.spacing(2),
-    marginRight: theme.spacing(2),
-    padding: theme.spacing(3),
-    backgroundColor: '#04D4F0',
-  },
-  paperForUpdate: {
-    marginLeft: theme.spacing(2),
-    marginRight: theme.spacing(2),
-    padding: theme.spacing(3),
-    backgroundColor: '#04D4F0',
-  },
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-    flexWrap: 'wrap',
-  },
-  fileInput: {
-    width: '97%',
-    margin: '10px 0',
-  },
-  buttonSubmit: {
-    marginBottom: 10,
-  },
-  tField: {
-    alignSelf: 'center',
-    backgroundColor: '#04ECF0',
-    color: 'black',
-  },
-  buttonCreate: {
-    backgroundColor: '#04ECF0',
-    alignSelf: 'center',
-    marginTop: '10px',
-    width: '20%',
-    '&:hover': {
-      backgroundColor: '#04ECF0',
-      boxShadow:
-        '0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19)',
-    },
-  },
-  typography: {
-    marginTop: '10px',
-  },
-  title: {
-    marginBottom: '20px',
-    alignSelf: 'center',
-    fontWeight: 'bold',
-  },
-}))
 
 export const Form = ({
   event,
@@ -100,6 +42,7 @@ export const Form = ({
   const handleOpen = () => {
     setOpen(true)
   }
+
   return (
     <>
       <Paper

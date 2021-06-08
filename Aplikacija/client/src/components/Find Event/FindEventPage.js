@@ -1,7 +1,7 @@
 import React from 'react'
 import '../../styles.css'
-import { FindForm } from './FindForm'
+import { FindFormWithMap } from './FindFormWithMap'
 
 export const FindEventPage = () => {
-  return <FindForm></FindForm>
+  return <FindFormWithMap></FindFormWithMap>
 }

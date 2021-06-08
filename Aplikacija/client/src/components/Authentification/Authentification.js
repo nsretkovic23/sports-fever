@@ -19,30 +19,32 @@ import Icon from './icon'
 
 export const Authentification = () => {
   const [isSignup, setIsSignup] = useState(false)
-  const classes = useStyles()
-  const [data, setData] = useState({
+  const [showPassword, setShowPassword] = useState(false)
+  const [userData, setUserData] = useState({
     firstName: '',
     lastName: '',
     email: '',
     password: '',
     confirmPassword: '',
   })
+
+  const classes = useStyles()
   const dispatch = useDispatch()
   const history = useHistory()
-  const [showPassword, setShowPassword] = useState(false)
+
   const handleShowPassword = () => setShowPassword(!showPassword)
 
   const handleSubmit = (ev) => {
     ev.preventDefault()
     if (isSignup) {
-      dispatch(signup(data, history))
+      dispatch(signup(userData, history))
     } else {
-      dispatch(signin(data, history))
+      dispatch(signin(userData, history))
     }
   }
 
   const handleChange = (ev) => {
-    setData({ ...data, [ev.target.name]: ev.target.value })
+    setUserData({ ...userData, [ev.target.name]: ev.target.value })
   }
 
   const switchMode = (ev) => {
@@ -55,7 +57,7 @@ export const Authentification = () => {
     const result = res?.profileObj
     const token = res?.tokenId
     try {
-      dispatch({ type: AUTH, data: { result, token } })
+      dispatch({ type: AUTH, userData: { result, token } })
       history.push('/')
     } catch (error) {
       console.log(error)
@@ -87,14 +89,14 @@ export const Authentification = () => {
                     handleChange={handleChange}
                     autoFocus
                     half
-                    value={data.firstName}
+                    value={userData.firstName}
                   />
                   <Input
                     name='lastName'
                     label='Last Name'
                     handleChange={handleChange}
                     half
-                    value={data.lastName}
+                    value={userData.lastName}
                   />
                 </>
               )}
@@ -103,7 +105,7 @@ export const Authentification = () => {
                 label='Email Address'
                 handleChange={handleChange}
                 type='email'
-                value={data.email}
+                value={userData.email}
               />
               <Input
                 name='password'
@@ -111,7 +113,7 @@ export const Authentification = () => {
                 handleChange={handleChange}
                 type={showPassword ? 'text' : 'password'}
                 handleShowPassword={handleShowPassword}
-                value={data.password}
+                value={userData.password}
               />
               {isSignup && (
                 <Input
@@ -119,7 +121,7 @@ export const Authentification = () => {
                   label='Repeat Password'
                   handleChange={handleChange}
                   type='password'
-                  value={data.confirmPassword}
+                  value={userData.confirmPassword}
                 />
               )}
             </Grid>
@@ -133,7 +135,7 @@ export const Authentification = () => {
               {isSignup ? 'Sign Up' : 'Sign In'}
             </Button>
             <GoogleLogin
-              clientId='550565549351-jj2d1n0frhisdl9443afb2ou9j4966dr.apps.googleusercontent.com'
+              clientId={process.env.GOOGLE_ID}
               render={(renderProps) => (
                 <Button
                   className={classes.googleButton}

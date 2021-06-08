@@ -1,33 +1,24 @@
-import {
-  FETCH_ALL,
-  FETCH_SINGLE,
-  CREATE,
-  FETCH_NEARBY,
-  UPDATE,
-  DELETE,
-  JOIN,
-  MESSAGE,
-} from '../constants/actionTypes'
+import * as actionType from '../constants/actionTypes'
 
 export default (events = [], action) => {
   switch (action.type) {
-    case FETCH_ALL:
+    case actionType.FETCH_ALL:
       return action.payload
-    case FETCH_SINGLE:
+    case actionType.FETCH_SINGLE:
       return action.payload
-    case FETCH_NEARBY:
+    case actionType.FETCH_NEARBY:
       return action.payload
-    case JOIN:
+    case actionType.JOIN:
       return action.payload
-    case CREATE:
+    case actionType.CREATE:
       return [...events, action.payload]
-    case UPDATE:
+    case actionType.UPDATE:
       return events.map((ev) =>
         ev._id === action.payload._id ? action.payload : ev
       )
-    case DELETE:
+    case actionType.DELETE:
       return events.filter((event) => event._id !== action.payload)
-    case MESSAGE:
+    case actionType.MESSAGE:
       return events
     default:
       return events

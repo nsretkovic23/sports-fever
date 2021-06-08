@@ -3,71 +3,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useLocation } from 'react-router-dom'
 import { getUserById } from '../../actions/authentification'
 import { Grid, Avatar, Typography, Button, Paper } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
 import AccountBoxIcon from '@material-ui/icons/AccountBox'
 import ListIcon from '@material-ui/icons/List'
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-    width: '100%',
-    height: '100%',
-    '& > *': {
-      margin: theme.spacing(1),
-    },
-  },
-  large: {
-    width: theme.spacing(18),
-    height: theme.spacing(18),
-    alignSelf: 'center',
-  },
-  sideBar: {
-    display: 'flex',
-    flexDirection: 'column',
-    boxShadow: '0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19)',
-    margin: '20px 20px',
-    backgroundColor: '#6af2f0',
-    height: '100%',
-  },
-  content: {
-    margin: '20px 20px',
-    height: '100%',
-    alignSelf: 'center',
-    display: 'flex',
-    flexDirection: 'column',
-    boxShadow: '0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19)',
-    backgroundColor: '#BEBEBE',
-  },
-  sideBarButtons: {
-    marginTop: '10px',
-    alignSelf: 'center',
-    padding: '5px',
-    backgroundColor: '#6af2f0',
-  },
-
-  sideBarAvatar: {
-    alignSelf: 'center',
-    padding: '5px',
-    backgroundColor: '#6af2f0',
-    borderBottom: '1px solid grey',
-  },
-  link: {
-    textDecoration: 'none',
-    color: 'black',
-  },
-  button: {
-    width: '250px',
-    alignSelf: 'center',
-    margin: '10px 10px',
-  },
-  paper: {
-    height: '100%',
-  },
-  container: {
-    display: 'flex',
-    flexDirection: 'row',
-  },
-}))
+import useStyles from './style'
 
 export const UserProfile = () => {
   const userr = useSelector((state) => state.auth.authData)
@@ -81,7 +19,6 @@ export const UserProfile = () => {
     dispatch(getUserById(_id[1]))
   }, [_id[1], location])
 
-  console.log(location.pathname.split('userProfile/'))
   return (
     <>
       <Grid container direction='row' className={classes.container}>

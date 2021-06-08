@@ -1,56 +1,14 @@
-import { makeStyles } from '@material-ui/core/styles'
 import React from 'react'
-import { Container, TextField, Avatar, Typography } from '@material-ui/core'
+import { Container, Avatar, Typography } from '@material-ui/core'
 import { format } from 'timeago.js'
 import classNames from 'classnames'
-import { Link, useHistory } from 'react-router-dom'
-
-const useStyles = makeStyles((theme) => ({
-  message: {
-    display: 'flex',
-    flexDirection: 'column',
-    marginTop: '20px',
-  },
-  messageTop: {
-    display: 'flex',
-  },
-
-  messageImg: {
-    width: '32px',
-    height: '32px',
-    borderRadius: '50%',
-    objectFit: 'cover',
-    marginRight: '10px',
-  },
-
-  messageText: {
-    padding: '10px',
-    borderTadius: '20px',
-    backgroundColor: '#1877f2',
-    color: 'white',
-    maxWidth: '300px',
-  },
-
-  messageBottom: {
-    fontSize: '12px',
-    marginTop: '10px',
-  },
-
-  own: {
-    alignItems: 'flex-end',
-  },
-
-  ownMessageText: {
-    backgroundColor: 'rgb(245, 241, 241)',
-    color: 'black',
-  },
-}))
+import { useHistory } from 'react-router-dom'
+import useStyles from '../style'
 
 export const Message = ({ message, own }) => {
   const classes = useStyles()
   const history = useHistory()
 
-  console.log(message.senderId)
   return (
     <Container
       className={

@@ -10,8 +10,9 @@ export const EventForm = () => {
   const { event, setEvent } = useContext(CreateEventContext)
   const [longitude, setLongitude] = useState('')
   const [latitude, setLatitude] = useState('')
-  const user = JSON.parse(localStorage.getItem('profile'))
   const [selectedDate, handleDateChange] = useState(new Date())
+  const user = JSON.parse(localStorage.getItem('profile'))
+
   const dispatch = useDispatch()
 
   const handleChange = (e) => {
@@ -34,7 +35,6 @@ export const EventForm = () => {
       if (user?.result?._id) creator = user?.result?._id
       else creator = user?.result?.googleId
       const newDate = selectedDate.toISOString().split('T')
-
       const newEvent = {
         ...event,
         date: newDate[0],
@@ -43,15 +43,14 @@ export const EventForm = () => {
         lat: latitude,
         creator: creator,
       }
-      console.log(newEvent)
       dispatch(createEvent(newEvent))
-      clear()
+      clearPreviousData()
     } else {
       alert('Wrong inputs')
     }
   }
 
-  const clear = () => {
+  const clearPreviousData = () => {
     setEvent({
       title: '',
       description: '',
