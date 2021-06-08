@@ -33,3 +33,5 @@ export const deleteEvent = (id) => API.delete(`/event/${id}`)
 export const joinEvent = (data) => API.post(`/event/join/`, data)
 
 export const fetchUserById = (id) => API.get(`/user/${id}`)
+
+export const sendMessage = (message) => API.post(`/message/newmsg`, message)

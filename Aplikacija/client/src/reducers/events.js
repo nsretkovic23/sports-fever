@@ -6,6 +6,7 @@ import {
   UPDATE,
   DELETE,
   JOIN,
+  MESSAGE,
 } from '../constants/actionTypes'
 
 export default (events = [], action) => {
@@ -26,7 +27,8 @@ export default (events = [], action) => {
       )
     case DELETE:
       return events.filter((event) => event._id !== action.payload)
-
+    case MESSAGE:
+      return events
     default:
       return events
   }

@@ -6,6 +6,7 @@ import {
   DELETE,
   UPDATE,
   JOIN,
+  MESSAGE,
 } from '../constants/actionTypes'
 import * as api from '../api/index.js'
 
@@ -81,10 +82,20 @@ export const updateEvent = (id, event) => async (dispatch) => {
 
 export const deleteEvent = (id) => async (dispatch) => {
   try {
-    await await api.deleteEvent(id)
+    await api.deleteEvent(id)
 
     dispatch({ type: DELETE, payload: id })
   } catch (error) {
     console.log(error)
+  }
+}
+
+export const sendMessage = (message) => async (dispatch) => {
+  try {
+    const { data } = await api.sendMessage(message)
+
+    dispatch({ type: MESSAGE, payload: data })
+  } catch (error) {
+    console.log(error.message)
   }
 }
