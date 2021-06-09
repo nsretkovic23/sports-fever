@@ -106,12 +106,15 @@ export const Event = () => {
     ev.preventDefault()
     dispatch(
       sendMessage({
-        sender: user?.result?._id,
-        text: newMessage,
         conversationId: conversation._id,
+        senderId: user?.result?._id,
+        senderName: user?.result?.name,
+        text: newMessage,
       })
     )
   }
+
+  console.log(messages)
 
   return (
     <Grid container direction='row'>
