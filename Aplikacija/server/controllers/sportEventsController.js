@@ -247,7 +247,7 @@ export const joinEvent = async (req, res) => {
       res.status(404).json({ message: 'not enough credits' })
     } else if (sportEv.free_spots > 0) {
       userParticipant.credits -= sportEv.price
-      sportEv?.participants.push({ id: userId })
+      sportEv?.participants.push({ id: userId, avgrate:0, count:0 })
       sportEv.free_spots -= 1
       userParticipant?.joinedEvents.push({
         eventId: sportEv.id,
@@ -261,6 +261,39 @@ export const joinEvent = async (req, res) => {
     } else res.status(404).json({ message: 'no more free spots' })
   } catch (error) {
     res.status(404).json({ message: 'join event error' })
+  }
+}
+
+export const rateParticipants = async (req,res) => {
+  const {eventId, graderId, gradedId, rate} = req.body;
+
+  try {
+    const sportEv = await SportEvent.findById(eventId);
+    sportEv.ratings.push({graderid:graderId, gradedid:gradedId});
+    const gradedParticipant =sportEv.participants.find(el => el.id===gradedId);
+    
+    gradedParticipant.count++;
+    gradedParticipant.ratings.push(parseInt(rate));
+    let newrating = 0;
+    for(let i=0; i<gradedParticipant.ratings.length; ++i)
+    {
+      newrating+=gradedParticipant.ratings[i];
+    }
+    gradedParticipant.avgrate = newrating/gradedParticipant.count;
+    console.log(gradedParticipant + " " + newrating);
+
+    for(let i=0; i<sportEv.participants.length; ++i){
+      if(sportEv.participants[i].id === gradedParticipant.id){
+        sportEv.participants[i] = gradedParticipant;
+      }
+    } //fali da se User modelu pusha ocena i da mu se tamo racuna celokupna ocena
+
+
+    await SportEvent.findByIdAndUpdate(eventId, sportEv, { new: true })
+    res.status(200).json(sportEv);
+    //sportEv.participants.map(ev=> ev.id!=gradedParticipant ? el : gradedParticipant)
+  } catch (error) {
+    res.status(400).json({message:"greska rating"})
   }
 }
 export default router

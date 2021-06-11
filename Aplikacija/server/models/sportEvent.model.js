@@ -15,7 +15,8 @@ const sportEventSchema = mongoose.Schema(
     lng: Number,
     price: Number,
     creator: String,
-    participants: [{id:String}],
+    participants: [{id:String, avgrate:Number, count:Number, ratings:[Number]}],
+    ratings: [{graderid:String, gradedid:String}]
   },
   {
     timestamps: true,
