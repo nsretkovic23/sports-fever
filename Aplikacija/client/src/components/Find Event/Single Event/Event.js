@@ -16,7 +16,16 @@ import { Form } from '../../Create Event/Form'
 import useStyles from '../style'
 import { DialogContent, DialogTitle } from '../style'
 import { Conversation } from './Conversation'
+import { io } from 'socket.io-client'
 
+const ENDPOINT = 'localhost:5000'
+let socket
+var connectionOptions = {
+  'force new connection': true,
+  reconnectionAttempts: 'Infinity',
+  timeout: 10000,
+  transports: ['websocket'],
+}
 export const Event = () => {
   const user = JSON.parse(localStorage.getItem('profile'))
   const location = useLocation()
@@ -28,6 +37,7 @@ export const Event = () => {
   const messages = useSelector(
     (state) => state.events.eventConversation?.allMessages
   )
+  const [socketMessages, setSocketMessages] = useState(null)
   const [refresh, setRefresh] = useState(null)
   const _id = location.pathname.split('singleEvent/')
   const classes = useStyles()
@@ -53,7 +63,7 @@ export const Event = () => {
 
   useEffect(() => {
     dispatch(getEvent(_id[1]))
-  }, [_id[1], refresh, dispatch])
+  }, [_id[1], dispatch])
 
   useEffect(() => {
     if (event) {
@@ -104,17 +114,61 @@ export const Event = () => {
 
   const sendNewMessage = (ev) => {
     ev.preventDefault()
-    dispatch(
-      sendMessage({
-        conversationId: conversation._id,
+    if (newMessage) {
+      socket.emit('sendMessage', {
+        conversationId: conversation?._id,
         senderId: user?.result?._id,
         senderName: user?.result?.name,
         text: newMessage,
       })
-    )
+      dispatch(
+        sendMessage({
+          conversationId: conversation._id,
+          senderId: user?.result?._id,
+          senderName: user?.result?.name,
+          text: newMessage,
+        })
+      )
+      setNewMessage('')
+    }
   }
 
-  console.log(messages)
+  useEffect(() => {
+    socket = io(ENDPOINT)
+    if (conversation?._id) {
+      socket.emit(
+        'join',
+        {
+          name: user?.result?.name,
+          room: conversation._id,
+        },
+        (error) => {
+          if (error) {
+            console.log(error)
+          }
+        }
+      )
+    }
+    if (messages) {
+      setSocketMessages(messages)
+    }
+    // return () => {
+    //   socket.emit('disconnect')
+    //   socket.off()
+    // }
+  }, [ENDPOINT, location.search, conversation?._id])
+
+  useEffect(() => {
+    socket.on('message', (message) => {
+      setSocketMessages((socketMessages) => [...socketMessages, message])
+    })
+
+    // socket.on('roomData', ({ users }) => {
+    //   setUsers(users)
+    // })
+  }, [])
+
+  console.log(_id[1])
 
   return (
     <Grid container direction='row'>
@@ -204,7 +258,7 @@ export const Event = () => {
       <Grid item xs={4}>
         {joined ? (
           <Conversation
-            messages={messages}
+            messages={socketMessages}
             setNewMessage={setNewMessage}
             sendNewMessage={sendNewMessage}
             newMessage={newMessage}

@@ -28,7 +28,7 @@ export const Conversation = ({
           <Container className={classes.chatBoxWeapper}>
             <Container className={classes.chatBoxTop}>
               {messages?.map((m) => (
-                <Container ref={scrollRef} key={m.createdAt}>
+                <Container ref={scrollRef}>
                   <Message
                     message={m}
                     own={m?.senderId === user?.result?._id}
