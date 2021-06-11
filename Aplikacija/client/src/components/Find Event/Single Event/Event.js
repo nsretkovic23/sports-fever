@@ -120,7 +120,7 @@ export const Event = () => {
         senderId: user?.result?._id,
         senderName: user?.result?.name,
         text: newMessage,
-      })
+      },()=>setNewMessage(''))
       dispatch(
         sendMessage({
           conversationId: conversation._id,
@@ -129,7 +129,7 @@ export const Event = () => {
           text: newMessage,
         })
       )
-      setNewMessage('')
+      
     }
   }
 
@@ -151,24 +151,22 @@ export const Event = () => {
     }
     if (messages) {
       setSocketMessages(messages)
+      console.log("HEY")
     }
-    // return () => {
-    //   socket.emit('disconnect')
-    //   socket.off()
-    // }
   }, [ENDPOINT, location.search, conversation?._id])
 
   useEffect(() => {
-    socket.on('message', (message) => {
+    socket.on('message', message => {
       setSocketMessages((socketMessages) => [...socketMessages, message])
     })
 
     // socket.on('roomData', ({ users }) => {
     //   setUsers(users)
     // })
-  }, [])
+  }, [socketMessages])
 
-  console.log(_id[1])
+
+  console.log(socketMessages)
 
   return (
     <Grid container direction='row'>
