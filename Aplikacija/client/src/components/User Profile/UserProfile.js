@@ -108,13 +108,30 @@ export const UserProfile = () => {
                       }}
                       className={classes.link}
                     >
-                      Event: {ev.eventId}
+                      {ev.eventTitle}
                     </Link>
                   </Button>
                 ))}
               </>
             ) : (
-              <p>Joined events</p>
+              <>
+                {userr?.joinedEvents?.map((ev) => (
+                  <Button
+                    key={ev.eventId}
+                    className={classes.button}
+                    variant='contained'
+                  >
+                    <Link
+                      to={{
+                        pathname: `/singleEvent/${ev.eventId}`,
+                      }}
+                      className={classes.link}
+                    >
+                      {ev.eventTitle}
+                    </Link>
+                  </Button>
+                ))}
+              </>
             )}
           </Paper>
         </Grid>
