@@ -45,6 +45,8 @@ export default makeStyles((theme) => ({
     height: '100%',
     overflowY: 'scroll',
     paddingRight: '10px',
+    maxHeight: '400px',
+    width: '100%',
   },
   chatBoxBottom: {
     marginTop: '5px',
