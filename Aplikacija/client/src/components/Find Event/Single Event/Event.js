@@ -10,34 +10,23 @@ import {
   deleteEvent,
   updateEvent,
   joinEvent,
-  sendMessage,
 } from '../../../actions/event'
 import { Form } from '../../Create Event/Form'
 import useStyles from '../style'
 import { DialogContent, DialogTitle } from '../style'
 import { Conversation } from './Conversation'
-import { io } from 'socket.io-client'
+import { RatingList } from './RatingList'
 
-const ENDPOINT = 'localhost:5000'
-let socket
-var connectionOptions = {
-  'force new connection': true,
-  reconnectionAttempts: 'Infinity',
-  timeout: 10000,
-  transports: ['websocket'],
-}
 export const Event = () => {
   const user = JSON.parse(localStorage.getItem('profile'))
   const location = useLocation()
   const event = useSelector((state) => state.events.SportEv)
-  const [newMessage, setNewMessage] = useState('')
   const conversation = useSelector(
     (state) => state.events.eventConversation?.specificConversation
   )
   const messages = useSelector(
     (state) => state.events.eventConversation?.allMessages
   )
-  const [socketMessages, setSocketMessages] = useState(null)
   const [refresh, setRefresh] = useState(null)
   const _id = location.pathname.split('singleEvent/')
   const classes = useStyles()
@@ -53,7 +42,7 @@ export const Event = () => {
   const dispatch = useDispatch()
   const history = useHistory()
   const [open, setOpen] = React.useState(false)
-
+  const todaysDate = new Date().toISOString().split('T')[0]
   const handleClickOpen = () => {
     setOpen(true)
   }
@@ -112,62 +101,7 @@ export const Event = () => {
     setRefresh((prev) => !prev)
   }
 
-  const sendNewMessage = (ev) => {
-    ev.preventDefault()
-    if (newMessage) {
-      socket.emit('sendMessage', {
-        conversationId: conversation?._id,
-        senderId: user?.result?._id,
-        senderName: user?.result?.name,
-        text: newMessage,
-      },()=>setNewMessage(''))
-      dispatch(
-        sendMessage({
-          conversationId: conversation._id,
-          senderId: user?.result?._id,
-          senderName: user?.result?.name,
-          text: newMessage,
-        })
-      )
-      
-    }
-  }
-
-  useEffect(() => {
-    socket = io(ENDPOINT)
-    if (conversation?._id) {
-      socket.emit(
-        'join',
-        {
-          name: user?.result?.name,
-          room: conversation._id,
-        },
-        (error) => {
-          if (error) {
-            console.log(error)
-          }
-        }
-      )
-    }
-    if (messages) {
-      setSocketMessages(messages)
-      console.log("HEY")
-    }
-  }, [ENDPOINT, location.search, conversation?._id])
-
-  useEffect(() => {
-    socket.on('message', message => {
-      setSocketMessages((socketMessages) => [...socketMessages, message])
-    })
-
-    // socket.on('roomData', ({ users }) => {
-    //   setUsers(users)
-    // })
-  }, [socketMessages])
-
-
-  console.log(socketMessages)
-
+  console.log(event)
   return (
     <Grid container direction='row'>
       <Grid item xs={6}>
@@ -254,15 +188,15 @@ export const Event = () => {
       </Grid>
       <Grid item xs={1}></Grid>
       <Grid item xs={4}>
-        {joined ? (
+        {joined && todaysDate.localeCompare(event.date.split('T')[0]) === -1 ? (
+          <RatingList event={event} user={user}></RatingList>
+        ) : (
           <Conversation
-            messages={socketMessages}
-            setNewMessage={setNewMessage}
-            sendNewMessage={sendNewMessage}
-            newMessage={newMessage}
+            messages={messages}
             user={user}
+            conversationID={conversation?._id}
           />
-        ) : null}
+        )}
       </Grid>
     </Grid>
   )

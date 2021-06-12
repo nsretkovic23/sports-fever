@@ -27,6 +27,8 @@ export const updateEvent = (id, updatedEvent) =>
 
 export const sendMessage = (message) => API.post(`/message/newmsg`, message)
 
+export const rateUser = (data) => API.post(`/event/rate/`, data)
+
 //---------------------------------------------------------------------------
 
 export const signIn = (data) => API.post('/user/signin', data)

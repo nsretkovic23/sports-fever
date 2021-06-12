@@ -20,6 +20,8 @@ export default (events = [], action) => {
       return events.filter((event) => event._id !== action.payload)
     case actionType.MESSAGE:
       return events
+    case actionType.RATE:
+      return events
     default:
       return events
   }

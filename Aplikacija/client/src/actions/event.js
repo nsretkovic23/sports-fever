@@ -71,3 +71,12 @@ export const sendMessage = (message) => async (dispatch) => {
     console.log(error.message)
   }
 }
+
+export const rateUser = (rate) => async (dispatch) => {
+  try {
+    const { data } = await api.rateUser(rate)
+    dispatch({ type: action.RATE, payload: data })
+  } catch (error) {
+    console.log(error)
+  }
+}
