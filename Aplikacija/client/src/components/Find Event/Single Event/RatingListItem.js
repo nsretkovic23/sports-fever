@@ -30,10 +30,9 @@ export const RatingListItem = ({ idToProfile, event, userId }) => {
 
   useEffect(() => {
     let temp = event?.ratings?.filter(
-      (el) => el.gradedid === idToProfile && el.graderId != userId
+      (el) =>
+        el.graderid.localeCompare(userId) === 0 && el.gradedid === idToProfile
     )
-    console.log(temp)
-    console.log(idToProfile)
     if (temp.length > 0) setCanRate(false)
   }, [])
 
