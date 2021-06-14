@@ -7,6 +7,7 @@ export const Notification = ({
   titelText,
   messageText,
   typeOfNotification,
+  setNotification,
 }) => {
   useEffect(() => {
     store.addNotification({

@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux'
 import { createEvent } from '../../actions/event'
 import { Form } from './Form'
 import { Grid } from '@material-ui/core'
+import { Notification } from '../Notifications/Notification'
 
 export const EventForm = () => {
   const { event, setEvent } = useContext(CreateEventContext)
@@ -12,6 +13,7 @@ export const EventForm = () => {
   const [latitude, setLatitude] = useState('')
   const [selectedDate, handleDateChange] = useState(new Date())
   const user = JSON.parse(localStorage.getItem('profile'))
+  const [notification, setNotification] = useState(false)
 
   const dispatch = useDispatch()
 
@@ -46,7 +48,7 @@ export const EventForm = () => {
       dispatch(createEvent(newEvent))
       clearPreviousData()
     } else {
-      alert('Wrong inputs')
+      setNotification(true)
     }
   }
 
@@ -70,6 +72,14 @@ export const EventForm = () => {
   return (
     <>
       <Grid container direction='row'>
+        {notification ? (
+          <Notification
+            titelText={'Wrong inputs'}
+            messageText={'Some field are left blank'}
+            typeOfNotification={'warning'}
+            setNotification={setNotification}
+          ></Notification>
+        ) : null}
         <Grid item xs={3}>
           <Form
             event={event}
