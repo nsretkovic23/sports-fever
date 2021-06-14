@@ -16,6 +16,7 @@ import useStyles from '../style'
 import { DialogContent, DialogTitle } from '../style'
 import { Conversation } from './Conversation'
 import { RatingList } from './RatingList'
+import { ListOfRatedParticipants } from './ListOfRatedParticipants'
 
 export const Event = () => {
   const user = JSON.parse(localStorage.getItem('profile'))
@@ -188,14 +189,23 @@ export const Event = () => {
       </Grid>
       <Grid item xs={1}></Grid>
       <Grid item xs={4}>
-        {joined && todaysDate.localeCompare(event.date.split('T')[0]) === -1 ? (
-          <RatingList event={event} user={user}></RatingList>
-        ) : (
+        {joined && todaysDate.localeCompare(event.date.split('T')[0]) != 1 ? (
           <Conversation
             messages={messages}
             user={user}
             conversationID={conversation?._id}
           />
+        ) : (
+          [
+            joined ? (
+              <RatingList event={event} user={user}></RatingList>
+            ) : (
+              <ListOfRatedParticipants
+                event={event}
+                user={user}
+              ></ListOfRatedParticipants>
+            ),
+          ]
         )}
       </Grid>
     </Grid>
