@@ -5,9 +5,6 @@ import Message from '../models/message.model.js';
 export const getMessages = async (convoId) => {
     const allMsgsFromConversation = Message.find({conversationId:convoId});
 
-
-    //console.log("ovo je iz getmsgs")
-    //console.log(allMsgsFromConversation);
     return allMsgsFromConversation;
 } 
 

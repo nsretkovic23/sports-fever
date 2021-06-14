@@ -61,3 +61,12 @@ export const getUserById = async (req,res)=>{
         res.status(404).json({message:"nije pronadjen po id-u"});
     }
 }
+
+export const rateUser = async (id, rating) => {
+    const user = await User.findById(id);
+    user.rates.push(parseInt(rating));
+    const sum = user.rates.reduce((acc, item)=> acc+item, 0);
+    user.averageRate = sum / user.rates.length;
+
+    await User.findByIdAndUpdate(id, user, {new:true});
+}

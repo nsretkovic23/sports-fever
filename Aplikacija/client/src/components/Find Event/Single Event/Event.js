@@ -189,7 +189,7 @@ export const Event = () => {
       </Grid>
       <Grid item xs={1}></Grid>
       <Grid item xs={4}>
-        {joined && todaysDate.localeCompare(event.date.split('T')[0]) != 1 ? (
+        {joined && todaysDate.localeCompare(event.date.split('T')[0]) === 1 ? (
           <Conversation
             messages={messages}
             user={user}

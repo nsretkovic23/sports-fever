@@ -11,6 +11,7 @@ import {
   makeNewConversation,
 } from './conversationsController.js'
 import { getMessages, deleteMessage } from './messagesController.js'
+import { rateUser } from './usersController.js'
 
 const router = express.Router()
 
@@ -99,25 +100,26 @@ export const createSportEvent = async (req, res) => {
     price,
     creator,
   } = req.body
-  let participants = [{ id: creator }]
-
-  const newSportEvent = new SportEvent({
-    title,
-    description,
-    date,
-    free_spots,
-    sport,
-    lat,
-    lng,
-    price,
-    creator,
-    participants,
-  })
 
   try {
-    await newSportEvent.save() //mongoose funkcija za cuvanje, u ovom pozivu se cuva novi ev u bazu
     const creatorUser = await User.findById(creator)
-
+    
+    let participants = [{ id: creator, name:creatorUser.name, avgrate:0, count:0 }]
+    
+    const newSportEvent = new SportEvent({
+      title,
+      description,
+      date,
+      free_spots,
+      sport,
+      lat,
+      lng,
+      price,
+      creator,
+      participants,
+    })
+    
+    await newSportEvent.save() //mongoose funkcija za cuvanje, u ovom pozivu se cuva novi ev u bazu
     await makeNewConversation(creator, newSportEvent.id)
     creatorUser.createdEvents.push({
       eventId: newSportEvent.id,
@@ -238,26 +240,27 @@ export const joinEvent = async (req, res) => {
   const { userId, eventId } = req.body
 
   try {
-    const sportEv = await SportEvent.findById(eventId)
+    const SportEv = await SportEvent.findById(eventId)
     const userParticipant = await User.findById(userId)
+    const eventConversation = await getConversation(eventId)
 
-    if (sportEv.participants.some((item) => item.id === userId)) {
+    if (SportEv.participants.some((item) => item.id === userId)) {
       res.status(404).json({ message: 'user already joined this event' })
-    } else if (sportEv.price > userParticipant.credits) {
+    } else if (SportEv.price > userParticipant.credits) {
       res.status(404).json({ message: 'not enough credits' })
-    } else if (sportEv.free_spots > 0) {
-      userParticipant.credits -= sportEv.price
-      sportEv?.participants.push({ id: userId, avgrate:0, count:0 })
-      sportEv.free_spots -= 1
+    } else if (SportEv.free_spots > 0) {
+      userParticipant.credits -= SportEv.price
+      SportEv?.participants.push({ id: userId, name:userParticipant.name, avgrate:0, count:0 })
+      SportEv.free_spots -= 1
       userParticipant?.joinedEvents.push({
-        eventId: sportEv.id,
-        eventTitle: sportEv.title,
+        eventId: SportEv.id,
+        eventTitle: SportEv.title,
       })
 
       await User.findByIdAndUpdate(userId, userParticipant, { new: true })
-      await SportEvent.findByIdAndUpdate(eventId, sportEv, { new: true })
-      await joinConversation(userId, sportEv.id)
-      res.status(200).json(sportEv)
+      await SportEvent.findByIdAndUpdate(eventId, SportEv, { new: true })
+      await joinConversation(userId, SportEv.id)
+      res.status(200).json({SportEv, eventConversation})
     } else res.status(404).json({ message: 'no more free spots' })
   } catch (error) {
     res.status(404).json({ message: 'join event error' })
@@ -268,10 +271,11 @@ export const rateParticipants = async (req,res) => {
   const {eventId, graderId, gradedId, rate} = req.body;
 
   try {
-    const sportEv = await SportEvent.findById(eventId);
-    sportEv.ratings.push({graderid:graderId, gradedid:gradedId});
-    const gradedParticipant =sportEv.participants.find(el => el.id===gradedId);
-    
+    const SportEv = await SportEvent.findById(eventId);
+    const eventConversation = await getConversation(id)
+    SportEv.ratings.push({graderid:graderId, gradedid:gradedId});
+    //this is a participant in sport event, it's not user model it's actually sport event
+    const gradedParticipant =SportEv.participants.find(el => el.id===gradedId);
     gradedParticipant.count++;
     gradedParticipant.ratings.push(parseInt(rate));
     let newrating = 0;
@@ -282,16 +286,18 @@ export const rateParticipants = async (req,res) => {
     gradedParticipant.avgrate = newrating/gradedParticipant.count;
     console.log(gradedParticipant + " " + newrating);
 
-    for(let i=0; i<sportEv.participants.length; ++i){
-      if(sportEv.participants[i].id === gradedParticipant.id){
-        sportEv.participants[i] = gradedParticipant;
+    for(let i=0; i<SportEv.participants.length; ++i){
+      if(SportEv.participants[i].id === gradedParticipant.id){
+        SportEv.participants[i] = gradedParticipant;
       }
     } //fali da se User modelu pusha ocena i da mu se tamo racuna celokupna ocena
 
+    //updating user here:
+    await rateUser(gradedId, rate);
 
-    await SportEvent.findByIdAndUpdate(eventId, sportEv, { new: true })
-    res.status(200).json(sportEv);
-    //sportEv.participants.map(ev=> ev.id!=gradedParticipant ? el : gradedParticipant)
+    await SportEvent.findByIdAndUpdate(eventId, SportEv, { new: true })
+    res.status(200).json({SportEv, eventConversation});
+    //SportEv.participants.map(ev=> ev.id!=gradedParticipant ? el : gradedParticipant)
   } catch (error) {
     res.status(400).json({message:"greska rating"})
   }

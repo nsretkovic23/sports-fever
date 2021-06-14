@@ -8,7 +8,9 @@ const userSchema = mongoose.Schema({
     credits:Number,
     createdEvents: [{eventId:String, eventTitle:String}],
     joinedEvents: [{eventId:String, eventTitle:String}],
-    notifications: [{description:String, isSeen:Number}]
+    notifications: [{description:String, isSeen:Number}],
+    averageRate:Number,
+    rates:[Number]
 })
 
 let User = mongoose.model("User", userSchema);
