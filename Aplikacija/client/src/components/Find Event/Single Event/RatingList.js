@@ -17,7 +17,7 @@ export const RatingList = ({ event, user }) => {
     setFilteredParticipants(
       event?.participants?.filter((el) => el.id != user?.result?._id)
     )
-  }, [])
+  }, [event])
 
   return (
     <>

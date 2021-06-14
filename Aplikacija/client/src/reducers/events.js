@@ -13,15 +13,13 @@ export default (events = [], action) => {
     case actionType.CREATE:
       return [...events, action.payload]
     case actionType.UPDATE:
-      return events.map((ev) =>
-        ev._id === action.payload._id ? action.payload : ev
-      )
+      return action.payload
     case actionType.DELETE:
       return events.filter((event) => event._id !== action.payload)
     case actionType.MESSAGE:
       return events
     case actionType.RATE:
-      return events
+      return action.payload
     default:
       return events
   }

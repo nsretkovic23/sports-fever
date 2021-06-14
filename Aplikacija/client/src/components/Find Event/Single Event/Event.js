@@ -28,7 +28,6 @@ export const Event = () => {
   const messages = useSelector(
     (state) => state.events.eventConversation?.allMessages
   )
-  const [refresh, setRefresh] = useState(null)
   const _id = location.pathname.split('singleEvent/')
   const classes = useStyles()
   const [selectedDate, handleDateChange] = useState('')
@@ -67,7 +66,7 @@ export const Event = () => {
       )
         setJoined(true)
     }
-  }, [event, refresh])
+  }, [event])
 
   const handleChange = (e) => {
     e.preventDefault()
@@ -83,7 +82,6 @@ export const Event = () => {
       const newInfo = { ...newEvent, date: newDate }
       dispatch(updateEvent(event._id, newInfo))
       handleClose()
-      setRefresh((prev) => !prev)
     } else {
       alert('Wrong inputs')
     }
@@ -99,7 +97,6 @@ export const Event = () => {
       eventId: event._id,
     }
     dispatch(joinEvent(data))
-    setRefresh((prev) => !prev)
   }
 
   console.log(event)

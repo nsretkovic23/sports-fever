@@ -34,7 +34,7 @@ export const RatingListItem = ({ idToProfile, event, userId }) => {
         el.graderid.localeCompare(userId) === 0 && el.gradedid === idToProfile
     )
     if (temp.length > 0) setCanRate(false)
-  }, [])
+  }, [event])
 
   return (
     <>
