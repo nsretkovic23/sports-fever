@@ -103,9 +103,11 @@ export const createSportEvent = async (req, res) => {
 
   try {
     const creatorUser = await User.findById(creator)
-    
-    let participants = [{ id: creator, name:creatorUser.name, avgrate:0, count:0 }]
-    
+
+    let participants = [
+      { id: creator, name: creatorUser.name, avgrate: 0, count: 0 },
+    ]
+
     const newSportEvent = new SportEvent({
       title,
       description,
@@ -118,7 +120,7 @@ export const createSportEvent = async (req, res) => {
       creator,
       participants,
     })
-    
+
     await newSportEvent.save() //mongoose funkcija za cuvanje, u ovom pozivu se cuva novi ev u bazu
     await makeNewConversation(creator, newSportEvent.id)
     creatorUser.createdEvents.push({
@@ -250,7 +252,12 @@ export const joinEvent = async (req, res) => {
       res.status(404).json({ message: 'not enough credits' })
     } else if (SportEv.free_spots > 0) {
       userParticipant.credits -= SportEv.price
-      SportEv?.participants.push({ id: userId, name:userParticipant.name, avgrate:0, count:0 })
+      SportEv?.participants.push({
+        id: userId,
+        name: userParticipant.name,
+        avgrate: 0,
+        count: 0,
+      })
       SportEv.free_spots -= 1
       userParticipant?.joinedEvents.push({
         eventId: SportEv.id,
@@ -260,46 +267,47 @@ export const joinEvent = async (req, res) => {
       await User.findByIdAndUpdate(userId, userParticipant, { new: true })
       await SportEvent.findByIdAndUpdate(eventId, SportEv, { new: true })
       await joinConversation(userId, SportEv.id)
-      res.status(200).json({SportEv, eventConversation})
+      res.status(200).json({ SportEv, eventConversation })
     } else res.status(404).json({ message: 'no more free spots' })
   } catch (error) {
     res.status(404).json({ message: 'join event error' })
   }
 }
 
-export const rateParticipants = async (req,res) => {
-  const {eventId, graderId, gradedId, rate} = req.body;
+export const rateParticipants = async (req, res) => {
+  const { eventId, graderId, gradedId, rate } = req.body
 
   try {
-    const SportEv = await SportEvent.findById(eventId);
-    const eventConversation = await getConversation(id)
-    SportEv.ratings.push({graderid:graderId, gradedid:gradedId});
+    const SportEv = await SportEvent.findById(eventId)
+    const eventConversation = await getConversation(eventId)
+    SportEv.ratings.push({ graderid: graderId, gradedid: gradedId })
     //this is a participant in sport event, it's not user model it's actually sport event
-    const gradedParticipant =SportEv.participants.find(el => el.id===gradedId);
-    gradedParticipant.count++;
-    gradedParticipant.ratings.push(parseInt(rate));
-    let newrating = 0;
-    for(let i=0; i<gradedParticipant.ratings.length; ++i)
-    {
-      newrating+=gradedParticipant.ratings[i];
+    const gradedParticipant = SportEv.participants.find(
+      (el) => el.id === gradedId
+    )
+    gradedParticipant.count++
+    gradedParticipant.ratings.push(parseInt(rate))
+    let newrating = 0
+    for (let i = 0; i < gradedParticipant.ratings.length; ++i) {
+      newrating += gradedParticipant.ratings[i]
     }
-    gradedParticipant.avgrate = newrating/gradedParticipant.count;
-    console.log(gradedParticipant + " " + newrating);
+    gradedParticipant.avgrate = newrating / gradedParticipant.count
+    console.log(gradedParticipant + ' ' + newrating)
 
-    for(let i=0; i<SportEv.participants.length; ++i){
-      if(SportEv.participants[i].id === gradedParticipant.id){
-        SportEv.participants[i] = gradedParticipant;
+    for (let i = 0; i < SportEv.participants.length; ++i) {
+      if (SportEv.participants[i].id === gradedParticipant.id) {
+        SportEv.participants[i] = gradedParticipant
       }
     } //fali da se User modelu pusha ocena i da mu se tamo racuna celokupna ocena
 
     //updating user here:
-    await rateUser(gradedId, rate);
+    await rateUser(gradedId, rate)
 
     await SportEvent.findByIdAndUpdate(eventId, SportEv, { new: true })
-    res.status(200).json({SportEv, eventConversation});
+    res.status(200).json({ SportEv, eventConversation })
     //SportEv.participants.map(ev=> ev.id!=gradedParticipant ? el : gradedParticipant)
   } catch (error) {
-    res.status(400).json({message:"greska rating"})
+    res.status(400).json({ message: 'greska rating' })
   }
 }
 export default router
