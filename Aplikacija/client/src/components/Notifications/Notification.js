@@ -3,17 +3,12 @@ import ReactNotification from 'react-notifications-component'
 import 'react-notifications-component/dist/theme.css'
 import { store } from 'react-notifications-component'
 
-export const Notification = ({
-  titelText,
-  messageText,
-  typeOfNotification,
-  setNotification,
-}) => {
+export const Notification = ({ notification, setNotification }) => {
   useEffect(() => {
     store.addNotification({
-      title: titelText,
-      message: messageText,
-      type: typeOfNotification,
+      title: notification.titleText,
+      message: notification.messageText,
+      type: notification.typeOfNotification,
       insert: 'top',
       container: 'top-right',
       animationIn: ['animate__animated', 'animate__fadeIn'],
@@ -21,6 +16,9 @@ export const Notification = ({
       dismiss: {
         duration: 4000,
         onScreen: true,
+      },
+      onRemoval: () => {
+        setNotification(false)
       },
     })
   }, [])
