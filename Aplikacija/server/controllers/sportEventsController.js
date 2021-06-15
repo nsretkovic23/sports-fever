@@ -157,8 +157,8 @@ export const updateSportEvent = async (req, res) => {
   }
 
   await SportEvent.findByIdAndUpdate(id, updatedSEvent, { new: true })
-
-  res.json(updatedSEvent)
+  const eventConversation = await getConversation(id)
+  res.status(200).json({ SportEv: updatedSEvent, eventConversation })
 }
 
 export const deleteSportEvent = async (req, res) => {
