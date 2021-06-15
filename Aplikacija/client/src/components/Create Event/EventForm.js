@@ -4,7 +4,7 @@ import { CreateEventContext } from './CreateEvent'
 import { useDispatch } from 'react-redux'
 import { createEvent } from '../../actions/event'
 import { Form } from './Form'
-import { Grid } from '@material-ui/core'
+import { Grid, Typography } from '@material-ui/core'
 import { Notification } from '../Notifications/Notification'
 
 export const EventForm = () => {
@@ -13,7 +13,12 @@ export const EventForm = () => {
   const [latitude, setLatitude] = useState('')
   const [selectedDate, handleDateChange] = useState(new Date())
   const user = JSON.parse(localStorage.getItem('profile'))
-  const [notification, setNotification] = useState(false)
+  const [notification, setNotification] = useState({
+    show: false,
+    title: '',
+    messageText: '',
+    typeOfNotification: '',
+  })
 
   const dispatch = useDispatch()
 
@@ -30,6 +35,7 @@ export const EventForm = () => {
       event.title &&
       event.description &&
       event.free_spots > 0 &&
+      selectedDate &&
       latitude &&
       longitude
     ) {
@@ -48,7 +54,12 @@ export const EventForm = () => {
       dispatch(createEvent(newEvent))
       clearPreviousData()
     } else {
-      setNotification(true)
+      setNotification({
+        show: true,
+        titleText: 'Wrong inputs',
+        messageText: 'Some field are left blank',
+        typeOfNotification: 'warning',
+      })
     }
   }
 
@@ -66,17 +77,19 @@ export const EventForm = () => {
   }
 
   if (!user?.result?.name) {
-    return <h1>Sign in if you want to create event.</h1>
+    return (
+      <Typography variant='h5' align='center'>
+        Sign in if you want to create event
+      </Typography>
+    )
   }
 
   return (
     <>
       <Grid container direction='row'>
-        {notification ? (
+        {notification.show ? (
           <Notification
-            titelText={'Wrong inputs'}
-            messageText={'Some field are left blank'}
-            typeOfNotification={'warning'}
+            notification={notification}
             setNotification={setNotification}
           ></Notification>
         ) : null}
