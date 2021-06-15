@@ -20,6 +20,8 @@ export default (events = [], action) => {
       return events
     case actionType.RATE:
       return action.payload
+    case actionType.REPORT:
+      return events
     default:
       return events
   }

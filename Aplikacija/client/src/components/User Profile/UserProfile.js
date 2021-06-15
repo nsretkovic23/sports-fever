@@ -6,18 +6,30 @@ import { Grid, Avatar, Typography, Button, Paper } from '@material-ui/core'
 import AccountBoxIcon from '@material-ui/icons/AccountBox'
 import ListIcon from '@material-ui/icons/List'
 import useStyles from './style'
+import GradeIcon from '@material-ui/icons/Grade'
+import ReportIcon from '@material-ui/icons/Report'
+import { yellow } from '@material-ui/core/colors'
+import Dialog from '@material-ui/core/Dialog'
+import { DialogContent, DialogTitle } from '../Find Event/style'
+import { ReportForm } from '../Find Event/Single Event/ComponentForEvent/ReportForm'
 
 export const UserProfile = () => {
   const userr = useSelector((state) => state.auth.authData)
+  const user = JSON.parse(localStorage.getItem('profile'))
   const [display, setDisplay] = useState('info')
   const location = useLocation()
   const classes = useStyles()
   const _id = location.pathname.split('userProfile/')
   const dispatch = useDispatch()
+  const [open, setOpen] = useState(false)
 
   useEffect(() => {
     dispatch(getUserById(_id[1]))
   }, [_id[1], location])
+
+  const handleClose = () => {
+    setOpen(false)
+  }
 
   return (
     <>
@@ -38,6 +50,10 @@ export const UserProfile = () => {
 
             <Typography align='center' variant='h6'>
               {userr?.name}
+            </Typography>
+            <Typography align='center'>
+              {userr?.averageRate}
+              <GradeIcon style={{ color: yellow[400] }}></GradeIcon>
             </Typography>
           </Grid>
           <Grid
@@ -79,6 +95,19 @@ export const UserProfile = () => {
             >
               Joined events
             </Button>
+            {user?.result?._id != _id[1] ? (
+              <Button
+                color='inherit'
+                startIcon={<ReportIcon></ReportIcon>}
+                fullWidth
+                onClick={(ev) => {
+                  ev.preventDefault()
+                  setOpen(true)
+                }}
+              >
+                Report User
+              </Button>
+            ) : null}
           </Grid>
         </Grid>
         <Grid
@@ -113,11 +142,11 @@ export const UserProfile = () => {
                   </Button>
                 ))}
               </>
-            ) : (
+            ) : display === 'joined' ? (
               <>
-                {userr?.joinedEvents?.map((ev) => (
+                {userr?.joinedEvents?.map((ev, i) => (
                   <Button
-                    key={ev.eventId}
+                    key={i}
                     className={classes.button}
                     variant='contained'
                   >
@@ -132,8 +161,26 @@ export const UserProfile = () => {
                   </Button>
                 ))}
               </>
+            ) : (
+              setDisplay('info')
             )}
           </Paper>
+          <Dialog
+            onClose={handleClose}
+            aria-labelledby='customized-dialog-title'
+            open={open}
+          >
+            <DialogTitle id='customized-dialog-title' onClose={handleClose}>
+              Report this user
+            </DialogTitle>
+            <DialogContent dividers>
+              <ReportForm
+                idForReport={_id[1]}
+                handleClose={handleClose}
+                type={'User'}
+              ></ReportForm>
+            </DialogContent>
+          </Dialog>
         </Grid>
       </Grid>
     </>

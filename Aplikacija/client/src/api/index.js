@@ -29,6 +29,8 @@ export const sendMessage = (message) => API.post(`/message/newmsg`, message)
 
 export const rateUser = (data) => API.post(`/event/rate/`, data)
 
+export const report = (data) => API.post(`/event/report/`, data)
+
 //---------------------------------------------------------------------------
 
 export const signIn = (data) => API.post('/user/signin', data)

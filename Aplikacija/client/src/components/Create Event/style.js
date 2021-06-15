@@ -55,4 +55,15 @@ export default makeStyles((theme) => ({
     alignSelf: 'center',
     fontWeight: 'bold',
   },
+  buttonReport: {
+    backgroundColor: '#04ECF0',
+    alignSelf: 'center',
+    marginTop: '10px',
+    width: '55%',
+    '&:hover': {
+      backgroundColor: '#04ECF0',
+      boxShadow:
+        '0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19)',
+    },
+  },
 }))

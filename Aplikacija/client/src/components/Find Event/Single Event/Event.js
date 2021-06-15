@@ -14,9 +14,10 @@ import {
 import { Form } from '../../Create Event/Form'
 import useStyles from '../style'
 import { DialogContent, DialogTitle } from '../style'
-import { Conversation } from './Conversation'
-import { RatingList } from './RatingList'
-import { ListOfRatedParticipants } from './ListOfRatedParticipants'
+import { Conversation } from './ComponentForEvent/Conversation'
+import { RatingList } from './ComponentForEvent/RatingList'
+import { ListOfRatedParticipants } from './ComponentForEvent/ListOfRatedParticipants'
+import { ReportForm } from './ComponentForEvent/ReportForm'
 
 export const Event = () => {
   const user = JSON.parse(localStorage.getItem('profile'))
@@ -41,13 +42,22 @@ export const Event = () => {
   })
   const dispatch = useDispatch()
   const history = useHistory()
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = React.useState({
+    state: false,
+    title: '',
+    isUpdate: null,
+  })
   const todaysDate = new Date().toISOString().split('T')[0]
-  const handleClickOpen = () => {
-    setOpen(true)
-  }
+
+  // const handleClickOpen = () => {
+  //   setOpen({
+  //     ...open,
+  //     state: true,
+  //   })
+  // }
+
   const handleClose = () => {
-    setOpen(false)
+    setOpen({ ...open, state: false })
   }
 
   useEffect(() => {
@@ -99,7 +109,16 @@ export const Event = () => {
     dispatch(joinEvent(data))
   }
 
-  console.log(event)
+  const state = useSelector((state) => state.events)
+  if (!user?.result?.name) {
+    return (
+      <Typography variant='h5' align='center'>
+        Sign in if you want to view event
+      </Typography>
+    )
+  }
+
+  console.log(state)
   return (
     <Grid container direction='row'>
       <Grid item xs={6}>
@@ -110,7 +129,14 @@ export const Event = () => {
               <Button
                 className={classes.buttons}
                 variant='contained'
-                onClick={handleClickOpen}
+                onClick={(ev) => {
+                  ev.preventDefault()
+                  setOpen({
+                    state: true,
+                    title: 'Update your event',
+                    isUpdate: true,
+                  })
+                }}
               >
                 Update
               </Button>
@@ -126,7 +152,24 @@ export const Event = () => {
                 Delete
               </Button>
             </ButtonGroup>
-          ) : null}
+          ) : (
+            <ButtonGroup variant='contained' className={classes.buttonGroup}>
+              <Button
+                className={classes.buttons}
+                variant='contained'
+                onClick={(ev) => {
+                  ev.preventDefault()
+                  setOpen({
+                    state: true,
+                    title: 'Report this event',
+                    isUpdate: false,
+                  })
+                }}
+              >
+                Report
+              </Button>
+            </ButtonGroup>
+          )}
 
           <Typography align='center' variant='h3'>
             {event?.title}
@@ -165,28 +208,36 @@ export const Event = () => {
         <Dialog
           onClose={handleClose}
           aria-labelledby='customized-dialog-title'
-          open={open}
+          open={open?.state}
         >
           <DialogTitle id='customized-dialog-title' onClose={handleClose}>
-            Update your event
+            {open.title}
           </DialogTitle>
           <DialogContent dividers>
-            <Form
-              event={newEvent}
-              handleChange={handleChange}
-              handleSubmit={handleSubmit}
-              longitude={newEvent.lng}
-              latitude={newEvent.lat}
-              buttonTitle={'Update'}
-              selectedDate={selectedDate}
-              handleDateChange={handleDateChange}
-            />
+            {open.isUpdate ? (
+              <Form
+                event={newEvent}
+                handleChange={handleChange}
+                handleSubmit={handleSubmit}
+                longitude={newEvent.lng}
+                latitude={newEvent.lat}
+                buttonTitle={'Update'}
+                selectedDate={selectedDate}
+                handleDateChange={handleDateChange}
+              />
+            ) : (
+              <ReportForm
+                idForReport={event?._id}
+                handleClose={handleClose}
+                type={'Event'}
+              ></ReportForm>
+            )}
           </DialogContent>
         </Dialog>
       </Grid>
       <Grid item xs={1}></Grid>
       <Grid item xs={4}>
-        {joined && todaysDate.localeCompare(event.date.split('T')[0]) === 1 ? (
+        {joined && todaysDate.localeCompare(event?.date.split('T')[0]) === 1 ? (
           <Conversation
             messages={messages}
             user={user}

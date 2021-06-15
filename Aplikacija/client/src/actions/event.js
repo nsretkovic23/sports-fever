@@ -80,3 +80,12 @@ export const rateUser = (rate) => async (dispatch) => {
     console.log(error)
   }
 }
+
+export const sendReport = (reportData) => async (dispatch) => {
+  try {
+    const { data } = await api.report(reportData)
+    dispatch({ type: action.REPORT, payload: data })
+  } catch (error) {
+    console.log(error)
+  }
+}
