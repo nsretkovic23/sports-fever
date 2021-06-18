@@ -81,7 +81,10 @@ export const Nav = () => {
                   <>
                     <Avatar
                       alt={user?.result.name}
-                      src='/static/images/avatar/1.jpg'
+                      src={
+                        user?.result.profileImage ||
+                        'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png'
+                      }
                       aria-label='account of current user'
                       aria-controls='menu-appbar'
                       aria-haspopup='true'

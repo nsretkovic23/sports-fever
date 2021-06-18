@@ -37,6 +37,7 @@ export const UserProfile = () => {
     setOpen({ ...open, state: false })
   }
 
+  console.log(userr)
   return (
     <>
       <Grid container direction='row' className={classes.container}>
@@ -50,7 +51,10 @@ export const UserProfile = () => {
           <Grid item className={classes.sideBarAvatar}>
             <Avatar
               alt={`${userr?.name}`}
-              src='https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png'
+              src={
+                userr?.profileImage ||
+                'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png'
+              }
               className={classes.large}
             />
 
@@ -205,6 +209,7 @@ export const UserProfile = () => {
                   idForReport={_id[1]}
                   handleClose={handleClose}
                   type={'User'}
+                  userID={user?.result?._id}
                 ></ReportForm>
               ) : (
                 <AddCreditForm
