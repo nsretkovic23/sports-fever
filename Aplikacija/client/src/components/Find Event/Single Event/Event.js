@@ -230,6 +230,7 @@ export const Event = () => {
                 idForReport={event?._id}
                 handleClose={handleClose}
                 type={'Event'}
+                userID={user?.result?._id}
               ></ReportForm>
             )}
           </DialogContent>

@@ -22,8 +22,6 @@ export default (events = [], action) => {
       return action.payload
     case actionType.REPORT:
       return events
-    case actionType.CREDIT:
-      return events
     default:
       return events
   }

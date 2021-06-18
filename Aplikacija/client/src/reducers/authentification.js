@@ -12,6 +12,8 @@ const authReducer = (state = { authData: null }, action) => {
       return { ...state, authData: null }
     case actionType.USER:
       return { ...state, authData: action?.data }
+    case actionType.CREDIT:
+      return state
     default:
       return state
   }

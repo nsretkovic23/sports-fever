@@ -29,7 +29,7 @@ export const sendMessage = (message) => API.post(`/message/newmsg`, message)
 
 export const rateUser = (data) => API.post(`/event/rate/`, data)
 
-export const report = (data) => API.post(`/event/report/`, data)
+export const report = (data) => API.post(`/report/newreport/`, data)
 
 export const creditRequest = (data) => API.post(`/event/creditRequest/`, data)
 //---------------------------------------------------------------------------
