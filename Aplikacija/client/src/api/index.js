@@ -31,6 +31,7 @@ export const rateUser = (data) => API.post(`/event/rate/`, data)
 
 export const report = (data) => API.post(`/event/report/`, data)
 
+export const creditRequest = (data) => API.post(`/event/creditRequest/`, data)
 //---------------------------------------------------------------------------
 
 export const signIn = (data) => API.post('/user/signin', data)
