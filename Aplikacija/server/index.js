@@ -5,6 +5,7 @@ import sportEventRoutes from './routes/sportEvents.js'
 import userRoutes from './routes/users.js'
 import messageRoutes from './routes/message.js'
 import reportRoutes from './routes/reports.js'
+import creditRequestRoutes from './routes/creditRequests.js'
 
 const app = express()
 
@@ -16,6 +17,7 @@ app.use('/event', sportEventRoutes)
 app.use('/user', userRoutes)
 app.use('/message', messageRoutes)
 app.use('/report', reportRoutes);
+app.use('/creditrequest', creditRequestRoutes)
 
 const CONNECTION_URL =
   'mongodb+srv://sfadmin:softversko123@cluster0.qruqt.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'

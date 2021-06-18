@@ -32,6 +32,6 @@ export const deleteReport = async (req, res) =>{
 
         res.status(200).json({message:"deleted successfully"});
     } catch (error) {
-        res.status(404).json({message:"error event not found, deletion unsuccessful"});
+        res.status(404).json({message:"error report not found, deletion unsuccessful"});
     }
 }
