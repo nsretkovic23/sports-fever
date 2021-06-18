@@ -16,6 +16,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import useStyles from './style'
 import Input from './InputComponent'
 import Icon from './icon'
+import FileBase from 'react-file-base64'
 
 export const Authentification = () => {
   const [isSignup, setIsSignup] = useState(false)
@@ -26,6 +27,7 @@ export const Authentification = () => {
     email: '',
     password: '',
     confirmPassword: '',
+    profileImage: '',
   })
 
   const classes = useStyles()
@@ -116,13 +118,30 @@ export const Authentification = () => {
                 value={userData.password}
               />
               {isSignup && (
-                <Input
-                  name='confirmPassword'
-                  label='Repeat Password'
-                  handleChange={handleChange}
-                  type='password'
-                  value={userData.confirmPassword}
-                />
+                <>
+                  <Input
+                    name='confirmPassword'
+                    label='Repeat Password'
+                    handleChange={handleChange}
+                    type='password'
+                    value={userData.confirmPassword}
+                  />
+                  <Container className={classes.fileInput}>
+                    <Typography gutterBottom='true'>
+                      Choose profile image:
+                    </Typography>
+                    <FileBase
+                      type='file'
+                      multiple={false}
+                      onDone={({ base64 }) =>
+                        setUserData({
+                          ...userData,
+                          profileImage: base64,
+                        })
+                      }
+                    />
+                  </Container>
+                </>
               )}
             </Grid>
             <Button

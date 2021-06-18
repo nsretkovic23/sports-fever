@@ -1,23 +1,16 @@
 import React, { useState } from 'react'
-import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
-import DateFnsUtils from '@date-io/date-fns' // choose your lib
-import {
-  Typography,
-  Paper,
-  TextField,
-  Button,
-  InputLabel,
-  Select,
-  MenuItem,
-} from '@material-ui/core'
+import { Container, Paper, TextField, Button } from '@material-ui/core'
 import classNames from 'classnames'
 import useStyles from '../Create Event/style'
+import FileBase from 'react-file-base64'
+import { credit } from '../../actions/event'
 
 export const AddCreditForm = ({ idForUser, handleClose }) => {
   const classes = useStyles()
   const [creditRequest, setCreditRequest] = useState({
     idOfUser: idForUser,
     credit: '',
+    selectedFile: '',
   })
 
   const handleChange = (e) => {
@@ -30,7 +23,7 @@ export const AddCreditForm = ({ idForUser, handleClose }) => {
   const handleSubmit = (e) => {
     e.preventDefault()
     if (creditRequest.credit) {
-      //dispatch(reportEvent(report))
+      //dispatch(credit(creditRequest))
       console.log(creditRequest)
       handleClose()
     }
@@ -51,6 +44,15 @@ export const AddCreditForm = ({ idForUser, handleClose }) => {
             onChange={handleChange}
             className={classes.tField}
           />
+          <Container className={classes.fileInput}>
+            <FileBase
+              type='file'
+              multiple={false}
+              onDone={({ base64 }) =>
+                setCreditRequest({ ...creditRequest, selectedFile: base64 })
+              }
+            />
+          </Container>
           <Button
             varient='contained'
             type='submit'
