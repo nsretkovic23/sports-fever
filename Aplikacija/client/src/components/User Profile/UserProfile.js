@@ -12,6 +12,8 @@ import { yellow } from '@material-ui/core/colors'
 import Dialog from '@material-ui/core/Dialog'
 import { DialogContent, DialogTitle } from '../Find Event/style'
 import { ReportForm } from '../Find Event/Single Event/ComponentForEvent/ReportForm'
+import { AddCreditForm } from './AddCreditForm'
+import PaymentIcon from '@material-ui/icons/Payment'
 
 export const UserProfile = () => {
   const userr = useSelector((state) => state.auth.authData)
@@ -21,14 +23,18 @@ export const UserProfile = () => {
   const classes = useStyles()
   const _id = location.pathname.split('userProfile/')
   const dispatch = useDispatch()
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState({
+    state: false,
+    dialogTitle: '',
+    isReport: true,
+  })
 
   useEffect(() => {
     dispatch(getUserById(_id[1]))
   }, [_id[1], location])
 
   const handleClose = () => {
-    setOpen(false)
+    setOpen({ ...open, state: false })
   }
 
   return (
@@ -102,12 +108,32 @@ export const UserProfile = () => {
                 fullWidth
                 onClick={(ev) => {
                   ev.preventDefault()
-                  setOpen(true)
+                  setOpen({
+                    state: true,
+                    dialogTitle: 'Report this user',
+                    isReport: true,
+                  })
                 }}
               >
                 Report User
               </Button>
-            ) : null}
+            ) : (
+              <Button
+                color='inherit'
+                startIcon={<PaymentIcon></PaymentIcon>}
+                fullWidth
+                onClick={(ev) => {
+                  ev.preventDefault()
+                  setOpen({
+                    state: true,
+                    dialogTitle: 'Request for credit',
+                    isReport: false,
+                  })
+                }}
+              >
+                Add Credit
+              </Button>
+            )}
           </Grid>
         </Grid>
         <Grid
@@ -168,17 +194,24 @@ export const UserProfile = () => {
           <Dialog
             onClose={handleClose}
             aria-labelledby='customized-dialog-title'
-            open={open}
+            open={open.state}
           >
             <DialogTitle id='customized-dialog-title' onClose={handleClose}>
-              Report this user
+              {open.dialogTitle}
             </DialogTitle>
             <DialogContent dividers>
-              <ReportForm
-                idForReport={_id[1]}
-                handleClose={handleClose}
-                type={'User'}
-              ></ReportForm>
+              {open.isReport ? (
+                <ReportForm
+                  idForReport={_id[1]}
+                  handleClose={handleClose}
+                  type={'User'}
+                ></ReportForm>
+              ) : (
+                <AddCreditForm
+                  idForUser={_id[1]}
+                  handleClose={handleClose}
+                ></AddCreditForm>
+              )}
             </DialogContent>
           </Dialog>
         </Grid>
