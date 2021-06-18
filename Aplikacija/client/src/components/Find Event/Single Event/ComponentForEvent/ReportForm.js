@@ -13,10 +13,11 @@ import {
 import classNames from 'classnames'
 import useStyles from '../../../Create Event/style'
 
-export const ReportForm = ({ idForReport, handleClose, type }) => {
+export const ReportForm = ({ idForReport, handleClose, type, userID }) => {
   const classes = useStyles()
   const [report, setReport] = useState({
     idOfReport: idForReport,
+    userThatReported: userID,
     reportTitle: '',
     reportDescription: '',
     typeOfReport: type,
@@ -38,6 +39,7 @@ export const ReportForm = ({ idForReport, handleClose, type }) => {
     }
   }
 
+  console.log(userID)
   return (
     <>
       <Paper className={classes.paperForUpdate} elevation={10}>
