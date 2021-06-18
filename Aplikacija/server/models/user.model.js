@@ -10,7 +10,8 @@ const userSchema = mongoose.Schema({
     joinedEvents: [{eventId:String, eventTitle:String}],
     notifications: [{description:String, isSeen:Number}],
     averageRate:Number,
-    rates:[Number]
+    rates:[Number],
+    profileImage:String
 })
 
 let User = mongoose.model("User", userSchema);

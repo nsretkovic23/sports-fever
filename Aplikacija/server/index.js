@@ -4,6 +4,7 @@ import cors from 'cors'
 import sportEventRoutes from './routes/sportEvents.js'
 import userRoutes from './routes/users.js'
 import messageRoutes from './routes/message.js'
+import reportRoutes from './routes/reports.js'
 
 const app = express()
 
@@ -14,6 +15,7 @@ app.use(cors())
 app.use('/event', sportEventRoutes)
 app.use('/user', userRoutes)
 app.use('/message', messageRoutes)
+app.use('/report', reportRoutes);
 
 const CONNECTION_URL =
   'mongodb+srv://sfadmin:softversko123@cluster0.qruqt.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
