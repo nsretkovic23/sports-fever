@@ -31,7 +31,14 @@ export const rateUser = (data) => API.post(`/event/rate/`, data)
 
 export const report = (data) => API.post(`/report/newreport/`, data)
 
-export const creditRequest = (data) => API.post(`/event/creditRequest/`, data)
+export const creditRequest = (data) =>
+  API.post(`/creditrequest/newrequest`, data)
+
+export const getReports = () => API.get(`/report/`)
+export const getCredits = () => API.get(`/creditrequest/`)
+
+export const deleteReport = (id) => API.delete(`/report/delete/${id}`)
+export const deleteCredit = (id) => API.delete(`/creditrequest/delete/${id}`)
 //---------------------------------------------------------------------------
 
 export const signIn = (data) => API.post('/user/signin', data)
