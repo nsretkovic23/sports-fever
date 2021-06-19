@@ -76,6 +76,12 @@ export const Nav = () => {
                       Find Event
                     </Link>
                   </Button>
+                  <Button className={classes.buttons}>
+                    {' '}
+                    <Link to='/admin' className={classes.link}>
+                      Admin
+                    </Link>
+                  </Button>
                 </div>
                 {user ? (
                   <>

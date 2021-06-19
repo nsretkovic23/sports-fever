@@ -3,15 +3,17 @@ import { Container, Paper, TextField, Button } from '@material-ui/core'
 import classNames from 'classnames'
 import useStyles from '../Create Event/style'
 import FileBase from 'react-file-base64'
-import { credit } from '../../actions/event'
+import { askForCredit } from '../../actions/authentification'
+import { useDispatch } from 'react-redux'
 
 export const AddCreditForm = ({ idForUser, handleClose }) => {
   const classes = useStyles()
   const [creditRequest, setCreditRequest] = useState({
-    idOfUser: idForUser,
-    credit: '',
-    selectedFile: '',
+    userId: idForUser,
+    amount: '',
+    receipt: '',
   })
+  const dispatch = useDispatch()
 
   const handleChange = (e) => {
     e.preventDefault()
@@ -22,8 +24,8 @@ export const AddCreditForm = ({ idForUser, handleClose }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (creditRequest.credit) {
-      //dispatch(credit(creditRequest))
+    if (creditRequest.amount && creditRequest.receipt) {
+      dispatch(askForCredit(creditRequest))
       console.log(creditRequest)
       handleClose()
     }
@@ -34,10 +36,10 @@ export const AddCreditForm = ({ idForUser, handleClose }) => {
       <Paper className={classes.paperForUpdate} elevation={10}>
         <form className={classNames(classes.root, classes.form)}>
           <TextField
-            name='credit'
-            id='credit'
+            name='amount'
+            id='amount'
             variant='outlined'
-            label='Credit'
+            label='Amount'
             type='number'
             fullWidth
             value={creditRequest.credit}
@@ -49,7 +51,7 @@ export const AddCreditForm = ({ idForUser, handleClose }) => {
               type='file'
               multiple={false}
               onDone={({ base64 }) =>
-                setCreditRequest({ ...creditRequest, selectedFile: base64 })
+                setCreditRequest({ ...creditRequest, receipt: base64 })
               }
             />
           </Container>

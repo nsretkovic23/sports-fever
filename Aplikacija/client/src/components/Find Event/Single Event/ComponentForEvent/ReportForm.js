@@ -1,27 +1,20 @@
 import React, { useState } from 'react'
-import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
-import DateFnsUtils from '@date-io/date-fns' // choose your lib
-import {
-  Typography,
-  Paper,
-  TextField,
-  Button,
-  InputLabel,
-  Select,
-  MenuItem,
-} from '@material-ui/core'
+import { Paper, TextField, Button } from '@material-ui/core'
 import classNames from 'classnames'
 import useStyles from '../../../Create Event/style'
+import { sendReport } from '../../../../actions/event'
+import { useDispatch } from 'react-redux'
 
 export const ReportForm = ({ idForReport, handleClose, type, userID }) => {
   const classes = useStyles()
   const [report, setReport] = useState({
-    idOfReport: idForReport,
-    userThatReported: userID,
-    reportTitle: '',
-    reportDescription: '',
-    typeOfReport: type,
+    reportedThingId: idForReport,
+    userThatReportedId: userID,
+    title: '',
+    description: '',
+    type: type,
   })
+  const dispatch = useDispatch()
 
   const handleChange = (e) => {
     e.preventDefault()
@@ -32,8 +25,8 @@ export const ReportForm = ({ idForReport, handleClose, type, userID }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (report.reportTitle && report.reportDescription) {
-      //dispatch(reportEvent(report))
+    if (report.title && report.description) {
+      dispatch(sendReport(report))
       console.log(report)
       handleClose()
     }
@@ -45,24 +38,24 @@ export const ReportForm = ({ idForReport, handleClose, type, userID }) => {
       <Paper className={classes.paperForUpdate} elevation={10}>
         <form className={classNames(classes.root, classes.form)}>
           <TextField
-            name='reportTitle'
-            id='reportTitle'
+            name='title'
+            id='title'
             variant='outlined'
             label='Title'
             fullWidth
-            value={report.reportTitle}
+            value={report.title}
             onChange={handleChange}
             className={classes.tField}
           />
           <TextField
-            id='reportDescription'
+            id='description'
             label='Description:'
-            name='reportDescription'
+            name='description'
             variant='outlined'
             multiline
             rowsMax={5}
             fullWidth
-            value={report.reportDescription}
+            value={report.description}
             onChange={handleChange}
             className={classes.tField}
           />

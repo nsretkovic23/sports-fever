@@ -89,12 +89,3 @@ export const sendReport = (reportData) => async (dispatch) => {
     console.log(error)
   }
 }
-
-export const askForCredit = (credit) => async (dispatch) => {
-  try {
-    const { data } = await api.creditRequest(credit)
-    dispatch({ type: action.CREDIT, payload: data })
-  } catch (error) {
-    console.log(error)
-  }
-}
