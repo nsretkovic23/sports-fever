@@ -129,6 +129,20 @@ export const Form = ({
               disablePast={true}
             />
           </MuiPickersUtilsProvider>
+          <TextField
+            id='time'
+            name='time'
+            label='Time'
+            type='time'
+            value={event.time}
+            onChange={handleChange}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            inputProps={{
+              step: 300, // 5 min
+            }}
+          />
           <Typography variant='h6' className={classes.typography}>
             Latitude: {latitude}
           </Typography>
