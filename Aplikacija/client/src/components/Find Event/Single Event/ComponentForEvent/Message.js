@@ -10,13 +10,12 @@ export const Message = ({ message, own }) => {
   const history = useHistory()
 
   return (
-    <Container
-      className={
-        own === true
-          ? classNames(classes.message, classes.own, classes.ownMessageText)
-          : classes.message
-      }
-    >
+    <Container className={own === true ? classes.own : classes.message}>
+      <Container>
+        <Typography className={classes.messageSenderName}>
+          {message.senderName}
+        </Typography>
+      </Container>
       <Container className={classes.messageTop}>
         <Avatar
           className={classes.messageImg}
@@ -26,7 +25,13 @@ export const Message = ({ message, own }) => {
             history.push(`/userProfile/${message?.senderId}`)
           }}
         />
-        <Typography className={classes.messageText}>{message?.text}</Typography>
+        <Typography
+          className={
+            own === true ? classes.messageTextOwn : classes.messageText
+          }
+        >
+          {message?.text}
+        </Typography>
       </Container>
       <Container className={classes.messageBottom}>
         {format(message?.createdAt)}

@@ -37,7 +37,14 @@ export const UserProfile = () => {
     setOpen({ ...open, state: false })
   }
 
-  console.log(userr)
+  if (!userr) {
+    return (
+      <Typography variant='h5' align='center'>
+        There is no user with this id
+      </Typography>
+    )
+  }
+
   return (
     <>
       <Grid container direction='row' className={classes.container}>

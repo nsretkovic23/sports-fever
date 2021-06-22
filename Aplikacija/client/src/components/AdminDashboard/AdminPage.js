@@ -44,7 +44,6 @@ export const AdminPage = () => {
     dispatch(getAllReports())
   }, [])
 
-  console.log(reports)
   return (
     <>
       <Grid container direction='row' className={classes.container}>

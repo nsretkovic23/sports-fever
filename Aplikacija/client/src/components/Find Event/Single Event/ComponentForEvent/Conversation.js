@@ -85,7 +85,6 @@ export const Conversation = ({ messages, user, conversationID }) => {
     }
   }
 
-  console.log(newMessage)
   return (
     <>
       <Paper
@@ -96,7 +95,11 @@ export const Conversation = ({ messages, user, conversationID }) => {
           <Container className={classes.chatBoxWeapper}>
             <Container className={classes.chatBoxTop}>
               {socketMessages?.map((m, i) => (
-                <Container ref={scrollRef} key={i}>
+                <Container
+                  ref={scrollRef}
+                  key={i}
+                  className={classes.messageHolder}
+                >
                   <Message
                     message={m}
                     own={m?.senderId === user?.result?._id}

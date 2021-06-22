@@ -6,7 +6,7 @@ import { rateUser } from '../../../../actions/event'
 import CheckCircleIcon from '@material-ui/icons/CheckCircle'
 import { green } from '@material-ui/core/colors'
 
-export const RatingListItem = ({ idToProfile, event, userId }) => {
+export const RatingListItem = ({ idToProfile, event, userId, name }) => {
   const history = useHistory()
   const [mark, setMark] = useState('')
   const dispatch = useDispatch()
@@ -40,6 +40,7 @@ export const RatingListItem = ({ idToProfile, event, userId }) => {
           history.push(`/userProfile/${idToProfile}`)
         }}
       />
+      <Typography>{name}</Typography>
       {canRate ? (
         <>
           <TextField

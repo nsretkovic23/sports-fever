@@ -55,22 +55,6 @@ export const Authentification = () => {
     setShowPassword(false)
   }
 
-  const googleSuccess = async (res) => {
-    const result = res?.profileObj
-    const token = res?.tokenId
-    try {
-      dispatch({ type: AUTH, userData: { result, token } })
-      history.push('/')
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  const googleError = (ev) => {
-    ev.preventDefault()
-    alert('Google Sign In was unsuccessful.')
-  }
-
   return (
     <>
       <Container component='main' maxWidth='xs'>
@@ -153,7 +137,40 @@ export const Authentification = () => {
             >
               {isSignup ? 'Sign Up' : 'Sign In'}
             </Button>
-            <GoogleLogin
+            <Grid container justify='flex-end'>
+              <Grid item>
+                <Button onClick={switchMode}>
+                  {isSignup
+                    ? 'Already have an account? Sign in'
+                    : "Don't have an account? Sign Up"}
+                </Button>
+              </Grid>
+            </Grid>
+          </form>
+        </Paper>
+      </Container>
+    </>
+  )
+}
+
+/*
+ const googleSuccess = async (res) => {
+    const result = res?.profileObj
+    const token = res?.tokenId
+    try {
+      dispatch({ type: AUTH, userData: { result, token } })
+      history.push('/')
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const googleError = (ev) => {
+    ev.preventDefault()
+    alert('Google Sign In was unsuccessful.')
+  }
+  
+<GoogleLogin
               clientId={process.env.GOOGLE_ID}
               render={(renderProps) => (
                 <Button
@@ -171,19 +188,4 @@ export const Authentification = () => {
               onSuccess={googleSuccess}
               onFailure={googleError}
               cookiePolicy='single_host_origin'
-            />
-            <Grid container justify='flex-end'>
-              <Grid item>
-                <Button onClick={switchMode}>
-                  {isSignup
-                    ? 'Already have an account? Sign in'
-                    : "Don't have an account? Sign Up"}
-                </Button>
-              </Grid>
-            </Grid>
-          </form>
-        </Paper>
-      </Container>
-    </>
-  )
-}
+            /> */

@@ -26,7 +26,7 @@ export const ListOfRatedParticipants = ({ event, user }) => {
                   src='https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png'
                   alt=''
                   onClick={() => {
-                    history.push(`/userProfile/${user?.result?._id}`)
+                    history.push(`/userProfile/${el.id}`)
                   }}
                   key={i + 'a'}
                 />

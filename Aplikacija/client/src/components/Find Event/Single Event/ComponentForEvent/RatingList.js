@@ -28,6 +28,7 @@ export const RatingList = ({ event, user }) => {
             event={event}
             userId={user?.result?._id}
             key={i}
+            name={el.name}
           ></RatingListItem>
         ))}
       </Paper>

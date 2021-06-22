@@ -72,6 +72,14 @@ export default makeStyles((theme) => ({
         '0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19)',
     },
   },
+  messageSenderName: {
+    textAlign: 'left',
+    fontSize: '12px',
+  },
+  messageHolder: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
   message: {
     display: 'flex',
     flexDirection: 'column',
@@ -89,10 +97,18 @@ export default makeStyles((theme) => ({
     marginRight: '10px',
   },
 
-  messageText: {
+  messageTextOwn: {
     padding: '10px',
     borderTadius: '20px',
     backgroundColor: '#1877f2',
+    color: 'white',
+    maxWidth: '300px',
+  },
+
+  messageText: {
+    padding: '10px',
+    borderTadius: '20px',
+    backgroundColor: '#696969	',
     color: 'white',
     maxWidth: '300px',
   },
@@ -104,6 +120,12 @@ export default makeStyles((theme) => ({
 
   own: {
     alignItems: 'flex-end',
+    alignSelf: 'flex-end',
+    backgroundColor: 'rgb(245, 241, 241)',
+    color: 'black',
+    display: 'flex',
+    flexDirection: 'column',
+    marginTop: '20px',
   },
 
   ownMessageText: {

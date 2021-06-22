@@ -32,7 +32,6 @@ export const ReportForm = ({ idForReport, handleClose, type, userID }) => {
     }
   }
 
-  console.log(userID)
   return (
     <>
       <Paper className={classes.paperForUpdate} elevation={10}>
