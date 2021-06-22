@@ -264,10 +264,14 @@ export const Event = () => {
               0 ? (
               <RatingList event={event} user={user}></RatingList>
             ) : (
-              <ListOfRatedParticipants
-                event={event}
-                user={user}
-              ></ListOfRatedParticipants>
+              [
+                todaysDate.localeCompare(event?.date.split('T')[0]) !== -1 ? (
+                  <ListOfRatedParticipants
+                    event={event}
+                    user={user}
+                  ></ListOfRatedParticipants>
+                ) : null,
+              ]
             ),
           ]
         )}
