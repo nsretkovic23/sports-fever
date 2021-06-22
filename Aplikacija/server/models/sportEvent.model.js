@@ -9,14 +9,23 @@ const sportEventSchema = mongoose.Schema(
     title: String,
     description: String,
     date: Date,
+    time: String,
     free_spots: Number,
     sport: String,
     lat: Number,
     lng: Number,
     price: Number,
     creator: String,
-    participants: [{id:String, name:String, avgrate:Number, count:Number, ratings:[Number]}],
-    ratings: [{graderid:String, gradedid:String}]
+    participants: [
+      {
+        id: String,
+        name: String,
+        avgrate: Number,
+        count: Number,
+        ratings: [Number],
+      },
+    ],
+    ratings: [{ graderid: String, gradedid: String }],
   },
   {
     timestamps: true,

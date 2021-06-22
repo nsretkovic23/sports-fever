@@ -93,6 +93,7 @@ export const createSportEvent = async (req, res) => {
     title,
     description,
     date,
+    time,
     free_spots,
     sport,
     lat,
@@ -112,6 +113,7 @@ export const createSportEvent = async (req, res) => {
       title,
       description,
       date,
+      time,
       free_spots,
       sport,
       lat,
@@ -138,7 +140,7 @@ export const createSportEvent = async (req, res) => {
 
 export const updateSportEvent = async (req, res) => {
   const { id } = req.params
-  const { title, description, date, free_spots, sport, lat, lng, price } =
+  const { title, description, date, time, free_spots, sport, lat, lng, price } =
     req.body
 
   if (!mongoose.Types.ObjectId.isValid(id))
@@ -148,6 +150,7 @@ export const updateSportEvent = async (req, res) => {
     title,
     description,
     date,
+    time,
     free_spots,
     sport,
     lat,
