@@ -37,6 +37,7 @@ export const Event = () => {
     title: '',
     description: '',
     date: '',
+    time: '',
     free_spots: '',
     sport: '',
   })
@@ -48,6 +49,8 @@ export const Event = () => {
     isUpdate: null,
   })
   const todaysDate = new Date().toISOString().split('T')[0]
+  let tomorrow = new Date(event?.date)
+  tomorrow.setDate(tomorrow.getDate() + 1)
 
   // const handleClickOpen = () => {
   //   setOpen({
@@ -118,7 +121,13 @@ export const Event = () => {
     )
   }
 
-  console.log(state)
+  if (!event) {
+    return (
+      <Typography variant='h5' align='center'>
+        There is no event with this id
+      </Typography>
+    )
+  }
   return (
     <Grid container direction='row'>
       <Grid item xs={6}>
@@ -184,6 +193,10 @@ export const Event = () => {
           </Typography>
 
           <Typography align='center' variant='subtitle2'>
+            Time: {event?.time}
+          </Typography>
+
+          <Typography align='center' variant='subtitle2'>
             Sport: {event?.sport}
           </Typography>
           <Typography align='center' variant='subtitle2'>
@@ -238,7 +251,7 @@ export const Event = () => {
       </Grid>
       <Grid item xs={1}></Grid>
       <Grid item xs={4}>
-        {joined && todaysDate.localeCompare(event?.date.split('T')[0]) === 1 ? (
+        {joined && todaysDate.localeCompare(event?.date.split('T')[0]) !== 1 ? (
           <Conversation
             messages={messages}
             user={user}
@@ -246,7 +259,9 @@ export const Event = () => {
           />
         ) : (
           [
-            joined ? (
+            joined &&
+            tomorrow.toISOString().split('T')[0].localeCompare(todaysDate) ===
+              0 ? (
               <RatingList event={event} user={user}></RatingList>
             ) : (
               <ListOfRatedParticipants

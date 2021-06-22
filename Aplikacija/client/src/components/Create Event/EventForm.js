@@ -35,6 +35,7 @@ export const EventForm = () => {
       event.title &&
       event.description &&
       event.free_spots > 0 &&
+      event.time &&
       selectedDate &&
       latitude &&
       longitude
@@ -68,6 +69,7 @@ export const EventForm = () => {
       title: '',
       description: '',
       date: '',
+      time: '',
       free_spots: '',
       sport: '',
       price: '',

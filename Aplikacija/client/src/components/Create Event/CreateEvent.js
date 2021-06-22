@@ -8,6 +8,7 @@ export const CreateEvent = () => {
     title: '',
     description: '',
     date: '',
+    time: '',
     free_spots: '',
     sport: '',
     price: '',
