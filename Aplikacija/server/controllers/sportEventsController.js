@@ -165,7 +165,8 @@ export const updateSportEvent = async (req, res) => {
 }
 
 export const deleteSportEvent = async (req, res) => {
-  const { id } = req.params
+  const { id, userid } = req.params
+
 
   if (!mongoose.Types.ObjectId.isValid(id))
     return res.status(404).send(`No post with id: ${id}`)
@@ -174,8 +175,9 @@ export const deleteSportEvent = async (req, res) => {
   try {
     const sportEv = await SportEvent.findById(id)
     const evDate = new Date(sportEv.date)
+    const isUserAdmin = new User.findById(userid);
 
-    if (Date.now() < evDate) {
+    if (Date.now() < evDate || isUserAdmin.isAdmin === true) {
       const conversationForDeletion = await getConversation(sportEv.id)
 
       for (let i = 0; i < conversationForDeletion.allMessages.length; ++i) {
