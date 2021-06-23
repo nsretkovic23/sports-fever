@@ -23,8 +23,8 @@ router.get('/', getSportEvents)
 router.get('/:id', getSportEventById)
 router.post('/add', createSportEvent)
 router.patch('/:id', auth, updateSportEvent)
-router.post('/join', joinEvent);
-router.post('/rate', rateParticipants);
-router.delete('/:id/:userid', auth, deleteSportEvent);
+router.post('/join', joinEvent)
+router.post('/rate', rateParticipants)
+router.delete('/:id-:userid', auth, deleteSportEvent)
 
 export default router
