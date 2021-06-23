@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
 
 const userSchema = mongoose.Schema({
+    isAdmin:Boolean,
+    isBanned:Boolean,
     name: {type: String, required:true},
     email: {type:String, required:true},
     password: {type:String, required:true},
