@@ -167,7 +167,6 @@ export const updateSportEvent = async (req, res) => {
 export const deleteSportEvent = async (req, res) => {
   const { id, userid } = req.params
 
-
   if (!mongoose.Types.ObjectId.isValid(id))
     return res.status(404).send(`No post with id: ${id}`)
   //ako je date.now manji od date eventa, znaci da ev jos nije odrzan, vratiti kredite
@@ -175,7 +174,7 @@ export const deleteSportEvent = async (req, res) => {
   try {
     const sportEv = await SportEvent.findById(id)
     const evDate = new Date(sportEv.date)
-    const isUserAdmin = new User.findById(userid);
+    const isUserAdmin = await User.findById(userid)
 
     if (Date.now() < evDate || isUserAdmin.isAdmin === true) {
       const conversationForDeletion = await getConversation(sportEv.id)
