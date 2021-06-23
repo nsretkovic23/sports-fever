@@ -6,6 +6,8 @@ const reportsReducer = (reports = [], action) => {
       return action.payload
     case actionType.DELETE_REPORTS:
       return reports.filter((rep) => rep._id !== action.payload)
+    case actionType.BANNED:
+      return reports
     default:
       return reports
   }

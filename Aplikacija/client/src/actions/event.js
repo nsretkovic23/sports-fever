@@ -54,9 +54,9 @@ export const updateEvent = (id, event) => async (dispatch) => {
   }
 }
 
-export const deleteEvent = (id) => async (dispatch) => {
+export const deleteEvent = (id, userID) => async (dispatch) => {
   try {
-    await api.deleteEvent(id)
+    await api.deleteEvent(id, userID)
     dispatch({ type: action.DELETE, payload: id })
   } catch (error) {
     console.log(error)
