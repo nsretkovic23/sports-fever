@@ -17,6 +17,9 @@ export const signin = async (req,res) =>{
         if(!isPasswordTrue)
             return res.status(400).json({message:"Invalid password"});
 
+        if(existingUser.isBanned == true)
+            return res.status(400).json({message:"User is banned"});
+
         const token = jwt.sign({email:existingUser.email, id: existingUser._id}, 'test', {expiresIn: "1h"}) //ovde promeniti test i staviti taj 'test' secret string u env prom
 
         res.status(200).json({result:existingUser, token})
@@ -28,6 +31,8 @@ export const signin = async (req,res) =>{
 export const signup = async (req,res) =>{
     const { email, password, confirmPassword, firstName, lastName, profileImage}=req.body;
     const createdEvs = [];
+    const isAdmin = false;
+    const isBanned = false;
     try {
         const existingUser = await User.findOne({email}); //trazimo po email-u da li korisnicki nalog vec postoji
 
@@ -39,7 +44,7 @@ export const signup = async (req,res) =>{
 
         const hashedPasswrod = await bcrypt.hash(password, 12); //drugi arg je nivo "tezine" za hesiranje passworda
 
-        const result = await User.create({email, password:hashedPasswrod, name: `${firstName} ${lastName}`, credits:1000, createdEvs, profileImage});
+        const result = await User.create({email, password:hashedPasswrod, name: `${firstName} ${lastName}`, credits:1000, createdEvs, profileImage, isAdmin, isBanned});
 
         const token = jwt.sign({email:result.email, id: result._id}, 'test', {expiresIn: "1h"})
 
@@ -68,5 +73,15 @@ export const rateUser = async (id, rating) => {
     const sum = user.rates.reduce((acc, item)=> acc+item, 0);
     user.averageRate = sum / user.rates.length;
 
+    await User.findByIdAndUpdate(id, user, {new:true});
+}
+
+export const banUser = async (req, res) =>{
+    const {id} = req.params;
+    const user = await User.findById(id);
+
+    if(user)
+        user.isBanned = true;
+    
     await User.findByIdAndUpdate(id, user, {new:true});
 }
