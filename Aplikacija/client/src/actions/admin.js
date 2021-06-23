@@ -36,3 +36,12 @@ export const deleteReport = (id) => async (dispatch) => {
     console.log(error)
   }
 }
+
+export const banUser = (id) => async (dispatch) => {
+  try {
+    await api.banUser(id)
+    dispatch({ type: action.BANNED, payload: id })
+  } catch (error) {
+    console.log(error)
+  }
+}

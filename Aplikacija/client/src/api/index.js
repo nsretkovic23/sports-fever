@@ -16,7 +16,7 @@ export const fetchEvents = (long, lat, sport, date, spots, price) =>
 
 export const createEvent = (newEvent) => API.post(`/event/add`, newEvent)
 
-export const deleteEvent = (id) => API.delete(`/event/${id}`)
+export const deleteEvent = (id, userID) => API.delete(`/event/${id}-${userID}`)
 
 export const joinEvent = (data) => API.post(`/event/join/`, data)
 
@@ -46,3 +46,5 @@ export const signIn = (data) => API.post('/user/signin', data)
 export const signUp = (data) => API.post('/user/signup', data)
 
 export const fetchUserById = (id) => API.get(`/user/${id}`)
+
+export const banUser = (id) => API.patch(`/user/ban/${id}`)

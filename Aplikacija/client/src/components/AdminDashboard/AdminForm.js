@@ -5,8 +5,9 @@ import useStyles from '../Create Event/style'
 
 import { useDispatch } from 'react-redux'
 import { deleteEvent } from '../../actions/event'
+import { banUser } from '../../actions/admin'
 
-export const AdminForm = ({ buttonTitle, handleClose }) => {
+export const AdminForm = ({ buttonTitle, userId, handleClose }) => {
   const classes = useStyles()
   const [id, setId] = useState('')
   const dispatch = useDispatch()
@@ -15,16 +16,17 @@ export const AdminForm = ({ buttonTitle, handleClose }) => {
     e.preventDefault()
     if (id) {
       if (buttonTitle === 'Delete') {
-        //dispatch(deleteEvent(id))
+        dispatch(deleteEvent(id, userId))
         console.log('deleted')
       } else {
-        console.log(id)
+        dispatch(banUser(id))
         console.log('suspend')
       }
       handleClose()
     }
   }
 
+  console.log(userId)
   return (
     <>
       <Paper className={classes.paperForUpdate} elevation={10}>
@@ -34,7 +36,6 @@ export const AdminForm = ({ buttonTitle, handleClose }) => {
             id='amount'
             variant='outlined'
             label='ID'
-            type='number'
             fullWidth
             value={id}
             onChange={(ev) => {

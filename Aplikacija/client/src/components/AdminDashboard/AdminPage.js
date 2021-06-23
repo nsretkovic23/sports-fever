@@ -2,6 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Dialog from '@material-ui/core/Dialog'
 import { DialogContent, DialogTitle } from '../Find Event/style'
+import { Link, useHistory, useLocation } from 'react-router-dom'
+import CancelIcon from '@material-ui/icons/Cancel'
+
+import VisibilityIcon from '@material-ui/icons/Visibility'
 import {
   Grid,
   Avatar,
@@ -35,7 +39,7 @@ export const AdminPage = () => {
     dialogTitle: '',
     buttonTitle: '',
   })
-
+  const history = useHistory()
   const handleClose = () => {
     setOpen({ ...open, state: false })
   }
@@ -44,6 +48,7 @@ export const AdminPage = () => {
     dispatch(getAllReports())
   }, [])
 
+  console.log(reports)
   return (
     <>
       <Grid container direction='row' className={classes.container}>
@@ -120,12 +125,12 @@ export const AdminPage = () => {
                 ev.preventDefault()
                 setOpen({
                   state: true,
-                  dialogTitle: 'Suspend User',
-                  buttonTitle: 'Suspend',
+                  dialogTitle: 'Ban User',
+                  buttonTitle: 'Ban',
                 })
               }}
             >
-              Suspend User
+              Ban User
             </Button>
           </Grid>
         </Grid>
@@ -146,11 +151,22 @@ export const AdminPage = () => {
                         Type: {el.type} , Title: {el.title} , Desc:{' '}
                         {el.description}, id: {el.reportedThingId}
                         <Button
-                          startIcon={<DeleteIcon></DeleteIcon>}
+                          startIcon={<CancelIcon></CancelIcon>}
                           value={el._id}
                           onClick={(ev) => {
                             ev.preventDefault()
                             dispatch(deleteReport(el._id))
+                          }}
+                        ></Button>
+                        <Button
+                          startIcon={<VisibilityIcon></VisibilityIcon>}
+                          value={el._id}
+                          onClick={(ev) => {
+                            ev.preventDefault()
+                            if (el.type === 'Event')
+                              history.push(`/singleEvent/${el.reportedThingId}`)
+                            else
+                              history.push(`/userProfile/${el.reportedThingId}`)
                           }}
                         ></Button>
                       </Typography>
@@ -163,11 +179,19 @@ export const AdminPage = () => {
                       <Typography>Amount: {el.amount}</Typography>
                       <Typography>Ovde ide slika priznanice</Typography>
                       <Button
-                        startIcon={<DeleteIcon></DeleteIcon>}
+                        startIcon={<CancelIcon></CancelIcon>}
                         value={el._id}
                         onClick={(ev) => {
                           ev.preventDefault()
                           dispatch(deleteCredit(el._id))
+                        }}
+                      ></Button>
+                      <Button
+                        startIcon={<VisibilityIcon></VisibilityIcon>}
+                        value={el._id}
+                        onClick={(ev) => {
+                          ev.preventDefault()
+                          history.push(`/userProfile/${el.userId}`)
                         }}
                       ></Button>
                     </Container>
@@ -185,6 +209,7 @@ export const AdminPage = () => {
             <DialogContent dividers>
               <AdminForm
                 buttonTitle={open.buttonTitle}
+                userId={user?.result?._id}
                 handleClose={handleClose}
               ></AdminForm>
             </DialogContent>
