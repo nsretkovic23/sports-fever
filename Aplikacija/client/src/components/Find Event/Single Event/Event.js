@@ -113,13 +113,6 @@ export const Event = () => {
   }
 
   const state = useSelector((state) => state.events)
-  if (!user?.result?.name) {
-    return (
-      <Typography variant='h5' align='center'>
-        Sign in if you want to view event
-      </Typography>
-    )
-  }
 
   if (!event) {
     return (
@@ -128,85 +121,123 @@ export const Event = () => {
       </Typography>
     )
   }
+
+  console.log(user?.result?._id)
   return (
-    <Grid container direction='row'>
+    <Grid container direction='row' className={classes.container}>
       <Grid item xs={6}>
         <Paper className={classes.paper} elevation={10}>
-          {user?.result?.googleId === event?.creator ||
-          user?.result?._id === event?.creator ? (
-            <ButtonGroup variant='contained' className={classes.buttonGroup}>
-              <Button
-                className={classes.buttons}
-                variant='contained'
-                onClick={(ev) => {
-                  ev.preventDefault()
-                  setOpen({
-                    state: true,
-                    title: 'Update your event',
-                    isUpdate: true,
-                  })
-                }}
-              >
-                Update
-              </Button>
-              <Button
-                className={classes.buttons}
-                variant='contained'
-                onClick={(ev) => {
-                  ev.preventDefault()
-                  dispatch(deleteEvent(_id[1]))
-                  history.push('/')
-                }}
-              >
-                Delete
-              </Button>
-            </ButtonGroup>
-          ) : (
-            <ButtonGroup variant='contained' className={classes.buttonGroup}>
-              <Button
-                className={classes.buttons}
-                variant='contained'
-                onClick={(ev) => {
-                  ev.preventDefault()
-                  setOpen({
-                    state: true,
-                    title: 'Report this event',
-                    isUpdate: false,
-                  })
-                }}
-              >
-                Report
-              </Button>
-            </ButtonGroup>
-          )}
+          {user
+            ? [
+                user?.result?.googleId === event?.creator ||
+                user?.result?._id === event?.creator ? (
+                  <ButtonGroup
+                    variant='contained'
+                    className={classes.buttonGroup}
+                  >
+                    <Button
+                      className={classes.buttons}
+                      variant='contained'
+                      onClick={(ev) => {
+                        ev.preventDefault()
+                        setOpen({
+                          state: true,
+                          title: 'Update your event',
+                          isUpdate: true,
+                        })
+                      }}
+                    >
+                      Update
+                    </Button>
+                    <Button
+                      className={classes.buttons}
+                      variant='contained'
+                      onClick={(ev) => {
+                        ev.preventDefault()
+                        dispatch(deleteEvent(_id[1], user?.result?._id))
+                        history.push('/')
+                      }}
+                    >
+                      Delete
+                    </Button>
+                  </ButtonGroup>
+                ) : (
+                  <ButtonGroup
+                    variant='contained'
+                    className={classes.buttonGroup}
+                  >
+                    <Button
+                      className={classes.buttons}
+                      variant='contained'
+                      onClick={(ev) => {
+                        ev.preventDefault()
+                        setOpen({
+                          state: true,
+                          title: 'Report this event',
+                          isUpdate: false,
+                        })
+                      }}
+                    >
+                      Report
+                    </Button>
+                  </ButtonGroup>
+                ),
+              ]
+            : null}
 
-          <Typography align='center' variant='h3'>
+          <Typography align='center' variant='h3' className={classes.infoTitle}>
             {event?.title}
           </Typography>
 
-          <Typography align='center' variant='subtitle1'>
+          <Typography
+            align='center'
+            variant='subtitle2'
+            className={classes.info}
+          >
             {event?.description}
           </Typography>
 
-          <Typography align='center' variant='subtitle2'>
+          <Typography
+            align='center'
+            variant='subtitle2'
+            className={classes.info}
+          >
             Date: {event?.date?.split('T')[0]}
           </Typography>
 
-          <Typography align='center' variant='subtitle2'>
+          <Typography
+            align='center'
+            variant='subtitle2'
+            className={classes.info}
+          >
             Time: {event?.time}
           </Typography>
 
-          <Typography align='center' variant='subtitle2'>
+          <Typography
+            align='center'
+            variant='subtitle2'
+            className={classes.info}
+          >
             Sport: {event?.sport}
           </Typography>
-          <Typography align='center' variant='subtitle2'>
+          <Typography
+            align='center'
+            variant='subtitle2'
+            className={classes.info}
+          >
             Available spots: {event?.free_spots}
           </Typography>
-          <Typography align='center' variant='subtitle2'>
+          <Typography
+            align='center'
+            variant='subtitle2'
+            className={classes.info}
+          >
             Price: {event?.price}
           </Typography>
 
-          {!joined ? (
+          {!joined &&
+          user &&
+          todaysDate.localeCompare(event?.date.split('T')[0]) <= 0 ? (
             <Button
               className={classes.buttons}
               variant='contained'
@@ -251,7 +282,9 @@ export const Event = () => {
       </Grid>
       <Grid item xs={1}></Grid>
       <Grid item xs={4}>
-        {joined && todaysDate.localeCompare(event?.date.split('T')[0]) !== 1 ? (
+        {joined &&
+        user &&
+        todaysDate.localeCompare(event?.date.split('T')[0]) !== 1 ? (
           <Conversation
             messages={messages}
             user={user}
@@ -261,16 +294,20 @@ export const Event = () => {
           [
             joined &&
             tomorrow.toISOString().split('T')[0].localeCompare(todaysDate) ===
-              0 ? (
+              0 &&
+            user ? (
               <RatingList event={event} user={user}></RatingList>
             ) : (
               [
-                todaysDate.localeCompare(event?.date.split('T')[0]) !== -1 ? (
+                todaysDate.localeCompare(event?.date.split('T')[0]) > 0 &&
+                user ? (
                   <ListOfRatedParticipants
                     event={event}
                     user={user}
                   ></ListOfRatedParticipants>
-                ) : null,
+                ) : (
+                  <Typography>Sign in for more feature</Typography>
+                ),
               ]
             ),
           ]

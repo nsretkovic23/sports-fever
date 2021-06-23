@@ -6,6 +6,8 @@ import { createEvent } from '../../actions/event'
 import { Form } from './Form'
 import { Grid, Typography } from '@material-ui/core'
 import { Notification } from '../Notifications/Notification'
+import classNames from 'classnames'
+import useStyles from './style'
 
 export const EventForm = () => {
   const { event, setEvent } = useContext(CreateEventContext)
@@ -19,7 +21,7 @@ export const EventForm = () => {
     messageText: '',
     typeOfNotification: '',
   })
-
+  const classes = useStyles()
   const dispatch = useDispatch()
 
   const handleChange = (e) => {
@@ -88,7 +90,7 @@ export const EventForm = () => {
 
   return (
     <>
-      <Grid container direction='row'>
+      <Grid container direction='row' className={classes.container}>
         {notification.show ? (
           <Notification
             notification={notification}

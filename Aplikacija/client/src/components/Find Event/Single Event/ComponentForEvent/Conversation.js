@@ -87,10 +87,7 @@ export const Conversation = ({ messages, user, conversationID }) => {
 
   return (
     <>
-      <Paper
-        className={classNames(classes.paper, classes.paperMessage)}
-        elevation={10}
-      >
+      <Paper className={classNames(classes.paperMessage)} elevation={10}>
         <Container className={classes.chatBox}>
           <Container className={classes.chatBoxWeapper}>
             <Container className={classes.chatBoxTop}>

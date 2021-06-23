@@ -79,6 +79,11 @@ export const UserProfile = () => {
             direction='column'
             className={classes.sideBarButtons}
           >
+            {userr?.isBanned ? (
+              <Typography align='center' className={classes.bannedTag}>
+                This user has been banned!
+              </Typography>
+            ) : null}
             <Button
               color='inherit'
               startIcon={<AccountBoxIcon></AccountBoxIcon>}

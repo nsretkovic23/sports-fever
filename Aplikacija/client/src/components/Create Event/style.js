@@ -6,12 +6,20 @@ export default makeStyles((theme) => ({
       margin: theme.spacing(1),
     },
   },
+  container: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
   paperForCreate: {
     marginTop: theme.spacing(6),
     marginLeft: theme.spacing(2),
     marginRight: theme.spacing(2),
     padding: theme.spacing(3),
     backgroundColor: '#04D4F0',
+    display: 'flex',
+    flexDirection: 'column',
+    flexWrap: 'wrap',
   },
   paperForUpdate: {
     marginLeft: theme.spacing(2),
@@ -25,7 +33,7 @@ export default makeStyles((theme) => ({
     flexWrap: 'wrap',
   },
   fileInput: {
-    width: '97%',
+    width: '100%',
     margin: '10px 0',
   },
   buttonSubmit: {

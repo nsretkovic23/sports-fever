@@ -6,6 +6,7 @@ export default makeStyles((theme) => ({
     marginRight: '10px',
     marginBottom: '15px',
     boxShadow: '0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19)',
+    display: 'flex',
   },
   link: {
     textDecoration: 'none',
@@ -13,9 +14,10 @@ export default makeStyles((theme) => ({
   },
   buttons: {
     backgroundColor: '#04ECF0',
-    marginTop: '20px',
+    marginTop: '10px',
     marginBottom: '5px',
     alignSelf: 'center',
+    width: '100%',
     textAlign: 'center',
     '&:hover': {
       backgroundColor: '#04ECF0',
@@ -31,11 +33,11 @@ export default makeStyles((theme) => ({
     alignSelf: 'center',
     textAlign: 'center',
     fontWeight: 'bold',
-    marginBottom: '10px',
+    marginBottom: '5px',
   },
   typography: {
-    fontSize: '20px',
-    padding: theme.spacing(1),
+    fontSize: '16px',
+    //padding: theme.spacing(1),
   },
   geolocation: {
     color: '#000000',

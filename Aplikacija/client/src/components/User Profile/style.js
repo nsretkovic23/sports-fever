@@ -60,4 +60,9 @@ export default makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'row',
   },
+  bannedTag: {
+    color: 'red',
+    fontWeight: 'bold',
+    marginBottom: '10px',
+  },
 }))

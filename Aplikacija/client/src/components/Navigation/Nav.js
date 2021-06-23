@@ -76,19 +76,20 @@ export const Nav = () => {
                       Find Event
                     </Link>
                   </Button>
-                  <Button className={classes.buttons}>
-                    {' '}
-                    <Link to='/admin' className={classes.link}>
-                      Admin
-                    </Link>
-                  </Button>
+                  {user?.result?.isAdmin ? (
+                    <Button className={classes.buttons}>
+                      <Link to='/admin' className={classes.link}>
+                        Admin
+                      </Link>
+                    </Button>
+                  ) : null}
                 </div>
                 {user ? (
                   <>
                     <Avatar
-                      alt={user?.result.name}
+                      alt={user?.result?.name}
                       src={
-                        user?.result.profileImage ||
+                        user?.result?.profileImage ||
                         'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png'
                       }
                       aria-label='account of current user'
@@ -115,7 +116,7 @@ export const Nav = () => {
                       <MenuItem onClick={handleClose}>
                         <Link
                           to={{
-                            pathname: `/userProfile/${user.result._id}`,
+                            pathname: `/userProfile/${user?.result?._id}`,
                           }}
                           className={classes.link}
                         >

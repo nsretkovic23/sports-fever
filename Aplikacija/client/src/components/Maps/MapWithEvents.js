@@ -109,6 +109,9 @@ export const MapWithEvents = ({ find, radius, setRadius }) => {
                 Date: {selectedMarker.date.split('T')[0]}
               </Typography>
               <Typography className={classes.typography}>
+                Time: {selectedMarker.time}
+              </Typography>
+              <Typography className={classes.typography}>
                 Available Spots: {selectedMarker.free_spots}
               </Typography>
               <Typography className={classes.typography}>
