@@ -55,7 +55,7 @@ export default makeStyles((theme) => ({
     display: 'flex',
     flexWrap: 'wrap',
     alignSelf: 'flex-end',
-    marginBottom: '30px',
+    marginBottom: '10px',
   },
   chatBoxWeapper: {
     display: 'flex',
@@ -225,6 +225,50 @@ export default makeStyles((theme) => ({
     flexWrap: 'wrap',
     marginTop: '20px',
     alignSelf: 'center',
+  },
+  ratedParticipant: {
+    display: 'flex',
+    flexDirection: 'row',
+    height: '50px',
+    marginBottom: '20px',
+  },
+  ratedInfo: {
+    marginLeft: '15px',
+    textAlign: 'center',
+  },
+  paperRated: {
+    display: 'flex',
+    flexDirection: 'column',
+    textAlign: 'center',
+    padding: '20px 20px',
+    margin: '20px 40px',
+  },
+  ratedTitle: {
+    marginBottom: '20px',
+    fontWeight: 'bold',
+  },
+  rateInfo: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginBottom: '15px',
+  },
+  rateUserName: {
+    fontSize: '20px',
+    fontWeight: 'bold',
+    marginLeft: '20px',
+  },
+  rateInput: {
+    width: '70%',
+  },
+  rateButton: {
+    backgroundColor: '#04ECF0',
+    '&:hover': {
+      backgroundColor: '#04ECF0',
+      boxShadow:
+        '0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19)',
+    },
+    marginLeft: '30px',
   },
 }))
 

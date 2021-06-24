@@ -7,11 +7,12 @@ import {
   Typography,
   Avatar,
 } from '@material-ui/core'
-
+import useStyles from '../../style'
 import { RatingListItem } from './RatingListItem'
 
 export const RatingList = ({ event, user }) => {
   const [filteredParticipants, setFilteredParticipants] = useState([])
+  const classes = useStyles()
 
   useEffect(() => {
     setFilteredParticipants(
@@ -21,7 +22,10 @@ export const RatingList = ({ event, user }) => {
 
   return (
     <>
-      <Paper elevation={10}>
+      <Paper elevation={10} className={classes.paperRated}>
+        <Typography variant='h5' className={classes.ratedTitle}>
+          Rate participant
+        </Typography>
         {filteredParticipants?.map((el, i) => (
           <RatingListItem
             idToProfile={el.id}

@@ -62,4 +62,29 @@ export default makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'row',
   },
+  reportContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    widht: '100%',
+    marginBottom: '10px',
+    marginTop: '10px',
+    borderBottom: '1px solid black',
+    padding: '10px 10px',
+  },
+  buttonGroup: {
+    alignSelf: 'flex-end',
+    width: '30%',
+    alignItems: 'flex-end',
+    textAlign: 'right',
+  },
+  infoGroup: {
+    display: 'flex',
+    flexDirection: 'column',
+    flexWrap: 'wrap',
+    widht: '70%',
+  },
+  typography: {
+    marginLeft: '10px',
+    fontWeight: 'bold',
+  },
 }))

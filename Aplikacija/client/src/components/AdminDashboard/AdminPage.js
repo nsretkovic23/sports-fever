@@ -72,7 +72,7 @@ export const AdminPage = () => {
             <Typography align='center' variant='h6'>
               {user?.result?.name}
             </Typography>
-            <Typography align='center'>Admin</Typography>
+            <Typography align='center'>Admin Dashboard</Typography>
           </Grid>
           <Grid
             container
@@ -145,11 +145,19 @@ export const AdminPage = () => {
             {display === 'reports'
               ? reports?.map((el) => {
                   return (
-                    <Container>
-                      <Typography>
-                        {' '}
-                        Type: {el.type} , Title: {el.title} , Desc:{' '}
-                        {el.description}, id: {el.reportedThingId}
+                    <Container className={classes.reportContainer}>
+                      <Container className={classes.infoGroup}>
+                        <Typography className={classes.typography}>
+                          Type: {el.type}
+                        </Typography>
+                        <Typography className={classes.typography}>
+                          Title: {el.title}
+                        </Typography>
+                        <Typography className={classes.typography}>
+                          Desc: {el.description}
+                        </Typography>
+                      </Container>
+                      <Container className={classes.buttonGroup}>
                         <Button
                           startIcon={<CancelIcon></CancelIcon>}
                           value={el._id}
@@ -169,31 +177,39 @@ export const AdminPage = () => {
                               history.push(`/userProfile/${el.reportedThingId}`)
                           }}
                         ></Button>
-                      </Typography>
+                      </Container>
                     </Container>
                   )
                 })
               : credits?.map((el) => {
                   return (
-                    <Container>
-                      <Typography>Amount: {el.amount}</Typography>
-                      <Typography>Ovde ide slika priznanice</Typography>
-                      <Button
-                        startIcon={<CancelIcon></CancelIcon>}
-                        value={el._id}
-                        onClick={(ev) => {
-                          ev.preventDefault()
-                          dispatch(deleteCredit(el._id))
-                        }}
-                      ></Button>
-                      <Button
-                        startIcon={<VisibilityIcon></VisibilityIcon>}
-                        value={el._id}
-                        onClick={(ev) => {
-                          ev.preventDefault()
-                          history.push(`/userProfile/${el.userId}`)
-                        }}
-                      ></Button>
+                    <Container className={classes.reportContainer}>
+                      <Container className={classes.infoGroup}>
+                        <Typography className={classes.typography}>
+                          Amount: {el.amount}
+                        </Typography>
+                        <Typography className={classes.typography}>
+                          Ovde ide slika priznanice
+                        </Typography>
+                      </Container>
+                      <Container className={classes.buttonGroup}>
+                        <Button
+                          startIcon={<CancelIcon></CancelIcon>}
+                          value={el._id}
+                          onClick={(ev) => {
+                            ev.preventDefault()
+                            dispatch(deleteCredit(el._id))
+                          }}
+                        ></Button>
+                        <Button
+                          startIcon={<VisibilityIcon></VisibilityIcon>}
+                          value={el._id}
+                          onClick={(ev) => {
+                            ev.preventDefault()
+                            history.push(`/userProfile/${el.userId}`)
+                          }}
+                        ></Button>
+                      </Container>
                     </Container>
                   )
                 })}
