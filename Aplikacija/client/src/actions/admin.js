@@ -45,3 +45,12 @@ export const banUser = (id) => async (dispatch) => {
     console.log(error)
   }
 }
+
+export const addCredit = (data) => async (dispatch) => {
+  try {
+    await api.addCredit(data)
+    dispatch({ type: action.ADD_CREDIT, payload: null })
+  } catch (error) {
+    console.log(error)
+  }
+}

@@ -4,6 +4,7 @@ import Dialog from '@material-ui/core/Dialog'
 import { DialogContent, DialogTitle } from '../Find Event/style'
 import { Link, useHistory, useLocation } from 'react-router-dom'
 import CancelIcon from '@material-ui/icons/Cancel'
+import AddIcon from '@material-ui/icons/Add'
 
 import VisibilityIcon from '@material-ui/icons/Visibility'
 import {
@@ -131,6 +132,21 @@ export const AdminPage = () => {
               }}
             >
               Ban User
+            </Button>
+            <Button
+              color='inherit'
+              startIcon={<AddIcon></AddIcon>}
+              fullWidth
+              onClick={(ev) => {
+                ev.preventDefault()
+                setOpen({
+                  state: true,
+                  dialogTitle: 'Add credit',
+                  buttonTitle: 'Add',
+                })
+              }}
+            >
+              Add credit
             </Button>
           </Grid>
         </Grid>

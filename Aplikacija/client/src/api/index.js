@@ -39,6 +39,7 @@ export const getCredits = () => API.get(`/creditrequest/`)
 
 export const deleteReport = (id) => API.delete(`/report/delete/${id}`)
 export const deleteCredit = (id) => API.delete(`/creditrequest/delete/${id}`)
+
 //---------------------------------------------------------------------------
 
 export const signIn = (data) => API.post('/user/signin', data)
@@ -48,3 +49,5 @@ export const signUp = (data) => API.post('/user/signup', data)
 export const fetchUserById = (id) => API.get(`/user/${id}`)
 
 export const banUser = (id) => API.patch(`/user/ban/${id}`)
+
+export const addCredit = (data) => API.patch(`/user/addcredits`, data)

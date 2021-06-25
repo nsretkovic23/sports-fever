@@ -6,6 +6,8 @@ const creditsReducer = (credits = [], action) => {
       return action.payload
     case actionType.DELETE_CREDITS:
       return credits.filter((req) => req._id !== action.payload)
+    case actionType.ADD_CREDIT:
+      return credits
     default:
       return credits
   }
