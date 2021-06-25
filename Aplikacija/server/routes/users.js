@@ -1,5 +1,6 @@
 import express, { Router } from 'express'
 import {
+  addCredits,
   banUser,
   getUserById,
   signin,
@@ -13,5 +14,6 @@ router.post('/signin', signin)
 router.post('/signup', signup)
 router.get('/:id', getUserById)
 router.patch('/ban/:id', auth, banUser)
+router.patch('/addcredits', addCredits)
 
 export default router
