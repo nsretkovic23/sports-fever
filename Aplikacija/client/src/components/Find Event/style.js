@@ -21,7 +21,7 @@ export default makeStyles((theme) => ({
   },
   container: {
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
     flexWrap: 'wrap',
   },
   paperMessage: {
@@ -187,8 +187,8 @@ export default makeStyles((theme) => ({
   },
   findFrom: {
     display: 'flex',
-    flexDirection: 'column',
-    flexWrap: 'wrap',
+    flexDirection: 'row',
+    marginBottom: '20px',
   },
   fileInput: {
     width: '100%',
@@ -222,7 +222,6 @@ export default makeStyles((theme) => ({
   },
   buttonGroupForm: {
     display: 'flex',
-    flexWrap: 'wrap',
     marginTop: '20px',
     alignSelf: 'center',
   },
@@ -269,6 +268,15 @@ export default makeStyles((theme) => ({
         '0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19)',
     },
     marginLeft: '30px',
+  },
+  backImage: {
+    backgroundImage:
+      'url("https://img.freepik.com/free-vector/basketball-court-street_33099-1124.jpg?size=626&ext=jpg")',
+    backgroundRepeat: 'no-repeat',
+    height: '100%',
+    width: '100%',
+    flexGrow: '1',
+    padding: '20px 10px',
   },
 }))
 
