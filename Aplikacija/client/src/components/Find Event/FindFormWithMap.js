@@ -75,8 +75,8 @@ export const FindFormWithMap = () => {
   }
 
   return (
-    <Grid container direction='column' className={classes.container}>
-      <Grid item xs className={classes.backImage}>
+    <Grid container direction='row' className={classes.container}>
+      <Grid item xs={3}>
         <Paper className={classes.paperForm} elevation={10}>
           <form className={classNames(classes.root, classes.findFrom)}>
             <Typography variant='h5' className={classes.title}>
@@ -158,7 +158,7 @@ export const FindFormWithMap = () => {
           </form>
         </Paper>
       </Grid>
-      <Grid item xs>
+      <Grid item xs={9}>
         <MapWithEvents find={find} radius={radius} setRadius={setRadius} />
       </Grid>
     </Grid>
