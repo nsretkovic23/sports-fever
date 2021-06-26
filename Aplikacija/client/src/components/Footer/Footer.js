@@ -2,23 +2,26 @@ import React, { useState } from 'react'
 import { Link, useHistory, useLocation } from 'react-router-dom'
 import './Footer.css'
 import useStyles from './style'
+import HomeIcon from '@material-ui/icons/Home';
+import EmailIcon from '@material-ui/icons/Email';
+import PhoneIcon from '@material-ui/icons/Phone';
+import PrintIcon from '@material-ui/icons/Print';
 
 function Footer() {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')))
   const classes = useStyles()
   return (
-    <div className='main-footer'>
-      <div className='container'>
+    <>
         <div className='row'>
           {/* Column1 */}
           <div className='col'>
             <h4>SportsFever</h4>
             <h1 className='list-unstyled'>
-              <p>Neki tekst da opise SportsFever</p>
+              <p>Find sport events you are interested about!</p>
             </h1>
           </div>
           {/* Column2 */}
-          <div className='col'>
+          <div className='col2'>
             <h4>Quick Links</h4>
             <ui className='list-unstyled'>
               <li>
@@ -44,25 +47,25 @@ function Footer() {
             </ui>
           </div>
           {/* Column3 */}
-          <div className='col'>
+          <div className='col3'>
             <h4>Contact</h4>
             <ui className='list-unstyled'>
-              <li>New York,NY 10012,US</li>
-              <li>info@example.com</li>
-              <li>+01 234 567 88</li>
-              <li>+01 234 567 89</li>
+              <li><HomeIcon fontSize={"small"}></HomeIcon>  Nis,18000,RS</li>
+              <li><EmailIcon fontSize={"small"}></EmailIcon>  info@sportsfever.com</li>
+              <li><PhoneIcon fontSize={"small"}></PhoneIcon>  +381 234 567 88</li>
+              <li><PrintIcon fontSize={"small"}></PrintIcon>  +381 234 567 89</li>
             </ui>
           </div>
-        </div>
-        <hr />
-        <div className='row'>
-          <p className='col-sm'>
-            &copy;{new Date().getFullYear()} SportsFever | All rights reserved |
-            Terms Of Service | Privacy
-          </p>
-        </div>
+        
       </div>
+      <hr />
+      <div className='copyright'>
+      <p className='col-sm'>
+        &copy;{new Date().getFullYear()} SportsFever | All rights reserved |
+        Terms Of Service | Privacy
+      </p>
     </div>
+ </>
   )
 }
 

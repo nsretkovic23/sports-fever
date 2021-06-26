@@ -8,19 +8,51 @@
   display: flex;
 }
 
-.container {
+.footerCont{
+  background-color: #04D4F0;
+  margin-top: 40px;
+  width: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-size: small;
+
 }
+.copyright{
+  text-align: center;
+}
+
 
 .row {
   display: flex;
   flex-direction: row;
   flex-grow: 1;
   text-align: center;
+  justify-content: space-around;
 }
 
 .link {
   text-decoration: none;
   color: black;
 }
+
+.col2{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.col2 li{
+  text-align: left;
+}
+
+.col3 li{
+  text-align: left;
+  list-style-type: none;
+}
+.col3 span{
+  background-color: wheat;
+  margin-bottom: -12px;
+}
+
+

@@ -7,7 +7,7 @@ import { Nav } from './components/Navigation/Nav'
 import { Authentification } from './components/Authentification/Authentification'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import { UserProfile } from './components/User Profile/UserProfile'
-import { Grid } from '@material-ui/core'
+import { Container, Grid } from '@material-ui/core'
 import { AdminPage } from './components/AdminDashboard/AdminPage'
 import Footer from './components/Footer/Footer'
 const App = () => {
@@ -42,7 +42,7 @@ const App = () => {
               </Route>
             </Switch>
           </Grid>
-          <Grid item>
+          <Grid className="footerCont">
             <Footer></Footer>
           </Grid>
         </Router>

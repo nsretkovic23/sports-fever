@@ -47,6 +47,7 @@ export const AddCreditForm = ({ idForUser, handleClose }) => {
             className={classes.tField}
           />
           <Container className={classes.fileInput}>
+            Proof of payment:
             <FileBase
               type='file'
               multiple={false}

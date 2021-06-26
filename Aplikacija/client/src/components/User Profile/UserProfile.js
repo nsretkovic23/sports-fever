@@ -22,6 +22,7 @@ import { DialogContent, DialogTitle } from '../Find Event/style'
 import { ReportForm } from '../Find Event/Single Event/ComponentForEvent/ReportForm'
 import { AddCreditForm } from './AddCreditForm'
 import PaymentIcon from '@material-ui/icons/Payment'
+import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 
 export const UserProfile = () => {
   const userr = useSelector((state) => state.auth.authData)
@@ -48,7 +49,7 @@ export const UserProfile = () => {
   if (!userr) {
     return (
       <Typography variant='h5' align='center'>
-        There is no user with this id
+        This page does not exist!
       </Typography>
     )
   }
@@ -76,10 +77,14 @@ export const UserProfile = () => {
             <Typography align='center' variant='h6'>
               {userr?.name}
             </Typography>
-            <Typography align='center'>
-              {userr?.averageRate}
+            <Typography className={classes.userInfoContainers} align='center'>
+              Average rating:  {userr?.averageRate}
               <GradeIcon style={{ color: yellow[400] }}></GradeIcon>
             </Typography>
+            <Typography className={classes.userInfoContainers} align='center'>
+              Credit status:  {userr?.credits}  <MonetizationOnIcon style={{ color: yellow[400] }}></MonetizationOnIcon>
+            </Typography>
+
           </Grid>
           <Grid
             container
@@ -92,16 +97,7 @@ export const UserProfile = () => {
                 This user has been banned!
               </Typography>
             ) : null}
-            <Button
-              color='inherit'
-              startIcon={<AccountBoxIcon></AccountBoxIcon>}
-              fullWidth
-              onClick={(ev) => {
-                ev.preventDefault()
-              }}
-            >
-              Account
-            </Button>
+            
             {user?.result?._id != _id[1] ? (
               <Button
                 color='inherit'
