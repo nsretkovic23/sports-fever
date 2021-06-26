@@ -18,6 +18,16 @@ import { Conversation } from './ComponentForEvent/Conversation'
 import { RatingList } from './ComponentForEvent/RatingList'
 import { ListOfRatedParticipants } from './ComponentForEvent/ListOfRatedParticipants'
 import { ReportForm } from './ComponentForEvent/ReportForm'
+import CheckCircleIcon from '@material-ui/icons/CheckCircle'
+import Container from '@material-ui/core/Container';
+import TimerIcon from '@material-ui/icons/Timer';
+import SportsFootballIcon from '@material-ui/icons/SportsFootball';
+import EventIcon from '@material-ui/icons/Event';
+import FormatListNumberedRtlIcon from '@material-ui/icons/FormatListNumberedRtl';
+import { green, orange, yellow } from '@material-ui/core/colors'
+import PaymentIcon from '@material-ui/icons/Payment';
+import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
+import {MapWithSingleEvent} from '../../Maps/MapWithSingleEvent';
 
 export const Event = () => {
   const user = JSON.parse(localStorage.getItem('profile'))
@@ -184,7 +194,6 @@ export const Event = () => {
                 ),
               ]
             : null}
-
           <Typography align='center' variant='h3' className={classes.infoTitle}>
             {event?.title}
           </Typography>
@@ -192,47 +201,48 @@ export const Event = () => {
           <Typography
             align='center'
             variant='subtitle2'
-            className={classes.info}
+            className={classes.subtitle}
           >
             {event?.description}
           </Typography>
 
+          <Container className={classes.infoContainer}>
           <Typography
-            align='center'
+            align='left'
             variant='subtitle2'
             className={classes.info}
           >
-            Date: {event?.date?.split('T')[0]}
+            <EventIcon></EventIcon> {event?.date?.split('T')[0]}
           </Typography>
 
           <Typography
-            align='center'
+            align='left'
             variant='subtitle2'
             className={classes.info}
           >
-            Time: {event?.time}
+            <TimerIcon></TimerIcon> {event?.time}
           </Typography>
 
           <Typography
-            align='center'
+            align='left'
             variant='subtitle2'
             className={classes.info}
           >
-            Sport: {event?.sport}
+            <SportsFootballIcon></SportsFootballIcon> {event?.sport}
           </Typography>
           <Typography
-            align='center'
+            align='left'
             variant='subtitle2'
             className={classes.info}
           >
-            Available spots: {event?.free_spots}
+            Free Spots: {event?.free_spots}
           </Typography>
           <Typography
-            align='center'
+            align='left'
             variant='subtitle2'
             className={classes.info}
           >
-            Price: {event?.price}
+            Price: {event?.price} <MonetizationOnIcon style={{ color: orange[600] }} ></MonetizationOnIcon>
           </Typography>
 
           {!joined &&
@@ -248,7 +258,12 @@ export const Event = () => {
               +Join
             </Button>
           ) : null}
+        </Container>
+        <Container className={classes.mapInEventContainer}>
+        <MapWithSingleEvent event={event}></MapWithSingleEvent>
+        </Container>
         </Paper>
+        
         <Dialog
           onClose={handleClose}
           aria-labelledby='customized-dialog-title'
@@ -284,7 +299,7 @@ export const Event = () => {
       <Grid item xs={4}>
         {joined &&
         user &&
-        todaysDate.localeCompare(event?.date.split('T')[0]) !== 1 ? (
+        todaysDate.localeCompare(event?.date.split('T')[0]) === 1 ? (
           <Conversation
             messages={messages}
             user={user}
@@ -293,7 +308,7 @@ export const Event = () => {
         ) : (
           [
             joined &&
-            tomorrow.toISOString().split('T')[0].localeCompare(todaysDate) ===
+            tomorrow.toISOString().split('T')[0].localeCompare(todaysDate) !==
               0 &&
             user ? (
               <RatingList event={event} user={user}></RatingList>

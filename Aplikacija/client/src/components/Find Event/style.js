@@ -24,6 +24,11 @@ export default makeStyles((theme) => ({
     flexDirection: 'row',
     flexWrap: 'wrap',
   },
+  chatContainer:{
+    display:'flex',
+    flexDirection:'row',
+  },
+
   paperMessage: {
     height: '100%',
     width: '100%',
@@ -66,14 +71,27 @@ export default makeStyles((theme) => ({
     //backgroundColor: 'red',
   },
   info: {
+    backgroundColor: 'aqua',
+    borderRadius:'10%',
+    boxShadow:'0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19)',
     fontSize: '20px',
     padding: '5px',
+  },
+  subtitle:{
+    fontSize: '20px',
+  },
+  infoContainer:{
+    display: 'flex',
+    justifyContent:'space-evenly',
+    flexDirection: 'row',
+    padding:'10px',
+    backgroundColor:'#04ECF0'
   },
   infoTitle: {
     fontSize: '60px',
     fontWeight: 'bold',
     padding: '5px',
-    textDecoration: 'underline',
+    
   },
   chatBoxTop: {
     height: '100%',
@@ -137,6 +155,7 @@ export default makeStyles((theme) => ({
     objectFit: 'cover',
     marginRight: '10px',
   },
+  
 
   messageTextOwn: {
     padding: '10px',
@@ -270,6 +289,7 @@ export default makeStyles((theme) => ({
     },
     marginLeft: '30px',
   },
+
 }))
 
 export const styles = (theme) => ({

@@ -2,7 +2,7 @@ import React, { useRef, useCallback } from 'react'
 import { Search, Locate } from './MapFunctions'
 import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api'
 
-import { libraries, mapContainerStyle, center } from './MapConst'
+import { libraries, mapContainerStyle, center, mapInEventStyle } from './MapConst'
 import '@reach/combobox/styles.css'
 import useStyles from './styles'
 
@@ -27,12 +27,10 @@ export const MapWithSingleEvent = ({ event }) => {
   if (!isLoaded) return 'Loading Map'
 
   return (
-    <div className={classes.map}>
-      <Search panTo={panTo} />
-      <Locate panTo={panTo} />
+    <div className={classes.mapInEvent}>
       <GoogleMap
         id='map'
-        mapContainerStyle={mapContainerStyle}
+        mapContainerStyle={mapInEventStyle}
         zoom={14}
         center={center}
         onLoad={onMapLoad}
