@@ -9,7 +9,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import { UserProfile } from './components/User Profile/UserProfile'
 import { Grid } from '@material-ui/core'
 import { AdminPage } from './components/AdminDashboard/AdminPage'
-
+import Footer from './components/Footer/Footer'
 const App = () => {
   return (
     <>
@@ -41,6 +41,9 @@ const App = () => {
                 <AdminPage></AdminPage>
               </Route>
             </Switch>
+          </Grid>
+          <Grid item>
+            <Footer></Footer>
           </Grid>
         </Router>
       </Grid>
