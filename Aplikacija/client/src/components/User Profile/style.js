@@ -22,6 +22,22 @@ export default makeStyles((theme) => ({
     backgroundColor: '#6af2f0',
     height: '100%',
   },
+  buttons: {
+    backgroundColor: '#04ECF0',
+    alignSelf: 'center',
+    '&:hover': {
+      backgroundColor: '#04ECF0',
+      boxShadow:
+        '0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19)',
+    },
+    alignSelf: 'flex-end',
+  },
+  buttonGroup: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    alignSelf: 'flex-end',
+    marginBottom: '20px',
+  },
   content: {
     margin: '20px 20px',
     height: '100%',
@@ -55,6 +71,16 @@ export default makeStyles((theme) => ({
   },
   paper: {
     height: '100%',
+    width: '100%',
+  },
+  paperEvents: {
+    display: 'flex',
+    flexDirection: 'column',
+    flexWrap: 'wrap',
+    flexGrow: '1',
+    alignSelf: 'center',
+    width: '100%',
+    textAlign: 'center',
   },
   container: {
     display: 'flex',
@@ -64,5 +90,8 @@ export default makeStyles((theme) => ({
     color: 'red',
     fontWeight: 'bold',
     marginBottom: '10px',
+  },
+  containerEvents: {
+    marginTop: '50px',
   },
 }))

@@ -5,21 +5,24 @@ import {
   Avatar,
   TextField,
   Container,
+  Select,
+  MenuItem,
 } from '@material-ui/core'
+import InputLabel from '@material-ui/core/InputLabel'
 import { useHistory } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { rateUser } from '../../../../actions/event'
 import CheckCircleIcon from '@material-ui/icons/CheckCircle'
 import { green } from '@material-ui/core/colors'
 import useStyles from '../../style'
-
+import { BootstrapInput } from '../../style'
 export const RatingListItem = ({ idToProfile, event, userId, name }) => {
   const history = useHistory()
   const [mark, setMark] = useState('')
   const dispatch = useDispatch()
   const [canRate, setCanRate] = useState(true)
   const classes = useStyles()
-
+  const arrayOfNumbers = [0, 1, 2, 3, 4, 5]
   const rateUserr = (ev) => {
     ev.preventDefault()
     const ratingInfo = {
@@ -39,6 +42,7 @@ export const RatingListItem = ({ idToProfile, event, userId, name }) => {
     if (temp.length > 0) setCanRate(false)
   }, [event])
 
+  console.log(mark)
   return (
     <>
       <Container className={classes.rateInfo}>
@@ -54,20 +58,25 @@ export const RatingListItem = ({ idToProfile, event, userId, name }) => {
       <Container className={classes.rateInfo}>
         {canRate ? (
           <>
-            <TextField
-              className={classes.rateInput}
+            <Select
+              labelId='demo-customized-select-label'
               name='mark'
-              id='marks'
-              type='number'
-              variant='outlined'
-              label='Mark'
-              fullWidth
+              id='demo-customized-select'
               value={mark}
               onChange={(ev) => {
                 ev.preventDefault()
                 setMark(ev.target.value)
               }}
-            />
+              input={<BootstrapInput />}
+            >
+              {arrayOfNumbers.map((el) => {
+                return (
+                  <MenuItem value={el}>
+                    <em>{el}</em>
+                  </MenuItem>
+                )
+              })}
+            </Select>
             <Button
               className={classes.rateButton}
               variant='contained'

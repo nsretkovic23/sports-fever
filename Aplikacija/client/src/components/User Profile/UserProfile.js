@@ -2,7 +2,15 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useLocation } from 'react-router-dom'
 import { getUserById } from '../../actions/authentification'
-import { Grid, Avatar, Typography, Button, Paper } from '@material-ui/core'
+import {
+  Grid,
+  Avatar,
+  Typography,
+  Button,
+  Paper,
+  Container,
+  ButtonGroup,
+} from '@material-ui/core'
 import AccountBoxIcon from '@material-ui/icons/AccountBox'
 import ListIcon from '@material-ui/icons/List'
 import useStyles from './style'
@@ -18,7 +26,7 @@ import PaymentIcon from '@material-ui/icons/Payment'
 export const UserProfile = () => {
   const userr = useSelector((state) => state.auth.authData)
   const user = JSON.parse(localStorage.getItem('profile'))
-  const [display, setDisplay] = useState('info')
+  const [display, setDisplay] = useState('joined')
   const location = useLocation()
   const classes = useStyles()
   const _id = location.pathname.split('userProfile/')
@@ -90,32 +98,9 @@ export const UserProfile = () => {
               fullWidth
               onClick={(ev) => {
                 ev.preventDefault()
-                setDisplay('info')
               }}
             >
               Account
-            </Button>
-            <Button
-              color='inherit'
-              startIcon={<ListIcon></ListIcon>}
-              fullWidth
-              onClick={(ev) => {
-                ev.preventDefault()
-                setDisplay('created')
-              }}
-            >
-              Created events
-            </Button>
-            <Button
-              color='inherit'
-              startIcon={<ListIcon></ListIcon>}
-              fullWidth
-              onClick={(ev) => {
-                ev.preventDefault()
-                setDisplay('joined')
-              }}
-            >
-              Joined events
             </Button>
             {user?.result?._id != _id[1] ? (
               <Button
@@ -160,12 +145,67 @@ export const UserProfile = () => {
           className={classes.content}
         >
           <Paper className={classes.paper} elevation={10}>
-            {display === 'info' ? (
-              <>
-                <p>Name: {userr?.name}</p>
-                <p>Credits: {userr?.credits}</p>
-              </>
-            ) : display === 'created' ? (
+            <>
+              <p>Name: {userr?.name}</p>
+              <p>Credits: {userr?.credits}</p>
+            </>
+          </Paper>
+          <Dialog
+            onClose={handleClose}
+            aria-labelledby='customized-dialog-title'
+            open={open.state}
+          >
+            <DialogTitle id='customized-dialog-title' onClose={handleClose}>
+              {open.dialogTitle}
+            </DialogTitle>
+            <DialogContent dividers>
+              {open.isReport ? (
+                <ReportForm
+                  idForReport={_id[1]}
+                  handleClose={handleClose}
+                  type={'User'}
+                  userID={user?.result?._id}
+                ></ReportForm>
+              ) : (
+                <AddCreditForm
+                  idForUser={_id[1]}
+                  handleClose={handleClose}
+                ></AddCreditForm>
+              )}
+            </DialogContent>
+          </Dialog>
+        </Grid>
+      </Grid>
+      <Container className={classes.containerEvents}>
+        <Paper className={classes.paperEvents} elevation={10}>
+          <ButtonGroup variant='contained' className={classes.buttonGroup}>
+            <Button
+              color='inherit'
+              startIcon={<ListIcon></ListIcon>}
+              fullWidth
+              className={classes.buttons}
+              onClick={(ev) => {
+                ev.preventDefault()
+                setDisplay('created')
+              }}
+            >
+              Created events
+            </Button>
+            <Button
+              color='inherit'
+              startIcon={<ListIcon></ListIcon>}
+              fullWidth
+              className={classes.buttons}
+              onClick={(ev) => {
+                ev.preventDefault()
+                setDisplay('joined')
+              }}
+            >
+              Joined events
+            </Button>
+          </ButtonGroup>
+          <Container>
+            {display === 'created' ? (
               <>
                 {userr?.createdEvents?.map((ev) => (
                   <Button
@@ -203,36 +243,10 @@ export const UserProfile = () => {
                   </Button>
                 ))}
               </>
-            ) : (
-              setDisplay('info')
-            )}
-          </Paper>
-          <Dialog
-            onClose={handleClose}
-            aria-labelledby='customized-dialog-title'
-            open={open.state}
-          >
-            <DialogTitle id='customized-dialog-title' onClose={handleClose}>
-              {open.dialogTitle}
-            </DialogTitle>
-            <DialogContent dividers>
-              {open.isReport ? (
-                <ReportForm
-                  idForReport={_id[1]}
-                  handleClose={handleClose}
-                  type={'User'}
-                  userID={user?.result?._id}
-                ></ReportForm>
-              ) : (
-                <AddCreditForm
-                  idForUser={_id[1]}
-                  handleClose={handleClose}
-                ></AddCreditForm>
-              )}
-            </DialogContent>
-          </Dialog>
-        </Grid>
-      </Grid>
+            ) : null}
+          </Container>
+        </Paper>
+      </Container>
     </>
   )
 }

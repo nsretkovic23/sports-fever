@@ -2,7 +2,7 @@ import React, { useRef, useCallback } from 'react'
 import { Search, Locate } from './MapFunctions'
 import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api'
 
-import { libraries, mapContainerStyle, center, mapInEventStyle } from './MapConst'
+import { libraries, mapContainerStyle, mapInEventStyle } from './MapConst'
 import '@reach/combobox/styles.css'
 import useStyles from './styles'
 
@@ -13,7 +13,10 @@ export const MapWithSingleEvent = ({ event }) => {
     libraries,
   })
   const mapRef = useRef()
-
+  const center = {
+    lat: event.lat,
+    lng: event.lng,
+  }
   const onMapLoad = useCallback((map) => {
     mapRef.current = map
   }, [])

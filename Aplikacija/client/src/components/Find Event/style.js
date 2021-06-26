@@ -6,6 +6,7 @@ import MuiDialogActions from '@material-ui/core/DialogActions'
 import IconButton from '@material-ui/core/IconButton'
 import CloseIcon from '@material-ui/icons/Close'
 import Typography from '@material-ui/core/Typography'
+import InputBase from '@material-ui/core/InputBase'
 
 export default makeStyles((theme) => ({
   paper: {
@@ -24,9 +25,9 @@ export default makeStyles((theme) => ({
     flexDirection: 'row',
     flexWrap: 'wrap',
   },
-  chatContainer:{
-    display:'flex',
-    flexDirection:'row',
+  chatContainer: {
+    display: 'flex',
+    flexDirection: 'row',
   },
 
   paperMessage: {
@@ -72,26 +73,25 @@ export default makeStyles((theme) => ({
   },
   info: {
     backgroundColor: 'aqua',
-    borderRadius:'10%',
-    boxShadow:'0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19)',
+    borderRadius: '10%',
+    boxShadow: '0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19)',
     fontSize: '20px',
     padding: '5px',
   },
-  subtitle:{
+  subtitle: {
     fontSize: '20px',
   },
-  infoContainer:{
+  infoContainer: {
     display: 'flex',
-    justifyContent:'space-evenly',
+    justifyContent: 'space-evenly',
     flexDirection: 'row',
-    padding:'10px',
-    backgroundColor:'#04ECF0'
+    padding: '10px',
+    backgroundColor: '#04ECF0',
   },
   infoTitle: {
     fontSize: '60px',
     fontWeight: 'bold',
     padding: '5px',
-    
   },
   chatBoxTop: {
     height: '100%',
@@ -155,7 +155,6 @@ export default makeStyles((theme) => ({
     objectFit: 'cover',
     marginRight: '10px',
   },
-  
 
   messageTextOwn: {
     padding: '10px',
@@ -281,6 +280,8 @@ export default makeStyles((theme) => ({
     width: '70%',
   },
   rateButton: {
+    marginRight: '20px',
+    alignSelf: 'center',
     backgroundColor: '#04ECF0',
     '&:hover': {
       backgroundColor: '#04ECF0',
@@ -289,7 +290,6 @@ export default makeStyles((theme) => ({
     },
     marginLeft: '30px',
   },
-
 }))
 
 export const styles = (theme) => ({
@@ -322,6 +322,41 @@ export const DialogTitle = withStyles(styles)((props) => {
     </MuiDialogTitle>
   )
 })
+
+export const BootstrapInput = withStyles((theme) => ({
+  root: {
+    'label + &': {
+      marginTop: theme.spacing(3),
+    },
+  },
+  input: {
+    borderRadius: 4,
+    position: 'relative',
+    backgroundColor: theme.palette.background.paper,
+    border: '1px solid #ced4da',
+    fontSize: 16,
+    padding: '10px 26px 10px 12px',
+    transition: theme.transitions.create(['border-color', 'box-shadow']),
+    // Use the system font instead of the default Roboto font.
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
+    '&:focus': {
+      borderRadius: 4,
+      borderColor: '#80bdff',
+      boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
+    },
+  },
+}))(InputBase)
 
 export const DialogContent = withStyles((theme) => ({
   root: {
