@@ -1,20 +1,22 @@
 import mongoose from 'mongoose'
 
-
 const messageSchema = mongoose.Schema(
   {
     conversationId: {
-        type: String,
-      },
-      senderId: {
-        type: String,
-      },
-      senderName: {
-        type:String,
-      },
-      text: {
-        type: String,
-      },
+      type: String,
+    },
+    senderId: {
+      type: String,
+    },
+    senderName: {
+      type: String,
+    },
+    senderImage: {
+      type: String,
+    },
+    text: {
+      type: String,
+    },
   },
   {
     timestamps: true,

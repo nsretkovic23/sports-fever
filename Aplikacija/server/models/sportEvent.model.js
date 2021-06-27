@@ -20,6 +20,7 @@ const sportEventSchema = mongoose.Schema(
       {
         id: String,
         name: String,
+        profileImage: String,
         avgrate: Number,
         count: Number,
         ratings: [Number],

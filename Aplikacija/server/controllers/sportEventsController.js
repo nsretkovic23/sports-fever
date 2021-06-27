@@ -256,9 +256,11 @@ export const joinEvent = async (req, res) => {
       res.status(404).json({ message: 'not enough credits' })
     } else if (SportEv.free_spots > 0) {
       userParticipant.credits -= SportEv.price
+      console.log(userParticipant.profileImage)
       SportEv?.participants.push({
         id: userId,
         name: userParticipant.name,
+        profileImage: userParticipant.profileImage,
         avgrate: 0,
         count: 0,
       })
