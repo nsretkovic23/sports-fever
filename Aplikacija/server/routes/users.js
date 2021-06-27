@@ -4,6 +4,7 @@ import {
   getUserById,
   signin,
   signup,
+  addCredits,
 } from '../controllers/usersController.js'
 import auth from '../middleware/auth.js'
 
@@ -13,5 +14,6 @@ router.post('/signin', signin)
 router.post('/signup', signup)
 router.get('/:id', getUserById)
 router.patch('/ban/:id', auth, banUser)
+router.patch('/addcredits', addCredits)
 
 export default router

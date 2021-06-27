@@ -109,3 +109,18 @@ export const banUser = async (req, res) => {
     res.status(404).json({ message: 'nije pronadjen po id-u' })
   }
 }
+
+export const addCredits = async (req, res) => {
+  const { id, amount } = req.body
+
+  try {
+    const user = await User.findById(id)
+
+    if (user) user.credits += parseInt(amount)
+
+    await User.findByIdAndUpdate(id, user, { new: true })
+    res.status(200)
+  } catch (err) {
+    res.status(400).json({ message: 'greska u dodavanju kredita' })
+  }
+}
