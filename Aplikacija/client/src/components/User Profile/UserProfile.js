@@ -22,12 +22,12 @@ import { DialogContent, DialogTitle } from '../Find Event/style'
 import { ReportForm } from '../Find Event/Single Event/ComponentForEvent/ReportForm'
 import { AddCreditForm } from './AddCreditForm'
 import PaymentIcon from '@material-ui/icons/Payment'
-import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
+import MonetizationOnIcon from '@material-ui/icons/MonetizationOn'
 
 export const UserProfile = () => {
   const userr = useSelector((state) => state.auth.authData)
   const user = JSON.parse(localStorage.getItem('profile'))
-  const [display, setDisplay] = useState('joined')
+  const [display, setDisplay] = useState('created')
   const location = useLocation()
   const classes = useStyles()
   const _id = location.pathname.split('userProfile/')
@@ -78,13 +78,15 @@ export const UserProfile = () => {
               {userr?.name}
             </Typography>
             <Typography className={classes.userInfoContainers} align='center'>
-              Average rating:  {userr?.averageRate}
+              Average rating: {userr?.averageRate}
               <GradeIcon style={{ color: yellow[400] }}></GradeIcon>
             </Typography>
             <Typography className={classes.userInfoContainers} align='center'>
-              Credit status:  {userr?.credits}  <MonetizationOnIcon style={{ color: yellow[400] }}></MonetizationOnIcon>
+              Credit status: {userr?.credits}{' '}
+              <MonetizationOnIcon
+                style={{ color: yellow[400] }}
+              ></MonetizationOnIcon>
             </Typography>
-
           </Grid>
           <Grid
             container
@@ -97,7 +99,7 @@ export const UserProfile = () => {
                 This user has been banned!
               </Typography>
             ) : null}
-            
+
             {user?.result?._id != _id[1] ? (
               <Button
                 color='inherit'
@@ -140,12 +142,76 @@ export const UserProfile = () => {
           direction='column'
           className={classes.content}
         >
-          <Paper className={classes.paper} elevation={10}>
-            <>
-              <p>Name: {userr?.name}</p>
-              <p>Credits: {userr?.credits}</p>
-            </>
+          <Paper className={classes.paperEvents} elevation={10}>
+            <ButtonGroup variant='contained' className={classes.buttonGroup}>
+              <Button
+                color='inherit'
+                startIcon={<ListIcon></ListIcon>}
+                fullWidth
+                className={classes.buttons}
+                onClick={(ev) => {
+                  ev.preventDefault()
+                  setDisplay('created')
+                }}
+              >
+                Created events
+              </Button>
+              <Button
+                color='inherit'
+                startIcon={<ListIcon></ListIcon>}
+                fullWidth
+                className={classes.buttons}
+                onClick={(ev) => {
+                  ev.preventDefault()
+                  setDisplay('joined')
+                }}
+              >
+                Joined events
+              </Button>
+            </ButtonGroup>
+            <Container>
+              {display === 'created' ? (
+                <>
+                  {userr?.createdEvents?.map((ev) => (
+                    <Button
+                      key={ev.eventId}
+                      className={classes.button}
+                      variant='contained'
+                    >
+                      <Link
+                        to={{
+                          pathname: `/singleEvent/${ev.eventId}`,
+                        }}
+                        className={classes.link}
+                      >
+                        {ev.eventTitle}
+                      </Link>
+                    </Button>
+                  ))}
+                </>
+              ) : display === 'joined' ? (
+                <>
+                  {userr?.joinedEvents?.map((ev, i) => (
+                    <Button
+                      key={i}
+                      className={classes.button}
+                      variant='contained'
+                    >
+                      <Link
+                        to={{
+                          pathname: `/singleEvent/${ev.eventId}`,
+                        }}
+                        className={classes.link}
+                      >
+                        {ev.eventTitle}
+                      </Link>
+                    </Button>
+                  ))}
+                </>
+              ) : null}
+            </Container>
           </Paper>
+
           <Dialog
             onClose={handleClose}
             aria-labelledby='customized-dialog-title'
@@ -172,77 +238,6 @@ export const UserProfile = () => {
           </Dialog>
         </Grid>
       </Grid>
-      <Container className={classes.containerEvents}>
-        <Paper className={classes.paperEvents} elevation={10}>
-          <ButtonGroup variant='contained' className={classes.buttonGroup}>
-            <Button
-              color='inherit'
-              startIcon={<ListIcon></ListIcon>}
-              fullWidth
-              className={classes.buttons}
-              onClick={(ev) => {
-                ev.preventDefault()
-                setDisplay('created')
-              }}
-            >
-              Created events
-            </Button>
-            <Button
-              color='inherit'
-              startIcon={<ListIcon></ListIcon>}
-              fullWidth
-              className={classes.buttons}
-              onClick={(ev) => {
-                ev.preventDefault()
-                setDisplay('joined')
-              }}
-            >
-              Joined events
-            </Button>
-          </ButtonGroup>
-          <Container>
-            {display === 'created' ? (
-              <>
-                {userr?.createdEvents?.map((ev) => (
-                  <Button
-                    key={ev.eventId}
-                    className={classes.button}
-                    variant='contained'
-                  >
-                    <Link
-                      to={{
-                        pathname: `/singleEvent/${ev.eventId}`,
-                      }}
-                      className={classes.link}
-                    >
-                      {ev.eventTitle}
-                    </Link>
-                  </Button>
-                ))}
-              </>
-            ) : display === 'joined' ? (
-              <>
-                {userr?.joinedEvents?.map((ev, i) => (
-                  <Button
-                    key={i}
-                    className={classes.button}
-                    variant='contained'
-                  >
-                    <Link
-                      to={{
-                        pathname: `/singleEvent/${ev.eventId}`,
-                      }}
-                      className={classes.link}
-                    >
-                      {ev.eventTitle}
-                    </Link>
-                  </Button>
-                ))}
-              </>
-            ) : null}
-          </Container>
-        </Paper>
-      </Container>
     </>
   )
 }

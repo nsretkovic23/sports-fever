@@ -19,3 +19,10 @@ body {
   width: 100%;
   height: 100%;
 }
+
+.MainCont {
+  width: 100%;
+  flex-wrap: nowrap;
+  display: flex;
+  box-sizing: border-box;
+}

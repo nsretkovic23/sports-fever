@@ -12,7 +12,7 @@ export default makeStyles((theme) => ({
     flexWrap: 'wrap',
   },
   paperForCreate: {
-    marginTop: theme.spacing(6),
+    marginTop: theme.spacing(4),
     marginLeft: theme.spacing(2),
     marginRight: theme.spacing(2),
     padding: theme.spacing(3),
@@ -20,6 +20,7 @@ export default makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     flexWrap: 'wrap',
+    marginBottom: '20px',
   },
   paperForUpdate: {
     marginLeft: theme.spacing(2),

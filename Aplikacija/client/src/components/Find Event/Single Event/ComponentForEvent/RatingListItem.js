@@ -16,7 +16,13 @@ import CheckCircleIcon from '@material-ui/icons/CheckCircle'
 import { green } from '@material-ui/core/colors'
 import useStyles from '../../style'
 import { BootstrapInput } from '../../style'
-export const RatingListItem = ({ idToProfile, event, userId, name }) => {
+export const RatingListItem = ({
+  idToProfile,
+  event,
+  userId,
+  name,
+  userImg,
+}) => {
   const history = useHistory()
   const [mark, setMark] = useState('')
   const dispatch = useDispatch()
@@ -47,7 +53,10 @@ export const RatingListItem = ({ idToProfile, event, userId, name }) => {
     <>
       <Container className={classes.rateInfo}>
         <Avatar
-          src='https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png'
+          src={
+            userImg ||
+            'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png'
+          }
           alt=''
           onClick={() => {
             history.push(`/userProfile/${idToProfile}`)

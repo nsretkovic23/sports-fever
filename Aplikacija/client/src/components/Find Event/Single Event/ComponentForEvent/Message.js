@@ -19,7 +19,10 @@ export const Message = ({ message, own }) => {
       <Container className={classes.messageTop}>
         <Avatar
           className={classes.messageImg}
-          src='https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png'
+          src={
+            message.senderImage ||
+            'https://cdn4.iconfinder.com/data/icons/avatars-xmas-giveaway/128/batman_hero_avatar_comics-512.png'
+          }
           alt=''
           onClick={() => {
             history.push(`/userProfile/${message?.senderId}`)

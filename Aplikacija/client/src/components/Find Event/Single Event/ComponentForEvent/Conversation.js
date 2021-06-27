@@ -47,7 +47,6 @@ export const Conversation = ({ messages, user, conversationID }) => {
     }
     if (messages) {
       setSocketMessages(messages)
-      console.log('HEY')
     }
     return () => {
       socket.disconnect()
@@ -71,6 +70,7 @@ export const Conversation = ({ messages, user, conversationID }) => {
         conversationId: conversationID,
         senderId: user?.result?._id,
         senderName: user?.result?.name,
+        senderImage: user?.result?.profileImage,
         text: newMessage,
       })
       dispatch(
@@ -78,6 +78,7 @@ export const Conversation = ({ messages, user, conversationID }) => {
           conversationId: conversationID,
           senderId: user?.result?._id,
           senderName: user?.result?.name,
+          senderImage: user?.result?.profileImage,
           text: newMessage,
         })
       )

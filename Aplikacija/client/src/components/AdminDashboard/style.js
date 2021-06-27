@@ -21,6 +21,7 @@ export default makeStyles((theme) => ({
     margin: '20px 20px',
     backgroundColor: '#6af2f0',
     height: '100%',
+    height: '100%',
   },
   content: {
     margin: '20px 20px',
@@ -30,6 +31,7 @@ export default makeStyles((theme) => ({
     flexDirection: 'column',
     boxShadow: '0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19)',
     backgroundColor: '#BEBEBE',
+    height: '100%',
   },
   sideBarButtons: {
     marginTop: '10px',
@@ -61,6 +63,7 @@ export default makeStyles((theme) => ({
   container: {
     display: 'flex',
     flexDirection: 'row',
+    height: '100%',
   },
   reportContainer: {
     display: 'flex',
@@ -73,7 +76,6 @@ export default makeStyles((theme) => ({
   },
   buttonGroup: {
     alignSelf: 'flex-end',
-    width: '30%',
     alignItems: 'flex-end',
     textAlign: 'right',
   },
@@ -86,5 +88,9 @@ export default makeStyles((theme) => ({
   typography: {
     marginLeft: '10px',
     fontWeight: 'bold',
+  },
+  img: {
+    height: '200px',
+    width: '200px',
   },
 }))

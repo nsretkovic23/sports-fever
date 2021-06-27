@@ -5,7 +5,9 @@ import { DialogContent, DialogTitle } from '../Find Event/style'
 import { Link, useHistory, useLocation } from 'react-router-dom'
 import CancelIcon from '@material-ui/icons/Cancel'
 import AddIcon from '@material-ui/icons/Add'
-
+import CheckBoxIcon from '@material-ui/icons/CheckBox'
+import { deleteEvent } from '../../actions/event'
+import { banUser, addCredit } from '../../actions/admin'
 import VisibilityIcon from '@material-ui/icons/Visibility'
 import {
   Grid,
@@ -49,7 +51,7 @@ export const AdminPage = () => {
     dispatch(getAllReports())
   }, [])
 
-  console.log(reports)
+  console.log(credits)
   return (
     <>
       <Grid container direction='row' className={classes.container}>
@@ -193,6 +195,27 @@ export const AdminPage = () => {
                               history.push(`/userProfile/${el.reportedThingId}`)
                           }}
                         ></Button>
+                        <Button
+                          startIcon={<CheckBoxIcon></CheckBoxIcon>}
+                          value={el._id}
+                          onClick={(ev) => {
+                            ev.preventDefault()
+                            if (ev.type === 'Event') {
+                              dispatch(
+                                deleteEvent(
+                                  el.reportedThingId,
+                                  user?.result?._id
+                                )
+                              )
+                              console.log('deleted')
+                              dispatch(deleteReport(el._id))
+                            } else if (el.type === 'User') {
+                              dispatch(banUser(el.reportedThingId))
+                              console.log('suspend')
+                              dispatch(deleteReport(el._id))
+                            }
+                          }}
+                        ></Button>
                       </Container>
                     </Container>
                   )
@@ -205,7 +228,7 @@ export const AdminPage = () => {
                           Amount: {el.amount}
                         </Typography>
                         <Typography className={classes.typography}>
-                          Ovde ide slika priznanice
+                          <img src={el.receipt} className={classes.img} />
                         </Typography>
                       </Container>
                       <Container className={classes.buttonGroup}>
@@ -223,6 +246,20 @@ export const AdminPage = () => {
                           onClick={(ev) => {
                             ev.preventDefault()
                             history.push(`/userProfile/${el.userId}`)
+                          }}
+                        ></Button>
+                        <Button
+                          startIcon={<CheckBoxIcon></CheckBoxIcon>}
+                          value={el._id}
+                          onClick={(ev) => {
+                            ev.preventDefault()
+                            dispatch(
+                              addCredit({
+                                id: el.userId,
+                                amount: el.amount,
+                              })
+                            )
+                            dispatch(deleteCredit(el._id))
                           }}
                         ></Button>
                       </Container>

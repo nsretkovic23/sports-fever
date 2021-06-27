@@ -20,6 +20,7 @@ export const RatingList = ({ event, user }) => {
     )
   }, [event])
 
+  console.log(user)
   return (
     <>
       <Paper elevation={10} className={classes.paperRated}>
@@ -33,6 +34,7 @@ export const RatingList = ({ event, user }) => {
             userId={user?.result?._id}
             key={i}
             name={el.name}
+            userImg={el.profileImage}
           ></RatingListItem>
         ))}
       </Paper>
