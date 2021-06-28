@@ -23,7 +23,7 @@ function Footer() {
           {/* Column2 */}
           <div className='col2'>
             <h4>Quick Links</h4>
-            <ui className='list-unstyled'>
+            <ul className='list-unstyled'>
               <li>
                 <Link to='/createEvent' className={classes.link}>
                   Create Event
@@ -44,17 +44,17 @@ function Footer() {
                   Profile
                 </Link>
               </li>
-            </ui>
+            </ul>
           </div>
           {/* Column3 */}
           <div className='col3'>
             <h4>Contact</h4>
-            <ui className='list-unstyled'>
+            <ul className='list-unstyled'>
               <li><HomeIcon fontSize={"small"}></HomeIcon>  Nis,18000,RS</li>
               <li><EmailIcon fontSize={"small"}></EmailIcon>  info@sportsfever.com</li>
               <li><PhoneIcon fontSize={"small"}></PhoneIcon>  +381 234 567 88</li>
               <li><PrintIcon fontSize={"small"}></PrintIcon>  +381 234 567 89</li>
-            </ui>
+            </ul>
           </div>
         
       </div>

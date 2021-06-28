@@ -7,6 +7,7 @@ export default makeStyles((theme) => ({
   header: {
     backgroundColor: '#059dc0',
     color: 'black',
+ 
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -14,7 +15,16 @@ export default makeStyles((theme) => ({
   title: {
     marginLeft: '10px',
     flexGrow: 1,
+    '@media (max-width: 500px)' : {
+      display:'none',
+    },
     fontWeight: 'bold',
+  },
+  headeropts: {
+    '@media (max-width: 500px)' : {
+      display:'flex',
+      flexGrow:'1',
+    },
   },
   headerOptions: {
     display: 'flex',
@@ -24,12 +34,13 @@ export default makeStyles((theme) => ({
   headerButtons: {
     display: 'flex',
     flexDirection: 'row',
+    marginLeft:'25px',
+    justifyContent:'space-around',
   },
   buttons: {
     color: 'black',
     marginRight: theme.spacing(2),
     fontSize: '14px',
-    textTransform: 'none',
   },
   link: {
     textDecoration: 'none',

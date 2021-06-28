@@ -56,13 +56,13 @@ export const Nav = () => {
       <div>
         <AppBar position='static' className={classes.header}>
           <Toolbar>
-            <SportsIcon fontSize='large'></SportsIcon>
+          <SportsIcon fontSize='large'></SportsIcon>
             <Typography variant='h4' className={classes.title}>
               <Link to='/' className={classes.link}>
                 SportsFever
               </Link>
             </Typography>
-            <div>
+            <div className={classes.headeropts}>
               <div className={classes.headerButtons}>
                 <div className={classes.headerOptions}>
                   <Button className={classes.buttons}>

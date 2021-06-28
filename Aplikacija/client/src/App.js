@@ -16,9 +16,9 @@ const App = () => {
     <>
       <Grid container direction='column' wrap='nowrap'>
         <Router>
-          <Grid item>
+            <Grid item xs={12}>
             <Nav />
-          </Grid>
+            </Grid>
           <Grid item>
             <Switch>
               <Route path='/' exact>
