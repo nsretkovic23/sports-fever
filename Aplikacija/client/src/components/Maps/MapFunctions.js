@@ -14,7 +14,7 @@ import { IconButton } from '@material-ui/core'
 import MyLocationIcon from '@material-ui/icons/MyLocation'
 import useStyles from './styles'
 
-export function Search({ panTo }) {
+export function Search({ panTo, nameForClass }) {
   const {
     ready,
     value,
@@ -47,7 +47,12 @@ export function Search({ panTo }) {
 
   return (
     <div>
-      <Combobox onSelect={handleSelect} className={classes.searchLocation}>
+      <Combobox
+        onSelect={handleSelect}
+        className={
+          nameForClass ? classes.searchLocation : classes.searchLocation2
+        }
+      >
         <ComboboxInput
           value={value}
           onChange={handleInput}
@@ -68,11 +73,11 @@ export function Search({ panTo }) {
   )
 }
 
-export function Locate({ panTo }) {
+export function Locate({ panTo, nameForClass }) {
   const classes = useStyles()
   return (
     <IconButton
-      className={classes.geolocation}
+      className={nameForClass ? classes.geolocation : classes.geolocation2}
       onClick={() => {
         navigator.geolocation.getCurrentPosition(
           (position) => {

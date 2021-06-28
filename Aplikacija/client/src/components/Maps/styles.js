@@ -50,12 +50,45 @@ export default makeStyles((theme) => ({
     width: '35px',
     height: '35px',
     boxShadow: '0 0 0 3px #a1a19f',
+    '@media (max-width: 500px)': {
+      top: '590px',
+      right: '30px',
+    },
+  },
+  geolocation2: {
+    color: '#000000',
+    backgroundColor: '#FFFFFF',
+    position: 'absolute',
+    zIndex: '10',
+    right: '70px',
+    top: '107px',
+    width: '35px',
+    height: '35px',
+    boxShadow: '0 0 0 3px #a1a19f',
+    '@media (max-width: 500px)': {
+      top: '790px',
+      right: '30px',
+    },
   },
   searchLocation: {
     position: 'absolute',
     zIndex: '10',
     left: '57%',
     marginTop: '5px',
+    '@media (max-width: 500px)': {
+      top: '585px',
+      left: '70px',
+    },
+  },
+  searchLocation2: {
+    position: 'absolute',
+    zIndex: '10',
+    left: '57%',
+    marginTop: '5px',
+    '@media (max-width: 500px)': {
+      top: '785px',
+      left: '70px',
+    },
   },
   searchLocationInput: {
     border: '4px solid #04ECF0',

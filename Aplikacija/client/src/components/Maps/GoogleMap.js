@@ -37,8 +37,8 @@ export const Map = (props) => {
 
   return (
     <div className={classes.map}>
-      <Search panTo={panTo} />
-      <Locate panTo={panTo} />
+      <Search panTo={panTo} nameForClass={false} />
+      <Locate panTo={panTo} nameForClass={false} />
       <GoogleMap
         id='map'
         mapContainerStyle={mapContainerStyle}

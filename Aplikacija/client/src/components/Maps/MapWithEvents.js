@@ -77,8 +77,8 @@ export const MapWithEvents = ({ find, radius, setRadius }) => {
 
   return (
     <div className={classes.map}>
-      <Search panTo={panTo} />
-      <Locate panTo={panTo} />
+      <Search panTo={panTo} nameForClass={true} />
+      <Locate panTo={panTo} nameForClass={true} />
       <GoogleMap
         id='map'
         mapContainerStyle={mapContainerStyle}
