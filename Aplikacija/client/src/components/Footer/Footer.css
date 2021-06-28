@@ -19,7 +19,7 @@
 }
 
 .userProfile {
-  margin-top: 300px;
+  margin-top: 340px;
 }
 
 .createEvent {
@@ -68,12 +68,11 @@
   margin-bottom: -12px;
 }
 
-
 @media only screen and (max-width: 600px) {
-  .list-unstyled p{
+  .list-unstyled p {
     display: none;
   }
-  .col2{
+  .col2 {
     display: none;
   }
 }
