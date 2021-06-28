@@ -94,10 +94,10 @@ export default makeStyles((theme) => ({
   containerEvents: {
     marginTop: '50px',
   },
-  avgRateIcon:{
-    marginTop:'0px'
+  avgRateIcon: {
+    marginTop: '0px',
   },
-  userInfoContainers:{
+  userInfoContainers: {
     backgroundColor: '#6AF2F0',
     borderRadius: '5%',
     boxShadow: '0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19)',

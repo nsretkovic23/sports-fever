@@ -133,8 +133,8 @@ export const Event = () => {
   }
 
   return (
-    <Grid container direction='row' className={classes.container}>
-      <Grid item xs={6}>
+    <Grid container direction='row' className={classes.container} wrap='nowrap'>
+      <Grid item xs={6} className={classes.formElement} wrap='nowrap'>
         <Paper className={classes.paper} elevation={10}>
           {user
             ? [
@@ -298,7 +298,7 @@ export const Event = () => {
         </Dialog>
       </Grid>
       <Grid item xs={1}></Grid>
-      <Grid item xs={4}>
+      <Grid item xs={4} wrap='nowrap' className={classes.chatElement}>
         {joined &&
         user &&
         todaysDate.localeCompare(event?.date.split('T')[0]) !== 1 ? (

@@ -9,7 +9,21 @@ export default makeStyles((theme) => ({
   container: {
     display: 'flex',
     flexDirection: 'row',
-    flexWrap: 'wrap',
+    '@media (max-width: 500px)': {
+      flexDirection: 'column',
+    },
+  },
+  formElement: {
+    '@media (max-width: 500px)': {
+      width: '100%',
+      maxWidth: '100%',
+    },
+  },
+  mapElement: {
+    '@media (max-width: 500px)': {
+      width: '100%',
+      maxWidth: '100%',
+    },
   },
   paperForCreate: {
     marginTop: theme.spacing(4),

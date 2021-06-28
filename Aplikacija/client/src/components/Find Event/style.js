@@ -23,7 +23,10 @@ export default makeStyles((theme) => ({
   container: {
     display: 'flex',
     flexDirection: 'row',
-    flexWrap: 'wrap',
+    //flexWrap: 'wrap',
+    '@media (max-width: 500px)': {
+      flexDirection: 'column',
+    },
   },
   chatContainer: {
     display: 'flex',
@@ -202,6 +205,26 @@ export default makeStyles((theme) => ({
     marginRight: theme.spacing(2),
     padding: theme.spacing(3),
     backgroundColor: '#04D4F0',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  formElement: {
+    '@media (max-width: 500px)': {
+      width: '100%',
+      maxWidth: '100%',
+    },
+  },
+  chatElement: {
+    '@media (max-width: 500px)': {
+      width: '100%',
+      maxWidth: '100%',
+    },
+  },
+  mapElement: {
+    '@media (max-width: 500px)': {
+      width: '100%',
+      maxWidth: '100%',
+    },
   },
   findFrom: {
     display: 'flex',

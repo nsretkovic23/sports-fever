@@ -143,12 +143,6 @@ export const Form = ({
               step: 300, // 5 min
             }}
           />
-          <Typography variant='h6' className={classes.typography}>
-            Latitude: {latitude}
-          </Typography>
-          <Typography variant='h6' className={classes.typography}>
-            Longitude: {longitude}
-          </Typography>
           <Button
             varient='contained'
             type='submit'

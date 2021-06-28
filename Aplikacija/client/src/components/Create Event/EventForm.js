@@ -97,7 +97,7 @@ export const EventForm = () => {
             setNotification={setNotification}
           ></Notification>
         ) : null}
-        <Grid item xs={3}>
+        <Grid item xs={3} wrap='nowrap' className={classes.formElement}>
           <Form
             event={event}
             handleChange={handleChange}
@@ -109,7 +109,7 @@ export const EventForm = () => {
             handleDateChange={handleDateChange}
           />
         </Grid>
-        <Grid item xs={9}>
+        <Grid item xs={9} wrap='nowrap' className={classes.mapElement}>
           <Map setLongitude={setLongitude} setLatitude={setLatitude} />
         </Grid>
       </Grid>

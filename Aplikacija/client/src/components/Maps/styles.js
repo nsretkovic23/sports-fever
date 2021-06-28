@@ -54,7 +54,7 @@ export default makeStyles((theme) => ({
   searchLocation: {
     position: 'absolute',
     zIndex: '10',
-    left: '57%',
+    left: '0%',
     marginTop: '5px',
   },
   searchLocationInput: {
