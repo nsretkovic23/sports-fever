@@ -65,7 +65,7 @@ export default makeStyles((theme) => ({
     width: '35px',
     height: '35px',
     boxShadow: '0 0 0 3px #a1a19f',
-    '@media (max-width: 500px)': {
+    '@media (max-width: 1000px)': {
       top: '790px',
       right: '30px',
     },
@@ -75,7 +75,7 @@ export default makeStyles((theme) => ({
     zIndex: '10',
     left: '57%',
     marginTop: '5px',
-    '@media (max-width: 500px)': {
+    '@media (max-width: 1000px)': {
       top: '585px',
       left: '70px',
     },
@@ -85,7 +85,7 @@ export default makeStyles((theme) => ({
     zIndex: '10',
     left: '57%',
     marginTop: '5px',
-    '@media (max-width: 500px)': {
+    '@media (max-width: 1000px)': {
       top: '785px',
       left: '70px',
     },
