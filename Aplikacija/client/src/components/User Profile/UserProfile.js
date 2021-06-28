@@ -57,8 +57,9 @@ export const UserProfile = () => {
   console.log(userr)
   return (
     <>
-      <Grid container direction='row' className={classes.container}>
+      <Grid wrap="nowrap" container direction='row' className={classes.container}>
         <Grid
+          wrap="nowrap"
           container
           item
           xs={3}
@@ -139,6 +140,7 @@ export const UserProfile = () => {
           </Grid>
         </Grid>
         <Grid
+          wrap="nowrap"
           container
           item
           xs={8}
@@ -172,7 +174,7 @@ export const UserProfile = () => {
                 Joined events
               </Button>
             </ButtonGroup>
-            <Container>
+            <Container className={classes.eventContainer}>
               {display === 'created' ? (
                 <>
                   {userr?.createdEvents?.map((ev) => (
