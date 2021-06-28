@@ -24,7 +24,7 @@ export default makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'row',
     //flexWrap: 'wrap',
-    '@media (max-width: 500px)': {
+    '@media (max-width: 1000px)': {
       flexDirection: 'column',
     },
   },
@@ -209,19 +209,19 @@ export default makeStyles((theme) => ({
     flexDirection: 'column',
   },
   formElement: {
-    '@media (max-width: 500px)': {
+    '@media (max-width: 1000px)': {
       width: '100%',
       maxWidth: '100%',
     },
   },
   chatElement: {
-    '@media (max-width: 500px)': {
+    '@media (max-width: 1000px)': {
       width: '100%',
       maxWidth: '100%',
     },
   },
   mapElement: {
-    '@media (max-width: 500px)': {
+    '@media (max-width: 1000px)': {
       width: '100%',
       maxWidth: '100%',
     },

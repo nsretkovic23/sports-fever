@@ -9,18 +9,18 @@ export default makeStyles((theme) => ({
   container: {
     display: 'flex',
     flexDirection: 'row',
-    '@media (max-width: 500px)': {
+    '@media (max-width: 1000px)': {
       flexDirection: 'column',
     },
   },
   formElement: {
-    '@media (max-width: 500px)': {
+    '@media (max-width: 1000px)': {
       width: '100%',
       maxWidth: '100%',
     },
   },
   mapElement: {
-    '@media (max-width: 500px)': {
+    '@media (max-width: 1000px)': {
       width: '100%',
       maxWidth: '100%',
     },
