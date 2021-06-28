@@ -21,6 +21,10 @@ export default makeStyles((theme) => ({
     margin: '20px 20px',
     backgroundColor: '#6af2f0',
     height: '100%',
+    '@media (max-width: 650px)': {
+      maxWidth:'90%',
+      marginRight:'20px',
+    },
   },
   buttons: {
     backgroundColor: '#04ECF0',
@@ -31,12 +35,18 @@ export default makeStyles((theme) => ({
         '0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19)',
     },
     alignSelf: 'flex-end',
+    '@media (max-width: 650px)': {
+      fontSize:'10px'
+    },
   },
   buttonGroup: {
     display: 'flex',
     flexWrap: 'wrap',
     alignSelf: 'flex-end',
     marginBottom: '20px',
+    '@media (max-width: 650px)': {
+      alignSelf:'center',
+    },
   },
   content: {
     margin: '20px 20px',
@@ -46,6 +56,17 @@ export default makeStyles((theme) => ({
     flexDirection: 'column',
     boxShadow: '0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19)',
     backgroundColor: '#BEBEBE',
+    '@media (max-width: 650px)': {
+      maxWidth:'90%',
+      marginRight:'20px',
+      marginBottom:'-230px'
+    },
+  },
+  eventContainer:{
+    '@media (max-width: 650px)': {
+      maxHeight:'250px',
+      overflow:'scroll',
+    },
   },
   sideBarButtons: {
     marginTop: '10px',
@@ -85,6 +106,10 @@ export default makeStyles((theme) => ({
   container: {
     display: 'flex',
     flexDirection: 'row',
+    '@media (max-width: 650px)': {
+      flexDirection:'column',
+      maxWidth:'100%',
+    },
   },
   bannedTag: {
     color: 'red',

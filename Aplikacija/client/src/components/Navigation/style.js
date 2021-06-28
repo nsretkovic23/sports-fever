@@ -40,7 +40,7 @@ export default makeStyles((theme) => ({
   buttons: {
     color: 'black',
     marginRight: theme.spacing(2),
-    fontSize: '14px',
+    fontSize: '12px',
   },
   link: {
     textDecoration: 'none',
