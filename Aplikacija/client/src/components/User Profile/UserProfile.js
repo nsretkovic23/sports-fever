@@ -54,6 +54,7 @@ export const UserProfile = () => {
     )
   }
 
+  console.log(userr)
   return (
     <>
       <Grid container direction='row' className={classes.container}>
@@ -81,12 +82,14 @@ export const UserProfile = () => {
               Average rating: {userr?.averageRate}
               <GradeIcon style={{ color: yellow[400] }}></GradeIcon>
             </Typography>
-            <Typography className={classes.userInfoContainers} align='center'>
-              Credit status: {userr?.credits}{' '}
-              <MonetizationOnIcon
-                style={{ color: yellow[400] }}
-              ></MonetizationOnIcon>
-            </Typography>
+            {userr?._id === user?.result?._id ? (
+              <Typography className={classes.userInfoContainers} align='center'>
+                Credit status: {userr?.credits}{' '}
+                <MonetizationOnIcon
+                  style={{ color: yellow[400] }}
+                ></MonetizationOnIcon>
+              </Typography>
+            ) : null}
           </Grid>
           <Grid
             container
