@@ -18,7 +18,12 @@ export default makeStyles((theme) => ({
     width: '100%',
     textAlign: 'center',
     padding: '20px 20px',
-    margin: '20px 40px',
+    margin: '20px 30px',
+    '@media (max-width: 650px)': {
+      marginLeft:'10px',
+      marginRight:'10px',
+    },
+   
   },
   container: {
     display: 'flex',
@@ -80,6 +85,9 @@ export default makeStyles((theme) => ({
     boxShadow: '0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19)',
     fontSize: '20px',
     padding: '5px',
+    '@media (max-width: 650px)': {
+      margin:'10px 0px',
+    },
   },
   subtitle: {
     fontSize: '20px',
@@ -90,6 +98,9 @@ export default makeStyles((theme) => ({
     flexDirection: 'row',
     padding: '10px',
     backgroundColor: '#04ECF0',
+    '@media (max-width: 650px)': {
+      flexWrap:'wrap',
+    },
   },
   infoTitle: {
     fontSize: '60px',
@@ -210,6 +221,12 @@ export default makeStyles((theme) => ({
   },
   formElement: {
     '@media (max-width: 1000px)': {
+      width: '83%',
+      maxWidth: '83%',
+    },
+  },
+  formElement2:{
+    '@media (max-width: 1000px)': {
       width: '100%',
       maxWidth: '100%',
     },
@@ -221,6 +238,12 @@ export default makeStyles((theme) => ({
     },
   },
   mapElement: {
+    '@media (max-width: 1000px)': {
+      width: '100%',
+      maxWidth: '100%',
+    },
+  },
+  mapInEventContainer:{
     '@media (max-width: 1000px)': {
       width: '100%',
       maxWidth: '100%',

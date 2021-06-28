@@ -4,6 +4,7 @@ export default makeStyles((theme) => ({
   map: {
     marginTop: '30px',
     marginRight: '10px',
+    marginLeft:'10px',
     marginBottom: '15px',
     boxShadow: '0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19)',
     display: 'flex',
@@ -50,7 +51,7 @@ export default makeStyles((theme) => ({
     width: '35px',
     height: '35px',
     boxShadow: '0 0 0 3px #a1a19f',
-    '@media (max-width: 500px)': {
+    '@media (max-width: 1000px)': {
       top: '590px',
       right: '30px',
     },
