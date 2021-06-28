@@ -14,11 +14,14 @@ import classNames from 'classnames'
 import useStyles from './style'
 
 export const options = [
-  { value: 'all', label: 'All' },
-  { value: 'fudbal', label: 'Fudbal' },
-  { value: 'kosarka', label: 'Kosarka' },
-  { value: 'odbojka', label: 'Odbojka' },
-  { value: 'hokej', label: 'Hokej' },
+  { value: 'other', label: 'Other' },
+  { value: 'fudbal', label: 'Football' },
+  { value: 'kosarka', label: 'Basketball' },
+  { value: 'odbojka', label: 'Volleyball' },
+  { value: 'hokej', label: 'Hockey' },
+  { value: 'tennis', label: 'Tennis' },
+  { value: 'cycling', label: 'Cycling' },
+  { value: 'rugby', label: 'Rugby' },
 ]
 
 export const Form = ({
